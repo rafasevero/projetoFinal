@@ -1,10 +1,13 @@
 <template>
     <main>
         <div class="carousel-container">
-            <div class="carousel-slide">
-                <img src="" alt="Imagem 1">
-                <img src="" alt="Imagem 2">
-                <img src="" alt="Imagem 3">
+            <div 
+                class="carousel-slide" 
+                :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+            >
+                <img src="../assets/img/RECRUITAMENT1.jpg" alt="Imagem 1">
+                <img src="../assets/img/RECRUITAMENT2.jpg" alt="Imagem 2">
+                <img src="../assets/img/RECRUITAMENT3.jpg" alt="Imagem 3">
             </div>
             <button class="prev" @click="moveSlide(-1)">&#10094;</button>
             <button class="next" @click="moveSlide(1)">&#10095;</button>
@@ -52,7 +55,7 @@ export default {
 }
 
 .carousel-slide img {
-    width: 100%;
+    width: 100vw; /* Alinha as imagens para o carrossel horizontal */
     border-radius: 10px;
     flex-shrink: 0;
 }

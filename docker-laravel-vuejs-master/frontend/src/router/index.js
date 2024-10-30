@@ -12,30 +12,6 @@ const router = createRouter({
         title: 'Home'
       }
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: HomeView,
-      meta: {
-        title: 'Login'
-      }
-    },
-    {
-      path: '/registro',
-      name: 'registro',
-      component: HomeView,
-      meta: {
-        title: 'Registro'
-      }
-    },
-    {
-      path: '/contato',
-      name: 'contato',
-      component: HomeView,
-      meta: {
-        title: 'Contato'
-      }
-    }
   ]
 })
 
