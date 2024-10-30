@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('academic_backgrounds', function (Blueprint $table) {
             $table->id();
-            $table->string('institucion');
+            $table->unsignedBigInteger('user_id');
+            $table->string('institution');
             $table->string('course');
             $table->string('education_level');
             $table->date('start_date');
             $table->date('completion_date');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
+       
     }
 
     /**

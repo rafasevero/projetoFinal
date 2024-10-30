@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('hardskills', function (Blueprint $table) {
             $table->id();
-            $table->user_id();
+            $table->unsignedBigInteger('user_id');
             $table->string('descricao');
             $table->timestamps();
 

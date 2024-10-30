@@ -27,6 +27,7 @@ class User extends Authenticatable
         'state',
         'phone',
         'curriculum',
+        'is_recruiter'
 
     ];
 
@@ -39,6 +40,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'cpf',
+        'is_recruiter',
     ];
 
     /**
@@ -56,6 +58,7 @@ class User extends Authenticatable
         'state' => 'string',
         'phone' => 'integer',
         'curriculum' => 'text',//precisa colocar um tipo de dado que dê
+        'is_recruiter' => 'boolean',
 
     ];
 }

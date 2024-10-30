@@ -14,5 +14,5 @@ class Hardskill extends Model
     ];
     protected $casts = [
         'descricao' => 'string',
-    ]
+    ];
 }

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Softskill extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'descricao',
+    ];
+    protected $casts = [
+        'descricao' => 'string',
+    ];
 }

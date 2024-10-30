@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('professional_experiences', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('company_name');
+            $table->string('position');
+            $table->string('description');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
