@@ -1,22 +1,38 @@
+
+
 <template>
-  <div>
-    <header>
-      <title>RRM</title>
-    </header>
-    <router-view></router-view>
+  <div class="wrapper">
+    <nav>
+      <Navbar />
+    </nav>
   </div>
+  <main>
+    <router-view />
+  </main>
+  <Footer />
 </template>
 
 <script>
-import { RouterView } from 'vue-router';
-import LoginView from './views/LoginView.vue';
-import RegisterView from './views/RegisterView.vue';
+import Footer from './components/Footer.vue';
+import Navbar from './components/Navbar.vue'
+import HomeView from './views/HomeView.vue';
 
-export default{
-  name:'App',
-  components:{
-    LoginView,
-    RegisterView
+export default {
+  name: 'App',
+  components: {
+    Navbar,
+    HomeView,
+    Footer,
   }
 }
 </script>
+
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+</style>
