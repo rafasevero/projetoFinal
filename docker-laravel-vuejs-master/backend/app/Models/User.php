@@ -18,9 +18,16 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'full_name',
         'email',
         'password',
+        'date_of_birth',
+        'cpf',
+        'city',
+        'state',
+        'phone',
+        'curriculum'
+
     ];
 
     /**
@@ -31,6 +38,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'cpf',
     ];
 
     /**
@@ -39,7 +47,15 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'full_name' => 'string',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'date_of_birth' => 'date',
+        'cpf' => 'string',
+        'city' => 'string',
+        'state' => 'string',
+        'phone' => 'integer',
+        'curriculum' => 'text',//precisa colocar um tipo de dado que dê
+
     ];
 }
