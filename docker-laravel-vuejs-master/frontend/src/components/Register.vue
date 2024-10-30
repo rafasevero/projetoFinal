@@ -11,7 +11,17 @@
         <div class="conteiner">
             <div class="caixa">
                 <form>
-                    <h1>Login</h1>
+                    <h1>asdkjflasdkljfh</h1>
+                    <label>Seu E-mail</label>
+                    <input type="text" name="email" id="email" required>
+                    <label>Sua Senha</label>
+                    <input type="password" name="senha" id="senha" required>
+                    <button>LOGAR</button>
+                    <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
+                    <button id="cadastrar">Cadastrar</button>
+                </form>
+                <form>
+                    <h1>Laaaaaaaaaaaaaaaaaaa</h1>
                     <label>Seu E-mail</label>
                     <input type="text" name="email" id="email" required>
                     <label>Sua Senha</label>
@@ -27,7 +37,7 @@
 
 <script>
 export default {
-    name: 'Login'
+    name: 'Register'
 }
 </script>
 
