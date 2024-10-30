@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Softskills extends Model
+class Hardskill extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'descricao' => 'string'
-
+        'descricao',
     ];
+    protected $casts = [
+        'descricao' => 'string',
+    ]
 }

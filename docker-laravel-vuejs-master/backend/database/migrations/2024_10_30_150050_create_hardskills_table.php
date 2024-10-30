@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('academic_backgrounds', function (Blueprint $table) {
+        Schema::create('hardskills', function (Blueprint $table) {
             $table->id();
+            $table->user_id();
+            $table->string('descricao');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('academic_backgrounds');
+        Schema::dropIfExists('hardskills');
     }
 };

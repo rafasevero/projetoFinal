@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hardskills', function (Blueprint $table) {
+        Schema::create('academic_backgrounds', function (Blueprint $table) {
             $table->id();
+            $table->string('institucion');
+            $table->string('course');
+            $table->string('education_level');
+            $table->date('start_date');
+            $table->date('completion_date');
             $table->timestamps();
         });
     }
@@ -22,6 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hardskills');
+        Schema::dropIfExists('academic_backgrounds');
     }
 };
+ 

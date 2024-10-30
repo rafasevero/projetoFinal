@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
+            $table->date('application_date');
+            $table->string('status');
             $table->timestamps();
         });
     }
