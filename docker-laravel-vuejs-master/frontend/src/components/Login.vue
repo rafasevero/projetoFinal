@@ -1,8 +1,12 @@
 <template>
     <main>
+        <header>
+            <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        </header>
+        <a href="Home.vue"><i class='bx bx-arrow-back'></i></a>
         <div class="back">
             <img id="fundo" src="../assets/fundo.jpg" alt="Fundo">
-            <img id="logo" src="" alt="">
+            <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="">
         </div>
         <div class="conteiner">
             <div class="caixa">
@@ -13,7 +17,7 @@
                     <label>Sua Senha</label>
                     <input type="password" name="senha" id="senha" required>
                     <button>LOGAR</button>
-                    <p>Não tem conta?<br><a href="#">Cadastre-se Aqui!!</a></p>
+                    <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
                     <button id="cadastrar">Cadastrar</button>
                 </form>
             </div>
@@ -28,6 +32,7 @@ export default {
 </script>
 
 <style scoped>
+
 * {
     font-family: 'Inter';
     padding: 0;
@@ -35,6 +40,19 @@ export default {
     box-sizing: border-box;
 }
 
+.bx-arrow-back{
+    font-size: 5vh;
+    color: black;
+}
+#logo{
+    position: absolute;
+    text-align: center;
+    top: 20%;
+    font-size: 5%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+}
 
 #fundo {
     position: absolute;
@@ -104,16 +122,6 @@ button:hover {
 p {
     text-align: center;
 }
-
-p a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-p a:hover {
-    text-decoration: underline;
-}
-
 
 @media (max-width: 768px) {
     .caixa {

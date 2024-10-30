@@ -3,16 +3,17 @@
     <header>
       <title>RRM</title>
     </header>
-    <Login />
+    <LoginView />
   </div>
 </template>
 
 <script>
-import Login from './views/Login.vue'
+import LoginView from './views/LoginView.vue';
+
 export default{
   name:'App',
   components:{
-    Login
+    LoginView
   }
 }
 </script>
