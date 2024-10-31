@@ -10,7 +10,6 @@ class Recruiter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'full_name',
         'company_name',
         'cnpj',
         'social_name',
@@ -18,7 +17,6 @@ class Recruiter extends Model
     ];
 
     protected $casts = [
-        'full_name' => 'string',
         'company_name' => 'string',
         'cnpj' => 'integer',
         'social_name' => 'string',

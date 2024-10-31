@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Applications extends Model
 {
     use HasFactory;
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->using(User_application::class);
+    }
+
     protected $fillable = [
       'application_date',
       'status',

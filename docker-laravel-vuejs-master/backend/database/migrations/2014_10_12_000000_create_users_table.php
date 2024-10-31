@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->date('date_of_birth');
-            $table->string('cpf')->unique();
+            $table->string('cpf',11)->unique();
+            $table->string('cep',8);
             $table->string('city');
             $table->string('state');
             $table->integer('phone');

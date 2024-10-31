@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Console\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +13,11 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public function applications(): BelongsToMany
+    {
+        return $this->belongsToMany(Application::class)->using(User_application::class);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +30,7 @@ class User extends Authenticatable
         'password',
         'date_of_birth',
         'cpf',
+        'cep',
         'city',
         'state',
         'phone',
@@ -54,10 +62,11 @@ class User extends Authenticatable
         'password' => 'hashed',
         'date_of_birth' => 'date',
         'cpf' => 'string',
+        'cep' => 'string',
         'city' => 'string',
         'state' => 'string',
         'phone' => 'integer',
-        'curriculum' => 'text',//precisa colocar um tipo de dado que dê
+        'curriculum' => 'string',//precisa colocar um tipo de dado que dê
         'is_recruiter' => 'boolean',
 
     ];
