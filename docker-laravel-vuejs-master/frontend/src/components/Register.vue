@@ -5,8 +5,8 @@
         </header>
         <router-link to="/"><i class='bx bx-arrow-back'></i></router-link>
         <div class="back">
-            <img id="fundo" src="../assets/fundo.jpg" alt="Fundo">
-            <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="">
+            <img id="fundo" src="../assets/fundo.jpg" alt="Fundo" />
+            <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="" />
         </div>
         <div class="conteiner">
             <div class="caixa">
@@ -32,7 +32,7 @@ export default{
 
 <style scoped>
 * {
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -56,7 +56,7 @@ export default{
 #fundo {
     position: absolute;
     width: 100%;
-    height: 100vh;
+    height: 120vh;
     object-fit: cover;
     z-index: -1;
 }
