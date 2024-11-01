@@ -13,12 +13,12 @@
                 <form>
                     <h1>Login</h1>
                     <label>Seu E-mail</label>
-                    <input type="text" name="email" id="email" required>
+                    <input type="email" name="email" id="email" required>
                     <label>Sua Senha</label>
                     <input type="password" name="senha" id="senha" required>
                     <button>LOGAR</button>
                     <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
-                    <button id="cadastrar">Cadastrar</button>
+                    <button><a href="registerUser">Cadastrar</a></button>
                 </form>
             </div>
         </div>
