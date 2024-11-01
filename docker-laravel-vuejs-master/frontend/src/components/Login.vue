@@ -3,7 +3,7 @@
         <header>
             <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         </header>
-        <a href="Home.vue"><i class='bx bx-arrow-back'></i></a>
+        <router-link to="/"><i class='bx bx-arrow-back'></i></router-link>
         <div class="back">
             <img id="fundo" src="../assets/fundo.jpg" alt="Fundo">
             <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="">
