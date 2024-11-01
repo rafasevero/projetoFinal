@@ -13,7 +13,7 @@ import Footer from '@/components/Footer.vue';
 import Navbar from '@/components/Navbar.vue';
 import RegisterUser from '@/components/RegisterUser.vue';
 export default{
-    name:'RegisterView',
+    name:'RegisterUserView',
     components:{
         RegisterUser,
         Footer,

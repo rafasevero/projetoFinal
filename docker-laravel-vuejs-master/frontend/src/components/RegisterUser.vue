@@ -9,30 +9,30 @@
             <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="" />
         </div>
         <div class="candidato">
-            <form>
+            <form @submit.prevent="SubmitForm">
                 <h1>Registrar Candidato</h1>
                 <div class="name-cpf-container">
                     <div class="name-container">
                         <label>Seu Nome Completo</label>
-                        <input type="text" name="full_name" id="nome" required />
+                        <input type="text" v-model="full_name" id="nome" required />
                         <label>CPF</label>
                         <input type="text" v-model="cpf" @input="formatCPF" @blur="fetchAddress" placeholder="XXX.XXX.XXX-XX" required />
                     </div>
                     <div class="tel-container">
                         <label>Telefone</label>
-                        <input type="text" name="phone" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" required />
+                        <input type="text"  v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" required />
                         <label>Data De Nascimento</label>
-                        <input type="date" name="date_of_birth" id="data" required />
+                        <input type="date" v-model="date_of_birth" id="data" required />
                     </div>
                 </div>
                 <div class="email-password-container">
                     <div class="email-container">
                         <label>Seu E-mail</label>
-                        <input type="email" name="email" id="email" required />
+                        <input type="email" v-model="email" id="email" required />
                     </div>
                     <div class="password-container">
                         <label>Senha</label>
-                        <input name="password" :type="showPassword ? 'text' : 'password'" v-model="password" id="senha" placeholder="Digite sua senha" required />
+                        <input  :type="showPassword ? 'text' : 'password'" v-model="password" id="senha" placeholder="Digite sua senha" required />
                         <label class="password-checkbox">
                             Mostrar Senha
                             <input type="checkbox" v-model="showPassword" />
@@ -72,11 +72,16 @@
 <script>
 import axios from 'axios';
 export default {
-    name: 'Register',
+    name: 'RegisterUser',
     data() {
         return {
+            full_name:'',
             cpf: '',
             phone: '',
+            date_of_birth:'',
+            email:'',
+            password: '',
+            showPassword: false,
             cep: '',
             address: {
                 street: '',
@@ -84,8 +89,6 @@ export default {
                 city: '',
                 state: '',
             },
-            password: '',
-            showPassword: false,
         };
     },
     methods: {
@@ -132,6 +135,30 @@ export default {
             this.cep = this.cep.replace(/\D/g, '');
             if (this.cep.length > 5) {
                 this.cep = this.cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+            }
+        },
+        async submitForm() {
+        // Prepare os dados para envio
+            const dataToSend = {
+                full_name: this.full_name,
+                cpf: this.cpf.replace(/\D/g, ''), // Remove formatação do CPF
+                phone: this.phone.replace(/\D/g, ''), // Remove formatação do telefone
+                date_of_birth: this.date_of_birth,
+                email: this.email,
+                password: this.password,
+                cep: this.cep.replace(/\D/g, ''), // Remove formatação do CEP
+                address: this.address // O objeto de endereço já está estruturado
+            };
+
+            try {
+                // Envio dos dados para a API
+                const response = await axios.post('http://localhost:8000/', dataToSend);
+                console.log('Dados enviados com sucesso:', response.data);
+                // Aqui você pode implementar a lógica para redirecionar o usuário ou mostrar uma mensagem de sucesso
+                alert('Cadastro realizado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao enviar os dados:', error);
+                alert('Ocorreu um erro ao realizar o cadastro. Tente novamente.');
             }
         },
     },

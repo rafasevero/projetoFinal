@@ -2,7 +2,7 @@
     <main>
         <Navbar/>
         <div>
-
+            <Register />
         </div>
         <router-view/>
         <Footer/>
@@ -11,9 +11,11 @@
 <script>
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import Register from '@/components/Register.vue';
     export default{
-        name:Register,
+        name:'RegisterView',
         components:{
+            Register,
             Navbar,
             Footer
         }
