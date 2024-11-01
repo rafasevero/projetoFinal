@@ -1,23 +1,25 @@
 <template>
-    <main>
-        <Navbar/>
-        <div>
-            <Register />
-        </div>
-        <router-view/>
-        <Footer/>
-    </main>
+    <div>
+        <Navbar />
+    </div>
+    <div>
+        <Register />
+    </div>
+    <div>
+        <Footer />
+    </div>
 </template>
+
 <script>
-import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
-import Register from '@/components/Register.vue';
-    export default{
-        name:'RegisterView',
-        components:{
-            Register,
-            Navbar,
-            Footer
-        }
+import Navbar from '@/components/Navbar.vue';
+import Register from '@/components/Register.vue'
+export default{
+    name:'RegisterView',
+    components:{
+        Register,
+        Navbar,
+        Footer,
     }
+}
 </script>

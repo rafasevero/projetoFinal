@@ -175,7 +175,7 @@ const router = createRouter({
       name: 'register',
       component: Register,
       meta: {
-        title: 'Cadastro'
+        title: 'Registrar'
       }
     },
     {
