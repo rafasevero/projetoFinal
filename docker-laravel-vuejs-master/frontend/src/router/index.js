@@ -24,11 +24,11 @@ const router = createRouter({
       }
     },
     {
-      path: '/register',
-      name: 'register',
+      path: '/registerUser',
+      name: 'registerUser',
       component: Register,
       meta: {
-        title: 'Cadastro'
+        title: 'Cadastro Candidato'
       }
     },
   ]
