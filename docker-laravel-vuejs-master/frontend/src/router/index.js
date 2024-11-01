@@ -138,6 +138,14 @@ const router = createRouter({
         title: 'Minhas vagas'
       }
     },
+    {
+      path: '/registerEmpresa',
+      name: 'registerEmpresa',
+      component: RegisterEmpresaVIew,
+      meta: {
+        title: 'Registrar Empresa'
+      }
+    },
   ]
 })
 
