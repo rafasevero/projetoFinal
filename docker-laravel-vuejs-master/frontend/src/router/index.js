@@ -169,7 +169,23 @@ const router = createRouter({
       meta: {
         title: 'Application'
       }
-    }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
+      meta: {
+        title: 'Cadastro'
+      }
+    },
+    {
+      path: '/registerEmpresa',
+      name: 'registerEmpresa',
+      component: RegisterEmpresaVIew,
+      meta: {
+        title: 'Registrar Empresa'
+      }
+    },
   ]
 })
 
