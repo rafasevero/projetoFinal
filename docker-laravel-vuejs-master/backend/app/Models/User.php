@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Console\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,15 +14,29 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function applications(): BelongsToMany
+    {
+        return $this->belongsToMany(Application::class)->using(User_application::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'full_name',
         'email',
         'password',
+        'date_of_birth',
+        'cpf',
+        'cep',
+        'city',
+        'state',
+        'phone',
+        'curriculum',
+        'is_recruiter'
+
     ];
 
     /**
@@ -31,6 +47,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'cpf',
+        'is_recruiter',
     ];
 
     /**
@@ -39,7 +57,17 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'full_name' => 'string',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'date_of_birth' => 'date',
+        'cpf' => 'string',
+        'cep' => 'string',
+        'city' => 'string',
+        'state' => 'string',
+        'phone' => 'integer',
+        'curriculum' => 'string',//precisa colocar um tipo de dado que dê
+        'is_recruiter' => 'boolean',
+
     ];
 }
