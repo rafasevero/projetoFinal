@@ -6,6 +6,7 @@ import VagasView from '@/views/VagasView.vue';
 import PerfilView from '@/views/PerfilView.vue';
 import ApplicationView from '@/views/ApplicationView.vue';
 import HomeView from '@/views/HomeView.vue';
+import RegisterEmpresaVIew from '@/views/RegisterEmpresaVIew.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,14 @@ const router = createRouter({
       component: Register,
       meta: {
         title: 'Cadastro'
+      }
+    },
+    {
+      path: '/registerEmpresa',
+      name: 'registerEmpresa',
+      component: RegisterEmpresaVIew,
+      meta: {
+        title: 'Registrar Empresa'
       }
     },
   ]

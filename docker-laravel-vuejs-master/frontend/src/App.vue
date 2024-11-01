@@ -2,13 +2,11 @@
 <template>
     <div class="wrapper">
       <nav>
-        <Navbar />
       </nav>
     </div>
     <main>
       <router-view />
     </main>
-    <Footer />
 </template>
 
 <script>

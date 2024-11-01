@@ -3,22 +3,22 @@
         <Navbar />
     </div>
     <div>
-        <Login/>
+        <RegisterEmpresa/>
     </div>
     <div>
         <Footer />
     </div>
 </template>
 <script>
+import RegisterEmpresa from '@/components/RegisterEmpresa.vue'
 import Footer from '@/components/Footer.vue';
-import Login from '@/components/Login.vue';
 import Navbar from '@/components/Navbar.vue';
 export default{
-    name:'LoginView',
+    name:'RegisterEmpresaView',
     components:{
-        Login,
+        RegisterEmpresa,
+        Footer,
         Navbar,
-        Footer
     }
 }
 </script>
