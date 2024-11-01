@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('recruiters', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
-            $table->integer('cnpj');
+            $table->string('cnpj');
             $table->string('social_name');
             $table->string('address');
+            $table->boolean('is_recruiter')->default(true);
+            $table->string('password');
+            $table->string('email');
             $table->timestamps();
         });
     }
