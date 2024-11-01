@@ -3,7 +3,7 @@
 <template>
   <div class="wrapper">
     <nav>
-      <Navbar />
+      
     </nav>
   </div>
   <main>

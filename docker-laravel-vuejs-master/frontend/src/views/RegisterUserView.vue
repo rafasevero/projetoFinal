@@ -1,20 +1,21 @@
 <template>
     <Navbar/>
     <div>
-        <Register/>
+        <RegisterUser/>
     </div>
     <div>
         <Footer/>
     </div>
 </template>
 <script>
-import Register from '@/components/Register.vue'
+
 import Footer from '@/components/Footer.vue';
 import Navbar from '@/components/Navbar.vue';
+import RegisterUser from '@/components/RegisterUser.vue';
 export default{
     name:'RegisterView',
     components:{
-        Register,
+        RegisterUser,
         Footer,
         Navbar,
     }

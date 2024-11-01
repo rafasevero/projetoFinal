@@ -18,7 +18,7 @@
                     <input type="password" name="senha" id="senha" required>
                     <button>LOGAR</button>
                     <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
-                    <button><a href="registerUser">Cadastrar</a></button>
+                    <button onclick="window.location.href='registerUser'">Cadastrar</button>
                 </form>
             </div>
         </div>
