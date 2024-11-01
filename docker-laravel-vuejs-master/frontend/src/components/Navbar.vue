@@ -7,7 +7,7 @@
             <div class="links-navbar">
                 <router-link to="/">Home</router-link>
                 <router-link to="/login">Login</router-link>
-                <router-link to="/registro">Registro</router-link>
+                <router-link to="/register">Registro</router-link>
                 <router-link to="/contato">Contato</router-link>
             </div>
         </nav>
