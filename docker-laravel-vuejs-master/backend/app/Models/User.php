@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Console\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,6 +19,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Application::class)->using(User_application::class);
     }
+
+        // Método para verificar se o usuário é recrutador
+        public function isRecruiter(): bool
+        {
+            return $this->is_recruiter;
+        }
+    
 
     /**
      * The attributes that are mass assignable.
