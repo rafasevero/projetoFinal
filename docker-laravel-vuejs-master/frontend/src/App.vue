@@ -1,15 +1,11 @@
-
-
 <template>
-  <div class="wrapper">
-    <nav>
-      
-    </nav>
-  </div>
-  <main>
-    <router-view />
-  </main>
-
+    <div class="wrapper">
+      <nav>
+      </nav>
+    </div>
+    <main>
+      <router-view />
+    </main>
 </template>
 
 <script>

@@ -1,11 +1,15 @@
 <template>
-  <Navbar/>
+      <div>
+        <Navbar />
+    </div>
   <main>
       <Home />
       <Carrossel />
       <Article />
   </main>
-  <Footer/>
+  <div>
+        <Footer />
+    </div>
 </template>
 
 <script>
@@ -22,7 +26,8 @@ export default {
     Home,
     Article,
     Carrossel,
-    Footer
+    Footer,
+    Navbar
   }
 }
 </script>
