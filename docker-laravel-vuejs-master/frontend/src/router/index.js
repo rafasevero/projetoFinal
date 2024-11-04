@@ -194,6 +194,30 @@ const router = createRouter({
         title: 'Registrar Candidato'
       }
     },
+    {
+      path: '/vagas',
+      name: 'vagas',
+      component: UserPageView,
+      meta: {
+        title: 'Vagas'
+      }
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: PerfilView,
+      meta: {
+        title: 'Perfil'
+      }
+    },
+    {
+      path: '/application',
+      name: 'application',
+      component: ApplicationView,
+      meta: {
+        title: 'Minhas Candidaturas'
+      }
+    },
   ]
 })
 
