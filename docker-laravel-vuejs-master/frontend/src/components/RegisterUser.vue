@@ -9,7 +9,7 @@
             <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="" />
         </div>
         <div class="candidato">
-            <form @submit.prevent="SubmitForm">
+            <form @submit.prevent="submitForm">
                 <h1>Registrar Candidato</h1>
                 <div class="name-cpf-container">
                     <div class="name-container">
@@ -71,6 +71,7 @@
 
 <script>
 import axios from 'axios';
+import HttpService from '@/services/HttpService';
 export default {
     name: 'RegisterUser',
     data() {
@@ -138,29 +139,31 @@ export default {
             }
         },
         async submitForm() {
-        // Prepare os dados para envio
+            this.loading = true; // Ativar estado de carregamento
+            // Prepare os dados para envio
             const dataToSend = {
                 full_name: this.full_name,
-                cpf: this.cpf.replace(/\D/g, ''), // Remove formatação do CPF
-                phone: this.phone.replace(/\D/g, ''), // Remove formatação do telefone
+                cpf: this.cpf.replace(/\D/g, ''),
+                phone: this.phone.replace(/\D/g, ''),
                 date_of_birth: this.date_of_birth,
                 email: this.email,
                 password: this.password,
-                cep: this.cep.replace(/\D/g, ''), // Remove formatação do CEP
-                address: this.address // O objeto de endereço já está estruturado
+                cep: this.cep.replace(/\D/g, ''),
+                address: this.address
             };
 
             try {
-                // Envio dos dados para a API
-                const response = await axios.post('http://localhost:8000/', dataToSend);
+                const response = await axios.post('/user_register', dataToSend);
                 console.log('Dados enviados com sucesso:', response.data);
-                // Aqui você pode implementar a lógica para redirecionar o usuário ou mostrar uma mensagem de sucesso
                 alert('Cadastro realizado com sucesso!');
             } catch (error) {
                 console.error('Erro ao enviar os dados:', error);
                 alert('Ocorreu um erro ao realizar o cadastro. Tente novamente.');
+            } finally {
+                this.loading = false; // Desativar estado de carregamento
             }
         },
+
     },
 }
 </script>

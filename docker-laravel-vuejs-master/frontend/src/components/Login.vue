@@ -10,7 +10,7 @@
         </div>
         <div class="conteiner">
             <div class="caixa">
-                <form>
+                <form @submit.prevent="formLogin">
                     <h1>Login</h1>
                     <label>Seu E-mail</label>
                     <input type="email" name="email" id="email" required>
@@ -26,8 +26,21 @@
 </template>
 
 <script>
+import { login } from '@/services/Loginservice';
 export default {
-    name: 'Login'
+    name: 'Login',
+    data(){
+        return{
+            email:"",
+            password:"",
+        };
+    },
+    methods:{
+        async formLogin(){
+            const user = await login(this.email, this.password);
+            console.log(user)
+        }
+    }
 }
 </script>
 
