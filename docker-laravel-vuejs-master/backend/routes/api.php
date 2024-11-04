@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RecruiterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/user_register',[UserController::class, 'register'])->name('users.register');
+Route::post('/recruiter_register',[RecruiterController ::class, 'registerRecruiter'])->name('recruiters.register');
+Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/loginRecruiter', [RecruiterController::class, 'loginRecruiter'])->name('loginRecruiter');

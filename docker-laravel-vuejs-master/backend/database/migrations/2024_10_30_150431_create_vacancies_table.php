@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('recruiter_id');
+            $table->string('vacancy_name');
+            $table->string('description');
+            $table->string('requirements');
+            $table->string('location');
+            $table->string('work_modality');
+            $table->date('creation_date');
+            $table->string('company');  
             $table->timestamps();
+
+            $table->foreign('recruiter_id')->references('id')->on('recruiters')->onDelete('cascade');
         });
     }
 
