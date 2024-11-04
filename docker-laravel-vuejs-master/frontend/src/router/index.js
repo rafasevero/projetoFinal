@@ -186,6 +186,14 @@ const router = createRouter({
         title: 'Registrar Empresa'
       }
     },
+    {
+      path: '/candidateRegister',
+      name: 'candidateRegister',
+      component: CandidateRegisterView,
+      meta: {
+        title: 'Registrar Candidato'
+      }
+    },
   ]
 })
 
