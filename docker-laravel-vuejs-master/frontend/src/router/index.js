@@ -18,6 +18,7 @@ import PerfilView from '@/views/PerfilView.vue';
 import ApplicationView from '@/views/ApplicationView.vue';
 import HomeView from '@/views/HomeView.vue';
 import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
+import CandidateRegisterView from '@/views/CandidateRegisterView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
