@@ -203,11 +203,19 @@ const router = createRouter({
       }
     },
     {
-      path: '/perfil',
-      name: 'perfil',
-      component: PerfilView,
+      path: '/userProfile',
+      name: 'userProfile',
+      component: UserProfileView,
       meta: {
-        title: 'Perfil'
+        title: 'Perfil do Usuário'
+      }
+    },
+    {
+      path: '/recruiterProfile',
+      name: 'recruiterProfile',
+      component: RecruiterProfileView,
+      meta: {
+        title: 'Perfil da Empresa'
       }
     },
     {
@@ -216,6 +224,14 @@ const router = createRouter({
       component: ApplicationView,
       meta: {
         title: 'Minhas Candidaturas'
+      }
+    },
+    {
+      path: '/vacanciesRecruiter',
+      name: 'vacanciesRecruiter',
+      component: VacanciesView,
+      meta: {
+        title: 'Minhas vagas'
       }
     },
   ]
