@@ -9,7 +9,7 @@
 <script>
 import Applications from '@/components/Applications.vue';
 import Footer from '@/components/Footer.vue';
-import NavbarCandidato from '@/components/NavbarCandidato.vue';
+import NavbarCandidato from '@/components/NavbarCandidate.vue';
 
 export default {
     name: 'ApplicationView',
