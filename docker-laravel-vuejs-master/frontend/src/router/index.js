@@ -149,7 +149,7 @@ const router = createRouter({
     {
       path: '/vagas',
       name: 'vagas',
-      component: VagasView,
+      component: UserPageView,
       meta: {
         title: 'Vagas'
       }
