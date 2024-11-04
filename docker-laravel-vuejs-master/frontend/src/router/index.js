@@ -13,12 +13,11 @@ import UserPageView from '@/views/UserPageView.vue';
 import ApplicationView from '@/views/ApplicationView.vue';
 import VacanciesView from '@/views/VacanciesView.vue';
 import RecruiterProfileView from '@/views/RecruiterProfileView.vue';
-import VagasView from '@/views/VagasView.vue';
 import PerfilView from '@/views/PerfilView.vue';
-import ApplicationView from '@/views/ApplicationView.vue';
 import HomeView from '@/views/HomeView.vue';
 import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
 import CandidateRegisterView from '@/views/CandidateRegisterView.vue';
+import UserPageView from '@/views/UserPageView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -155,7 +154,7 @@ const router = createRouter({
     {
       path: '/vagas',
       name: 'vagas',
-      component: VagasView,
+      component: UserPageView,
       meta: {
         title: 'Vagas'
       }
