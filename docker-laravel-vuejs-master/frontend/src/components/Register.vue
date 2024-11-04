@@ -121,28 +121,13 @@ p {
         padding: 20px;
     }
 
-    input {
-        font-size: 0.9em;
-    }
 
-    button {
-        padding: 8px;
-    }
 }
 
 
 @media (max-width: 480px) {
     h1 {
         font-size: 1.5em;
-    }
-
-    input {
-        padding: 8px;
-        font-size: 0.8em;
-    }
-
-    button {
-        padding: 8px;
     }
 
     #fundo {

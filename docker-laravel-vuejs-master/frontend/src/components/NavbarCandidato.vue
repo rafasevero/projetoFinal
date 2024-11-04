@@ -8,6 +8,7 @@
                 <router-link to="/vagas">Vagas</router-link>
                 <router-link to="/perfil">Meu Perfil</router-link>
                 <router-link to="/application">Minhas Candidaturas</router-link>
+                <router-link to ="/">Sair</router-link>
             </div>
         </nav>
     </div>
