@@ -6,7 +6,7 @@
             </div>
             <div class="links-navbar">
                 <router-link to="/vagas">Vagas</router-link>
-                <router-link to="/perfil">Meu Perfil</router-link>
+                <router-link to="/userProfile">Meu Perfil</router-link>
                 <router-link to="/application">Minhas Candidaturas</router-link>
                 <router-link to ="/">Sair</router-link>
             </div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-    name: 'NavbarCandidato'
+    name: 'NavbarCandidate'
 }
 </script>
 

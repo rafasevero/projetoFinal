@@ -20,12 +20,14 @@
                                     class="form-control" placeholder="first name" value=""></div>
                             <div class="col-md-6"><label class="labels">Sobrenome</label><input type="text"
                                     class="form-control" value="" placeholder="surname"></div>
+                            <div class="col-md-6"><label class="labels">Data de Nascimento</label><input type="date"
+                                    class="form-control" value="" placeholder="surname"></div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12"><label class="labels">Celular</label><input type="text"
                                     class="form-control" placeholder="enter phone number" value=""></div>
-                                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text"
-                                            class="form-control" placeholder="enter email id" value=""></div>
+                            <div class="col-md-12"><label class="labels">Email ID</label><input type="text"
+                                    class="form-control" placeholder="enter email id" value=""></div>
                             <div class="col-md-12"><label class="labels">Endereço</label><input type="text"
                                     class="form-control" placeholder="enter address line 1" value=""></div>
 
@@ -48,7 +50,12 @@
                         <div class="col-md-12"><label class="labels">Experiencia</label><input type="text"
                                 class="form-control" placeholder="experience" value=""></div> <br>
                         <div class="col-md-12"><label class="labels">Escrava sobre</label><input type="text"
-                                class="form-control" placeholder="additional details" value=""></div>
+                                class="form-control" placeholder="additional details" value="">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Anexar Currículo</label>
+                            <input type="file" class="form-control-file" @change="handleFileUpload">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,10 +64,10 @@
 </template>
 
 <script>
-import NavbarCandidato from './NavbarCandidato.vue';
+import NavbarCandidato from './NavbarCandidate.vue';
 
 export default {
-    name: 'Perfil',
+    name: 'UserProfile',
     components: {
         NavbarCandidato
     }
@@ -68,7 +75,6 @@ export default {
 </script>
 
 <style scoped>
-
 .form-control:focus {
     box-shadow: none;
     border-color: #4ea1db;
@@ -108,6 +114,28 @@ export default {
     color: #fff;
     cursor: pointer;
     border: solid 1px #4ea1db;
-    transition: 0.5s;   
+    transition: 0.5s;
+}
+
+.form-control-file {
+    margin-top: 10px;
+    display: block;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-control-file::file-selector-button {
+    background-color: #4ea1db;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.form-control-file::file-selector-button:hover {
+    background-color: #124366;
 }
 </style>
