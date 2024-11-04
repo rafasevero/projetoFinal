@@ -179,9 +179,9 @@ const router = createRouter({
       }
     },
     {
-      path: '/registerEmpresa',
-      name: 'registerEmpresa',
-      component: RegisterEmpresaVIew,
+      path: '/recruiterRegister',
+      name: 'recruiterRegister',
+      component: RecruiterRegisterView,
       meta: {
         title: 'Registrar Empresa'
       }
