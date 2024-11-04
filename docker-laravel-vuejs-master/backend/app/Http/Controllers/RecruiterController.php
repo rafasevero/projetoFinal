@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recruiter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RecruiterController extends Controller
 {
@@ -26,4 +27,5 @@ class RecruiterController extends Controller
             'recruiter'=>$recruiter,
             ]); 
     }
+
 }
