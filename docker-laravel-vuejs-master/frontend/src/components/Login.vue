@@ -13,9 +13,9 @@
                 <form @submit.prevent="formLogin">
                     <h1>Login</h1>
                     <label>Seu E-mail</label>
-                    <input type="email" name="email" id="email" required>
+                    <input type="email" name="email" id="email" v-model="email"required>
                     <label>Sua Senha</label>
-                    <input type="password" name="senha" id="senha" required>
+                    <input type="password" name="password" id="password" v-model="password" required>
                     <button>LOGAR</button>
                     <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
                     <button onclick="window.location.href='registerUser'">Cadastrar</button>
@@ -38,7 +38,7 @@ export default {
     methods:{
         async formLogin(){
             const user = await login(this.email, this.password);
-            console.log(user)
+            this.$router.push('/')
         }
     }
 }

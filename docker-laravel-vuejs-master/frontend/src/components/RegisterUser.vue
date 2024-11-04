@@ -71,7 +71,7 @@
 
 <script>
 import axios from 'axios';
-import HttpService from '@/services/HttpService';
+import { registerUser } from '../services/RegisterUser';
 export default {
     name: 'RegisterUser',
     data() {
@@ -93,7 +93,7 @@ export default {
         };
     },
     methods: {
-        formatCPF() {
+       formatCPF() {
             this.cpf = this.cpf
                 .replace(/\D/g, '')
                 .replace(/(\d{3})(\d)/, '$1.$2')
@@ -127,8 +127,6 @@ export default {
                     console.error('Erro ao buscar endereço:', error);
                     alert('Ocorreu um erro ao buscar o endereço. Tente novamente mais tarde.');
                 }
-            } else {
-                alert('Por favor, insira um CEP válido no formato XXXXX-XXX.');
             }
         },
 
@@ -139,28 +137,29 @@ export default {
             }
         },
         async submitForm() {
-            this.loading = true; // Ativar estado de carregamento
-            // Prepare os dados para envio
+            this.loading = true;
+            const cleanedCPF = this.cpf.replace(/\D/g, '');
+            const cleanedPhone = this.phone.replace(/\D/g, '');
+            const cleanedCep = this.cep.replace(/\D/g, '');
+
             const dataToSend = {
                 full_name: this.full_name,
-                cpf: this.cpf.replace(/\D/g, ''),
-                phone: this.phone.replace(/\D/g, ''),
+                cpf: cleanedCPF,
+                phone: cleanedPhone,
                 date_of_birth: this.date_of_birth,
                 email: this.email,
                 password: this.password,
-                cep: this.cep.replace(/\D/g, ''),
-                address: this.address
+                cep: cleanedCep,
+                city: this.address.city,
+                state: this.address.state,
+                is_recruiter: false,
             };
 
-            try {
-                const response = await axios.post('/user_register', dataToSend);
-                console.log('Dados enviados com sucesso:', response.data);
-                alert('Cadastro realizado com sucesso!');
-            } catch (error) {
-                console.error('Erro ao enviar os dados:', error);
-                alert('Ocorreu um erro ao realizar o cadastro. Tente novamente.');
-            } finally {
-                this.loading = false; // Desativar estado de carregamento
+            try{
+                await registerUser(dataToSend);
+                this.$router.push('/')
+            }catch(error){
+                console.error('Erro ao cadastrar o usuário:', error);
             }
         },
 
