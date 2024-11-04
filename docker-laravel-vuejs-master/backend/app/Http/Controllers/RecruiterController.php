@@ -28,30 +28,4 @@ class RecruiterController extends Controller
             ]); 
     }
 
-    public function loginRecruiter(Request $request)
-    {
-    $credentials = $request->validate([
-        'email' => 'required|string|email|max:255',
-        'password' => 'required|string|min:8|max:100',
-    ]);
-
-    $recruiter = Recruiter::where('email', $credentials['email'])->first();
-
-    if ($recruiter && Hash::check($credentials['password'], $recruiter->password)) {
-        // Gera o token tanto para recrutadores quanto para usuários comuns
-        $token = $recruiter->createToken('API Token')->plainTextToken;
-        
-        return response()->json([
-            'message' => 'Login efetuado com sucesso!',
-            'recruiter' => $recruiter,
-            'token' => $token,
-            'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
-        ]);
-    } else {
-        return response()->json([
-            'message' => 'Login não efetuado!',
-            'recruiter' => null,
-        ]);
-    }
-    }
 }

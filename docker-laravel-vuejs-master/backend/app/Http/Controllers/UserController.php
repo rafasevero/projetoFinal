@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Recruiter;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -44,23 +45,38 @@ class UserController extends Controller
     ]);
 
     $user = User::where('email', $credentials['email'])->first();
+    $recruiter = Recruiter::where('email', $credentials['email'])->first();
+
 
     if ($user && Hash::check($credentials['password'], $user->password)) {
         // Gera o token tanto para recrutadores quanto para usuários comuns
-        $token = $user->createToken('API Token')->plainTextToken;
+        $token = $user->createToken('UserToken')->plainTextToken;
         
         return response()->json([
-            'message' => 'Login efetuado com sucesso!',
+            'message' => 'Login Candidato efetuado com sucesso!',
             'user' => $user,
             'token' => $token,
             'role' => $user->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
         ]);
-    } else {
-        return response()->json([
-            'message' => 'Login não efetuado!',
-            'user' => null,
-        ]);
-    }
-    }
+        }  
+        elseif ($recruiter && Hash::check($credentials['password'], $recruiter->password)) {
+            // Gera o token tanto para recrutadores quanto para usuários comuns
+            $token = $recruiter->createToken('RecruiterToken')->plainTextToken;
+            
+            return response()->json([
+                'message' => 'Login Recrutador efetuado com sucesso!',
+                'recruiter' => $recruiter,
+                'token' => $token,
+                'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
+            ]);
+        } 
+        else {
+            return response()->json([
+                'message' => 'Login não efetuado!',
+                'user' => null,
+                'recruiter' => null
+            ]);
+        }
+}
 
 }
