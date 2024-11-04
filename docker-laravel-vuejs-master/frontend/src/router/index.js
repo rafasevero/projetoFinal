@@ -9,7 +9,7 @@ import VagasView from '@/views/VagasView.vue';
 import PerfilView from '@/views/PerfilView.vue';
 import ApplicationView from '@/views/ApplicationView.vue';
 import HomeView from '@/views/HomeView.vue';
-import RegisterEmpresaVIew from '@/views/RegisterEmpresaVIew.vue';
+import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,9 +80,9 @@ const router = createRouter({
       }
     },
     {
-      path: '/registerEmpresa',
-      name: 'registerEmpresa',
-      component: RegisterEmpresaVIew,
+      path: '/recruiterRegister',
+      name: 'recruiterRegister',
+      component: RecruiterRegisterView,
       meta: {
         title: 'Registrar Empresa'
       }

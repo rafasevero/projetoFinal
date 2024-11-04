@@ -74,7 +74,7 @@
 <script>
 import axios from 'axios';
 export default {
-    name: 'RegisterEmpresa',
+    name: 'RecruiterRegister',
     data() {
         return {
             cnpj: '',

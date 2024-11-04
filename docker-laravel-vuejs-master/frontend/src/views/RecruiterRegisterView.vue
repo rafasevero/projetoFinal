@@ -3,20 +3,20 @@
         <Navbar />
     </div>
     <div>
-        <RegisterEmpresa/>
+        <RecruiterRegister/>
     </div>
     <div>
         <Footer />
     </div>
 </template>
 <script>
-import RegisterEmpresa from '@/components/RegisterEmpresa.vue'
 import Footer from '@/components/Footer.vue';
 import Navbar from '@/components/Navbar.vue';
+import RecruiterRegister from '@/components/RecruiterRegister.vue';
 export default{
-    name:'RegisterEmpresaView',
+    name:'RecruiterRegisterView',
     components:{
-        RegisterEmpresa,
+        RecruiterRegister,
         Footer,
         Navbar,
     }
