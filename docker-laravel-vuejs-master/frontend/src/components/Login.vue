@@ -25,6 +25,9 @@
                     
                     <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
                     <button type="button" @click="goToRegister">Cadastrar</button>
+                    <router-link to="/register">
+                        <button id="cadastrar">Cadastrar</button>
+                    </router-link>
                 </form>
             </div>
         </div>
@@ -87,7 +90,6 @@ export default {
 </script>
 
 <style scoped>
-
 * {
     font-family: 'Inter';
     padding: 0;
@@ -95,17 +97,18 @@ export default {
     box-sizing: border-box;
 }
 
-.bx-arrow-back{
+.bx-arrow-back {
     font-size: 5vh;
     color: black;
 }
-#logo{
+
+#logo {
     position: absolute;
     text-align: center;
     top: 20%;
     font-size: 5%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     z-index: -1;
 }
 
@@ -121,8 +124,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
-    padding:  15px; 
+    height: 100vh;
+    padding: 15px;
 }
 
 
@@ -135,7 +138,7 @@ export default {
     padding: 30px;
     border-radius: 10px;
     width: 100%;
-    max-width: 400px; 
+    max-width: 400px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -158,7 +161,7 @@ input {
 
 
 button {
-    padding: 10px;
+    padding: 10px 130px;
     margin-top: 10px;
     border: 2px solid black;
     border-radius: 5px;
@@ -186,10 +189,6 @@ p {
     input {
         font-size: 0.9em;
     }
-
-    button {
-        padding: 8px;
-    }
 }
 
 
@@ -201,10 +200,6 @@ p {
     input {
         padding: 8px;
         font-size: 0.8em;
-    }
-
-    button {
-        padding: 8px;
     }
 
     #fundo {

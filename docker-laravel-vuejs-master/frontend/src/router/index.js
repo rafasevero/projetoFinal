@@ -10,6 +10,7 @@ import HomeView from '@/views/HomeView.vue';
 import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
 import CandidateRegisterView from '@/views/CandidateRegisterView.vue';
 import UserPageView from '@/views/UserPageView.vue';
+import ApplicationView from '@/views/ApplicationView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -93,6 +94,30 @@ const router = createRouter({
       component: CandidateRegisterView,
       meta: {
         title: 'Registrar Candidato'
+      }
+    },
+    {
+      path: '/vagas',
+      name: 'vagas',
+      component: UserPageView,
+      meta: {
+        title: 'Vagas'
+      }
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: PerfilView,
+      meta: {
+        title: 'Perfil'
+      }
+    },
+    {
+      path: '/application',
+      name: 'application',
+      component: ApplicationView,
+      meta: {
+        title: 'Minhas Candidaturas'
       }
     },
   ]
