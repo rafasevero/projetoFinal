@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -34,60 +35,32 @@ class UserController extends Controller
             ]); 
     }
 
-//     public function login(Request $request): JsonResponse
-//     {
-//         $credentials = $request->only('email', 'password');
 
-//         if (Auth::attempt($credentials)) {
-//             $user = Auth::user();
-//             $recruiter = Auth::recruiter();
-
-//             if ($user->is_recruiter === 'false'){
-
-//                 $token = $user->createToken('userToken')->plainTextToken;
-
-//             } else if ($recruiter->is_recruiter === 'true') {
-
-//                 $token = $recruiter->createToken('recruiterToken')->plainTextToken;
-
-//             } else {
-//                 return response()->json(['ERROR, Type nao encontrado']);
-//             }
-
-//             return response()->json([
-
-//                 'token'=> $token,
-//                 'user' => $user
-//         ]);
-//     }
-
-//         return response()->json ([
-//             'error' => 'credencais invalidas'
-//         ]);
-// }
-
-public function login(Request $request): JsonResponse
-{
+    public function login(Request $request)
+    {
     $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string',
+        'email' => 'required|string|email|max:255',
+        'password' => 'required|string|min:8|max:100',
     ]);
 
-    if (!Auth::attempt($credentials)) {
-        return response()->json(['error' => 'Credenciais inválidas'], 401);
+    $user = User::where('email', $credentials['email'])->first();
+
+    if ($user && Hash::check($credentials['password'], $user->password)) {
+        // Gera o token tanto para recrutadores quanto para usuários comuns
+        $token = $user->createToken('API Token')->plainTextToken;
+        
+        return response()->json([
+            'message' => 'Login efetuado com sucesso!',
+            'user' => $user,
+            'token' => $token,
+            'role' => $user->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
+        ]);
+    } else {
+        return response()->json([
+            'message' => 'Login não efetuado!',
+            'user' => null,
+        ]);
+    }
     }
 
-    /** @var User $user */
-    $user = Auth::user();
-
-    // Define o nome do token com base no tipo de usuário
-    $tokenName = $user->isRecruiter() ? 'recruiterToken' : 'userToken';
-    $token = $user->createToken($tokenName)->plainTextToken;
-
-    return response()->json([
-        'message' => 'Login realizado com sucesso!',
-        'token' => $token,
-        'user' => $user,
-    ]);
-}
 }
