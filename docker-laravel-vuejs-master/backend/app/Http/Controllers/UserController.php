@@ -23,7 +23,6 @@ class UserController extends Controller
             'city' => 'required|string|max:100',
             'state' => 'required|string|max:2',
             'phone' => 'required|string|max:11',
-            'curriculum' => 'required|string|max:255',
             'is_recruiter' => 'required|boolean',
             'perfilPicture' => 'string',
         ]);
