@@ -43,7 +43,8 @@ class User extends Authenticatable
         'state',
         'phone',
         'curriculum',
-        'is_recruiter'
+        'is_recruiter',
+        'perfilPicture',
 
     ];
 
@@ -76,6 +77,7 @@ class User extends Authenticatable
         'phone' => 'integer',
         'curriculum' => 'string',//precisa colocar um tipo de dado que dê
         'is_recruiter' => 'boolean',
+        'perfilPicture' => 'string',
 
     ];
 }

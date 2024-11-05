@@ -22,4 +22,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/user_register',[UserController::class, 'register'])->name('users.register');
 Route::post('/recruiter_register',[RecruiterController ::class, 'registerRecruiter'])->name('recruiters.register');
 Route::post('/login', [UserController::class, 'login'])->name('login');
-Route::post('/loginRecruiter', [RecruiterController::class, 'loginRecruiter'])->name('loginRecruiter');

@@ -21,9 +21,10 @@ return new class extends Migration
             $table->string('cep',8);
             $table->string('city');
             $table->string('state');
-            $table->integer('phone');
+            $table->string('phone');
             $table->text('curriculum');
             $table->boolean('is_recruiter')->default(false);
+            $table->string('perfilPicture')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

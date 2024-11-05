@@ -19,6 +19,8 @@ class Recruiter extends Model
         'is_recruiter',
         'password',
         'email',
+        'perfilPicture',
+        'phone',
     ];
 
     protected $hidden = [
@@ -34,5 +36,7 @@ class Recruiter extends Model
         'is_recruiter' => 'boolean',
         'password' => 'hashed',
         'email' => 'string',
+        'perfilPicture' => 'string',
+        'phone' => 'string',
     ];
 }
