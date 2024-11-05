@@ -17,6 +17,8 @@ class RecruiterController extends Controller
             'is_recruiter' => 'required|boolean',
             'password' => 'required|string|max:255',
             'email' => 'required|string|email|max:100',
+            'perfilPicture' => 'string',
+            'phone' => 'required|string|max:11',
         ]);
 
         $recruiter = Recruiter::create($array);

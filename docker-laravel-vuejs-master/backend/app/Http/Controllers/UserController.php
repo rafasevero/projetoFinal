@@ -22,9 +22,10 @@ class UserController extends Controller
             'cep' => 'required|string|max:8',
             'city' => 'required|string|max:100',
             'state' => 'required|string|max:2',
-            'phone' => 'required|integer',
+            'phone' => 'required|string|max:11',
             'curriculum' => 'required|string|max:255',
             'is_recruiter' => 'required|boolean',
+            'perfilPicture' => 'string',
         ]);
 
         $user = User::create($array);
@@ -37,7 +38,7 @@ class UserController extends Controller
     }
 
 
-    public function login(Request $request)
+    public function login(Request $request):JsonResponse
     {
     $credentials = $request->validate([
         'email' => 'required|string|email|max:255',
