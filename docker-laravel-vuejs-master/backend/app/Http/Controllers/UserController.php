@@ -16,7 +16,7 @@ class UserController extends Controller
         $array =  $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',// Garantindo e-mails únicos
-            'password' => 'required|string|min:8|max:100',    
+            'password' => 'required|string|min:8|max:100',
             'date_of_birth' => 'required|date',
             'cpf' => 'required|string|max:11',
             'cep' => 'required|string|max:8',
@@ -29,11 +29,11 @@ class UserController extends Controller
 
         $user = User::create($array);
 
-        
+
         return response()->json([
             'message' => 'Usuário cadastrado com sucesso! ',
             'user'=>$user,
-            ]); 
+            ]);
     }
 
 
@@ -51,25 +51,25 @@ class UserController extends Controller
     if ($user && Hash::check($credentials['password'], $user->password)) {
         // Gera o token tanto para recrutadores quanto para usuários comuns
         $token = $user->createToken('UserToken')->plainTextToken;
-        
+
         return response()->json([
             'message' => 'Login Candidato efetuado com sucesso!',
             'user' => $user,
             'token' => $token,
             'role' => $user->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
         ]);
-        }  
+        }
         elseif ($recruiter && Hash::check($credentials['password'], $recruiter->password)) {
             // Gera o token tanto para recrutadores quanto para usuários comuns
             $token = $recruiter->createToken('RecruiterToken')->plainTextToken;
-            
+
             return response()->json([
                 'message' => 'Login Recrutador efetuado com sucesso!',
                 'recruiter' => $recruiter,
                 'token' => $token,
                 'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
             ]);
-        } 
+        }
         else {
             return response()->json([
                 'message' => 'Login não efetuado!',

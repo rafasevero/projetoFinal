@@ -12,13 +12,19 @@
             <div class="caixa">
                 <form @submit.prevent="formLogin">
                     <h1>Login</h1>
-                    <label>Seu E-mail</label>
-                    <input type="email" name="email" id="email" v-model="email"required>
-                    <label>Sua Senha</label>
+                    
+                    <label for="email">Seu E-mail</label>
+                    <input type="email" name="email" id="email" v-model="email" required>
+                    <span v-if="errors.email">{{ errors.email }}</span>
+                    
+                    <label for="password">Sua Senha</label>
                     <input type="password" name="password" id="password" v-model="password" required>
-                    <button>LOGAR</button>
+                    <span v-if="errors.password">{{ errors.password }}</span>
+                    
+                    <button type="submit">LOGAR</button>
+                    
                     <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
-                    <button onclick="window.location.href='registerUser'">Cadastrar</button>
+                    <button type="button" @click="goToRegister">Cadastrar</button>
                 </form>
             </div>
         </div>
@@ -27,21 +33,57 @@
 
 <script>
 import { login } from '@/services/Loginservice';
+
 export default {
     name: 'Login',
-    data(){
-        return{
-            email:"",
-            password:"",
+    data() {
+        return {
+            email: "",
+            password: "",
+            errors: {
+                email: "",
+                password: ""
+            },
         };
     },
-    methods:{
-        async formLogin(){
-            const user = await login(this.email, this.password);
-            this.$router.push('/')
+    methods: {
+        validateForm() {
+            this.errors.email = "";
+            this.errors.password = "";
+            if (!this.email) {
+                this.errors.email = "Por favor, insira um e-mail válido";
+            } else if (!this.validEmail(this.email)) {
+                this.errors.email = "E-mail no formato inválido";
+            }
+            if (!this.password) {
+                this.errors.password = "Por favor, insira uma senha válida";
+            }
+
+            return !this.errors.email && !this.errors.password;
+        },
+        validEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        },
+        async formLogin() {
+            if (this.validateForm()) {
+                try {
+                    const response = await login(this.email, this.password);
+                    console.log('Login bem sucedido', response.data);
+                    // Aqui você pode redirecionar o usuário para outra página ou fazer o que precisar com a resposta
+                } catch (error) {
+                    console.log('Erro ao fazer login', error.response ? error.response.data : error.message);
+                    this.errors.password = "E-mail ou senha inválidos."; // Exemplo de erro que você pode querer mostrar ao usuário
+                }
+            }
+        },
+        goToRegister() {
+            window.location.href = 'registerUser'; // Redireciona para a página de registro
         }
     }
 }
+
+
 </script>
 
 <style scoped>
