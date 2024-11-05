@@ -18,7 +18,8 @@ footer{
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px;
+    padding: 60px;
     background-color: var(--primary-color);
+    height: 10px;
 }
 </style>
