@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('location');
             $table->string('work_modality');
             $table->date('creation_date');
-            $table->string('company');  
+            $table->string('company');
+            $table->string('salary');  
             $table->timestamps();
 
             $table->foreign('recruiter_id')->references('id')->on('recruiters')->onDelete('cascade');

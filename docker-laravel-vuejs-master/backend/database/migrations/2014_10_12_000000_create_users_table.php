@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('phone');
             $table->text('curriculum');
-            $table->boolean('is_recruiter')->default(false);
+            $table->boolean('is_recruiter')->default(false)->notNullable();
             $table->string('perfilPicture')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
