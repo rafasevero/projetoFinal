@@ -53,6 +53,7 @@ export default {
         validateForm() {
             this.errors.email = "";
             this.errors.password = "";
+
             if (!this.email) {
                 this.errors.email = "Por favor, insira um e-mail válido";
             } else if (!this.validEmail(this.email)) {
@@ -69,17 +70,22 @@ export default {
             return re.test(email);
         },
         async formLogin() {
-            if (this.validateForm()) {
-                try {
-                    const response = await login(this.email, this.password);
-                    console.log('Login bem sucedido', response.data);
-                    // Aqui você pode redirecionar o usuário para outra página ou fazer o que precisar com a resposta
-                } catch (error) {
-                    console.log('Erro ao fazer login', error.response ? error.response.data : error.message);
-                    this.errors.password = "E-mail ou senha inválidos."; // Exemplo de erro que você pode querer mostrar ao usuário
-                }
+            try {
+            const user = await login(this.email, this.password);
+
+            if (user.is_recruiter === false) {
+                this.$router.push('/userPage');
+                
+            } else {
+                this.$router.push('/contato');
+            }
+            } catch (error) {
+            console.error('Erro no login:', error);
+            // Adicione tratamento de erro se necessário
             }
         },
+
+
         goToRegister() {
             window.location.href = 'registerUser'; // Redireciona para a página de registro
         }
