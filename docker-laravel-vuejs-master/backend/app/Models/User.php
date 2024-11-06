@@ -25,7 +25,7 @@ class User extends Authenticatable
         {
             return $this->is_recruiter;
         }
-    
+
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +57,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'cpf',
-        'is_recruiter',
+        
     ];
 
     /**
