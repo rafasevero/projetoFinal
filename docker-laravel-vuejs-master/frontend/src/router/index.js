@@ -3,10 +3,9 @@ import Login from '@/views/LoginView.vue';
 import Register from '@/views/RegisterView.vue';
 import HomeView from '@/views/HomeView.vue';
 import RegisterUser from '@/components/RegisterUser.vue';
-import HomeView from '../views/HomeView.vue'
 import App from '@/App.vue';
 import UserProfileView from '@/views/UserProfileView.vue';
-import HomeView from '@/views/HomeView.vue';
+
 import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
 import CandidateRegisterView from '@/views/CandidateRegisterView.vue';
 import UserPageView from '@/views/UserPageView.vue';
