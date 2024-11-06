@@ -74,7 +74,7 @@ export default {
             const user = await login(this.email, this.password);
 
             if (user.is_recruiter === false) {
-                this.$router.push('/userPage');
+                this.$router.push('/vagas');
                 
             } else {
                 this.$router.push('/contato');
