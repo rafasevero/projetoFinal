@@ -4,6 +4,9 @@
         <Navbar />
     </div>
     <div>
+        <Navbar />
+    </div>
+    <div>
         <Login/>
     </div>
     <Footer/>
