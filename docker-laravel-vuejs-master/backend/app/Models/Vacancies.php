@@ -16,7 +16,8 @@ class Vacancies extends Model
         'location',
         'work_modality',
         'creation_date',
-        'company'
+        'company',
+        'salary'
     ];
 
     protected $casts = [
@@ -27,5 +28,6 @@ class Vacancies extends Model
         'work_modality' => 'string',
         'creation_date' => 'date',
         'company' => 'string',
+        'salary' => 'string',
     ];
 }

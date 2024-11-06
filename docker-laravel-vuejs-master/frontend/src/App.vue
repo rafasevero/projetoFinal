@@ -1,15 +1,7 @@
-
-
 <template>
-  <div class="wrapper">
-    <nav>
-      
-    </nav>
-  </div>
-  <main>
-    <router-view />
-  </main>
-
+    <main>
+      <router-view />
+    </main>
 </template>
 
 <script>

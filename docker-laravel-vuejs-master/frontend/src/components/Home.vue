@@ -25,9 +25,9 @@
 
 .main-container-content p {
     font-size: 20px;
-    text-wrap:balance ;
+    word-wrap:normal;
     text-align: center;
-    margin-top: 10px;
+    margin: 20px 100px;
 }
 
 .main-container-content h1 {

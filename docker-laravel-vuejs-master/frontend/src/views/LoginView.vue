@@ -1,14 +1,23 @@
 <template>
     <Navbar/>
     <div>
+        <Navbar />
+    </div>
+    <div>
+        <Navbar />
+    </div>
+    <div>
         <Login/>
     </div>
     <Footer/>
+    <div>
+        <Footer />
+    </div>
 </template>
 <script>
+import Footer from '@/components/Footer.vue';
 import Login from '@/components/Login.vue';
 import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
 export default{
     name:'LoginView',
     components:{

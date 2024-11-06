@@ -5,9 +5,10 @@
                 <img src="../assets/img/RRM LOGO(1).jpg" alt="logo">
             </div>
             <div class="links-navbar">
-                <router-link to="/">Home</router-link>
-                <router-link to="/login">Login</router-link>
-                <router-link to="/register">Registro</router-link>
+                <router-link to="/vagas">Vagas</router-link>
+                <router-link to="/userProfile">Meu Perfil</router-link>
+                <router-link to="/application">Minhas Candidaturas</router-link>
+                <router-link to ="/">Sair</router-link>
             </div>
         </nav>
     </div>
@@ -15,7 +16,7 @@
 
 <script>
 export default {
-    name: 'Navbar'
+    name: 'NavbarCandidate'
 }
 </script>
 
