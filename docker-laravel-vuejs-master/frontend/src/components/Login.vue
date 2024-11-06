@@ -67,16 +67,21 @@ export default {
             return re.test(email);
         },
         async formLogin() {
-
+            try {
             const user = await login(this.email, this.password);
-            if (user.is_recruiter === false){
+
+            if (user.is_recruiter !== 0) {
                 this.$router.push('/');
-            }
-            else{
+            } else {
                 this.$router.push('/contato');
             }
-            
+            } catch (error) {
+            console.error('Erro no login:', error);
+            // Adicione tratamento de erro se necessário
+            }
         },
+
+
         goToRegister() {
             window.location.href = 'registerUser'; // Redireciona para a página de registro
         }
