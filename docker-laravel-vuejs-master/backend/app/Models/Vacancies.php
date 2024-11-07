@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vacancies extends Model
 {
@@ -17,7 +18,9 @@ class Vacancies extends Model
         'work_modality',
         'creation_date',
         'company',
-        'salary'
+        'salary',
+        'company_logo',
+        'recruiter_id',
     ];
 
     protected $casts = [
@@ -29,5 +32,13 @@ class Vacancies extends Model
         'creation_date' => 'date',
         'company' => 'string',
         'salary' => 'string',
+        'company_logo' => 'string',
+        'recruiter_id' => 'integer',
+
     ];
+
+    public function recruiter(): BelongsTo
+    {
+        return $this->belongsTo(Recruiter::class);
+    }
 }

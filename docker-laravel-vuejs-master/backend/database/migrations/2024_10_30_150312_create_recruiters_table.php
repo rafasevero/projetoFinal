@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('is_recruiter')->default(true);
             $table->string('password');
             $table->string('email');
+            $table->string('perfilPicture');
             $table->string('phone');
             $table->timestamps();
         });

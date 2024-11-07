@@ -40,6 +40,19 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'recruiter' => [
+            'driver' => 'session',
+            'provider' => 'recruiters',
+        ],
+        'vacancy' => [
+            'driver' => 'session',
+            'provider' => 'vacancies',
+        ],
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -63,6 +76,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'recruiters' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Recruiter::class,
+        ],
+        'vacancies' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Vacancies::class,
         ],
 
         // 'users' => [
