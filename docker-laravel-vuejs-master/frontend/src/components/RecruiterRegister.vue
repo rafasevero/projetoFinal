@@ -153,7 +153,7 @@ export default {
                 perfilPicture: this.perfilPicture,
                 phone: cleanedPhone,
                 is_recruiter: true,
-            };
+            }
 
             try{
                 await registerRecruiter(dataToSend);
