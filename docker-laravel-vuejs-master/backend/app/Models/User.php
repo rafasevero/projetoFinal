@@ -42,7 +42,6 @@ class User extends Authenticatable
         'city',
         'state',
         'phone',
-        'curriculum',
         'is_recruiter',
         'perfilPicture',
 
@@ -57,7 +56,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'cpf',
-      
+
     ];
 
     /**
@@ -75,7 +74,6 @@ class User extends Authenticatable
         'city' => 'string',
         'state' => 'string',
         'phone' => 'integer',
-        'curriculum' => 'string',//precisa colocar um tipo de dado que dê
         'is_recruiter' => 'boolean',
         'perfilPicture' => 'string',
 

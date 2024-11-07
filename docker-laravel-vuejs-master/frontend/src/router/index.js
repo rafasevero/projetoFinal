@@ -6,7 +6,6 @@ import HomeView from '../views/HomeView.vue'
 import App from '@/App.vue';
 import UserProfileView from '@/views/UserProfileView.vue';
 import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
-import CandidateRegisterView from '@/views/CandidateRegisterView.vue';
 import UserPageView from '@/views/UserPageView.vue';
 import ApplicationView from '@/views/ApplicationView.vue';
 import VacanciesView from '@/views/VacanciesView.vue';
@@ -54,14 +53,6 @@ const router = createRouter({
       component: RecruiterRegisterView,
       meta: {
         title: 'Registrar Empresa'
-      }
-    },
-    {
-      path: '/candidateRegister',
-      name: 'candidateRegister',
-      component: CandidateRegisterView,
-      meta: {
-        title: 'Registrar Candidato'
       }
     },
     {

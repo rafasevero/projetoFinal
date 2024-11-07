@@ -12,7 +12,7 @@
             <div class="caixa">
                 <form>
                     <h1>Como você quer se cadastrar?</h1>
-                    <router-link to="/candidateRegister">
+                    <router-link to="/registerUser">
                         <button id="cadastrar">Candidato</button>
                     </router-link>
                     <p>ou</p>

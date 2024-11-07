@@ -8,6 +8,9 @@
             <img id="fundo" src="../assets/fundo.jpg" alt="Fundo">
             <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="">
         </div>
+        <div>
+            <Notification v-if="showNotification" :message="notificationMessage" />    
+        </div>
         <div class="conteiner">
             <div class="caixa">
                 <form @submit.prevent="formLogin">
@@ -24,7 +27,7 @@
                     <button type="submit">LOGAR</button>
                     
                     <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
-                    <button type="button" @click="goToRegister">Cadastrar</button>
+
                     <router-link to="/register">
                         <button id="cadastrar">Cadastrar</button>
                     </router-link>
@@ -36,9 +39,13 @@
 
 <script>
 import { login } from '@/services/Loginservice';
+import Notification from './Notification.vue';
 
 export default {
     name: 'Login',
+    components: {
+        Notification
+    },
     data() {
         return {
             email: "",
@@ -47,6 +54,8 @@ export default {
                 email: "",
                 password: ""
             },
+            showNotification: false,
+            notificationMessage: ''
         };
     },
     methods: {
@@ -74,14 +83,24 @@ export default {
             const user = await login(this.email, this.password);
 
             if (user.is_recruiter === false) {
-                this.$router.push('/vagas');
+                
+
+                this.notificationMessage = 'Login efetuado com sucesso!';
+                this.showNotification = true;
+                setTimeout(() => {
+                    this.$router.push('/vagas');
+                },2000);
                 
             } else {
                 this.$router.push('/contato');
+                this.notificationMessage = 'Login efetuado com sucesso!';
+                this.showNotification = true;
+                setTimeout(() => {
+                    this.$router.push('/contato');
+                },2000);
             }
             } catch (error) {
-            console.error('Erro no login:', error);
-            // Adicione tratamento de erro se necessário
+                alert('Email e/ou Senha inválidos!');
             }
         },
 

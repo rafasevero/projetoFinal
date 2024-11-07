@@ -3,7 +3,7 @@
         <header>
             <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         </header>
-        <a href="Home.vue"><i class='bx bx-arrow-back'></i></a>
+        <a href="/register"><i class='bx bx-arrow-back'></i></a>
         <div class="back">
             <img id="fundo" src="../assets/fundo.jpg" alt="Fundo" />
             <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="" />
@@ -136,12 +136,12 @@ export default {
                 this.cep = this.cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
             }
         },
-        async submitForm() {
-            this.loading = true;
-            const cleanedCPF = this.cpf.replace(/\D/g, '');
-            const cleanedPhone = this.phone.replace(/\D/g, '');
-            const cleanedCep = this.cep.replace(/\D/g, '');
-
+        async submitForm(){
+            this.loading = true
+            const cleanedCPF = this.cpf.replace(/\D/g, '')
+            const cleanedPhone = this.phone.replace(/\D/g, '')
+            const cleanedCep = this.cep.replace(/\D/g, '')
+            
             const dataToSend = {
                 full_name: this.full_name,
                 cpf: cleanedCPF,
@@ -153,17 +153,18 @@ export default {
                 city: this.address.city,
                 state: this.address.state,
                 is_recruiter: false,
-            };
-
-            try{
-                await registerUser(dataToSend);
-                this.$router.push('/')
-            }catch(error){
-                console.error('Erro ao cadastrar o usuário:', error);
             }
-        },
+            
+            try{
+                await registerUser(dataToSend)
+                this.$router.push('/')
+            }
+            catch(error){
+                console.error('Erro ao cadastrar o usuário:', error)
+            }
 
-    },
+        },
+    }
 }
 </script>
 
