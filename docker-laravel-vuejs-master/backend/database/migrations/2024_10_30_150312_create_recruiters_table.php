@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('company_name');
             $table->string('cnpj');
-            $table->string('social_name');
-            $table->string('address');
-            $table->boolean('is_recruiter')->default(true);
+            $table->string('cep');
+            $table->string('city');
+            $table->string('state');
+            $table->boolean('is_recruiter')->default(true)->notNullable();
             $table->string('password');
             $table->string('email');
-            $table->string('perfilPicture');
+            $table->string('perfilPicture')->nullable();
             $table->string('phone');
             $table->timestamps();
         });
