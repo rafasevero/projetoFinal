@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Console\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -39,4 +41,9 @@ class Recruiter extends Model
         'perfilPicture' => 'string',
         'phone' => 'string',
     ];
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
 }
