@@ -125,11 +125,8 @@ export default {
                         alert('CEP não encontrado. Verifique se o CEP está correto.');
                     }
                 } catch (error) {
-                    console.error('Erro ao buscar endereço:', error);
                     alert('Ocorreu um erro ao buscar o endereço. Tente novamente mais tarde.');
                 }
-            } else {
-                alert('Por favor, insira um CEP válido no formato XXXXX-XXX.');
             }
             
         },

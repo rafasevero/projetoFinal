@@ -74,7 +74,6 @@ class User extends Authenticatable
         'city' => 'string',
         'state' => 'string',
         'phone' => 'integer',
-        'curriculum' => 'string',//precisa colocar um tipo de dado que dê
         'is_recruiter' => 'boolean',
         'perfilPicture' => 'string',
 
