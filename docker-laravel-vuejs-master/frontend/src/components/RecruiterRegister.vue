@@ -9,12 +9,12 @@
             <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="" />
         </div>
         <div class="candidato">
-            <form>
+            <form @submit.prevent="recruiterSubmitForm">
                 <h1>Registrar Empresa</h1>
                 <div class="name-cpf-container">
                     <div class="name-container">
                         <label>Nome da empresa</label>
-                        <input type="text" name="full_name" id="nome" required />
+                        <input type="text" v-model="company_name" id="nome" required />
                         <label>CNPJ</label>
                         <input type="text" v-model="cnpj" @input="formatCNPJ" @blur="fetchAddress"
                             placeholder="XX.XXX.XXX/XXXX-XX" required />
@@ -28,7 +28,7 @@
                 <div class="email-password-container">
                     <div class="email-container">
                         <label>Seu E-mail</label>
-                        <input type="email" name="email" id="email" required />
+                        <input type="email" v-model="email" name="email" id="email" required />
                     </div>
                     <div class="password-container">
                         <label>Senha</label>
@@ -73,6 +73,8 @@
 
 <script>
 import axios from 'axios';
+import { registerRecruiter } from '../services/RegisterRecruiter';
+
 export default {
     name: 'RecruiterRegister',
     data() {
@@ -93,10 +95,10 @@ export default {
     methods: {
         formatCNPJ() {
             this.cnpj = this.cnpj
-                .replace(/\D/g, '') // Remove caracteres não numéricos
-                .replace(/(\d{2})(\d)/, '$1.$2') // Adiciona o primeiro ponto após dois dígitos
-                .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona o segundo ponto após cinco dígitos
-                .replace(/(\d{3})(\d)/, '$1/$2') // Adiciona a barra após oito dígitos
+                .replace(/\D/g, '') 
+                .replace(/(\d{2})(\d)/, '$1.$2')
+                .replace(/(\d{3})(\d)/, '$1.$2')
+                .replace(/(\d{3})(\d)/, '$1/$2')
                 .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
         },
 
@@ -129,12 +131,38 @@ export default {
             } else {
                 alert('Por favor, insira um CEP válido no formato XXXXX-XXX.');
             }
+            
         },
-
         formatCEP() {
             this.cep = this.cep.replace(/\D/g, '');
             if (this.cep.length > 5) {
                 this.cep = this.cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+            }
+        },
+        async recruiterSubmitForm() {
+            this.loading = true;
+            const cleanedCNPJ = this.cnpj.replace(/\D/g, '');
+            const cleanedPhone = this.phone.replace(/\D/g, '');
+            const cleanedCep = this.cep.replace(/\D/g, '');
+
+            const dataToSend = {
+                company_name: this.company_name,
+                cnpj: cleanedCNPJ,
+                cep: cleanedCep,
+                city: this.address.city,
+                state: this.address.state,  
+                email: this.email,
+                password: this.password,
+                perfilPicture: this.perfilPicture,
+                phone: cleanedPhone,
+                is_recruiter: true,
+            };
+
+            try{
+                await registerRecruiter(dataToSend);
+                this.$router.push('/')
+            }catch(error){
+                console.error('Erro ao cadastrar o usuário:', error);
             }
         },
     },

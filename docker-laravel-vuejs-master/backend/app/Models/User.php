@@ -42,7 +42,6 @@ class User extends Authenticatable
         'city',
         'state',
         'phone',
-        'curriculum',
         'is_recruiter',
         'perfilPicture',
 
@@ -57,7 +56,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'cpf',
-      
+
     ];
 
     /**

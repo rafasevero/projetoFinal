@@ -16,8 +16,9 @@ class Recruiter extends Model
     protected $fillable = [
         'company_name',
         'cnpj',
-        'social_name',
-        'address',
+        'cep',
+        'city',
+        'state',
         'is_recruiter',
         'password',
         'email',

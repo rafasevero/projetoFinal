@@ -12,8 +12,9 @@ class RecruiterController extends Controller
         $array =  $request->validate([
            'company_name' => 'required|string|max:100',
             'cnpj' => 'required|string|max:14',
-            'social_name' => 'required|string|max:100',
-            'address' => 'required|string|max:100',
+            'cep' => 'required|string|max:8',
+            'city' => 'required|string|max:100',
+            'state' => 'required|string|max:2',
             'is_recruiter' => 'required|boolean',
             'password' => 'required|string|max:255',
             'email' => 'required|string|email|max:100',
@@ -23,11 +24,11 @@ class RecruiterController extends Controller
 
         $recruiter = Recruiter::create($array);
 
-        
+
         return response()->json([
             'message' => 'Recrutador cadastrado com sucesso! ',
             'recruiter'=>$recruiter,
-            ]); 
+            ]);
     }
 
 }
