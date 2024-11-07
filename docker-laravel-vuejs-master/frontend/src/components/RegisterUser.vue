@@ -154,7 +154,6 @@ export default {
                 state: this.address.state,
                 is_recruiter: false,
             }
-            
             try{
                 await registerUser(dataToSend)
                 this.$router.push('/')

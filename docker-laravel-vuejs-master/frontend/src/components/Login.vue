@@ -84,7 +84,6 @@ export default {
 
             if (user.is_recruiter === false) {
                 
-
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
                 setTimeout(() => {
