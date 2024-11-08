@@ -82,7 +82,7 @@ export default {
             try {
             const user = await login(this.email, this.password);
 
-            if (user.is_recruiter === false) {
+            if (user.is_recruiter == false) {
                 
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
