@@ -27,6 +27,7 @@ Route::prefix('user')->group(function () {
 });
 Route::prefix('recruiter')->group(function () {
     Route::post('/recruiter_register',[RecruiterController ::class, 'registerRecruiter'])->name('recruiters.register');
+    Route::post('/login', [RecruiterController::class, 'login'])->name('login');
 });
 
 Route::prefix('recruiter')->group(function () {
