@@ -1,13 +1,7 @@
 <template>
     <div class="container">
         <h1>Minhas Vagas</h1>
-        <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
-
-        <ul>
-            <li v-for="vaga in filteredVagas" :key="vaga.id">
-                {{ vaga.titulo }}
-            </li>
-        </ul>
+        <button>Cadastrar nova vaga</button>
     </div>
 </template>
 
@@ -50,35 +44,36 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 h1 {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
-input {
-  padding: 8px;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+button {
+  background-color: #4ea1db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #4ea1db;
+  cursor: pointer;
+  margin: 0 auto;
+  
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+button:hover {
+  background-color: #ffffff;
+  color: #4ea1db;
+  border: 1px solid #4ea1db;
+  transition: 0.5s;
 }
 
-li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-li:last-child {
-  border-bottom: none;
-}
 
 @media (max-width: 768px) {
   h1 {

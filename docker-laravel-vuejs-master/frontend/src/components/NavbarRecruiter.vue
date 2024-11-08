@@ -4,6 +4,12 @@
             <div class="logo-navbar">
                 <img src="../assets/img/RRM LOGO(1).jpg" alt="logo">
             </div>
+            <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
+    <ul>
+        <li v-for="vaga in filteredVagas" :key="vaga.id">
+            {{ vaga.titulo }}
+        </li>
+    </ul>
             <div class="links-navbar">
                 <router-link to="/vagas">Vagas</router-link>
                 <router-link to="/recruiterProfile">Meu Perfil</router-link>
@@ -62,5 +68,30 @@ export default {
 .links-navbar a:hover {
     color: var(--secondary-color);
     transition: 0.5s;
+}
+
+input {
+  padding: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  border: 1px solid #faf0f0;
+  border-radius: 10px;
+  background-color: transparent; 
+  color: #faf0f0;   
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+li:last-child {
+  border-bottom: none;
 }
 </style>

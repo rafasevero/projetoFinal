@@ -11,7 +11,7 @@
 <script>
 import Footer from '@/components/Footer.vue';
 import NavbarCandidate from '@/components/NavbarCandidate.vue';
-import Vagas from '@/components/Vagas.vue';
+import Vagas from '@/components/VacanciesUser.vue';
     export default {
         name: 'UserPageView',
         components: {
