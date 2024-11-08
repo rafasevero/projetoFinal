@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Recruiter extends Model
+
+class Recruiter extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -43,8 +45,8 @@ class Recruiter extends Model
         'phone' => 'string',
     ];
 
-    public function applications(): HasMany
+    public function vacancies(): HasMany
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Vacancies::class);
     }
 }

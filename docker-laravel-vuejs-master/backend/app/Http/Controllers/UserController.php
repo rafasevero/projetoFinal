@@ -27,6 +27,8 @@ class UserController extends Controller
             'perfilPicture' => 'string',
         ]);
 
+        $array['password'] = Hash::make($array['password']);
+
         $user = User::create($array);
 
 
@@ -44,39 +46,25 @@ class UserController extends Controller
         'password' => 'required|string|min:8|max:100',
     ]);
 
-    $user = User::where('email', $credentials['email'])->first();
-    $recruiter = Recruiter::where('email', $credentials['email'])->first();
-
-
-    if ($user && Hash::check($credentials['password'], $user->password)) {
-        // Gera o token tanto para recrutadores quanto para usuários comuns
-        $token = $user->createToken('UserToken')->plainTextToken;
+    if (Auth::guard('user')->attempt($credentials)) {
+        $user = Auth::guard('user')->user();
+        $token = $user->createToken('userToken')->plainTextToken;
 
         return response()->json([
-            'message' => 'Login Candidato efetuado com sucesso!',
-            'user' => $user,
+            'message' => 'Candidato autenticado com sucesso!',
             'token' => $token,
             'role' => $user->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
-        ]);
-        }
-        elseif ($recruiter && Hash::check($credentials['password'], $recruiter->password)) {
-            // Gera o token tanto para recrutadores quanto para usuários comuns
-            $token = $recruiter->createToken('RecruiterToken')->plainTextToken;
 
-            return response()->json([
-                'message' => 'Login Recrutador efetuado com sucesso!',
-                'recruiter' => $recruiter,
-                'token' => $token,
-                'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
-            ]);
-        }
-        else {
-            return response()->json([
-                'message' => 'Login não efetuado!',
-                'user' => null,
-                'recruiter' => null
-            ]);
-        }
+        ], 200);
+    }
+
+    return response()->json(['message' => 'Falha na autenticação do candidato'], 401);
+
 }
+
+    public function destroy(){
+        auth()->guard('user')->logout();
+        return response()->json(['message' => 'Logout efetuado com sucesso!']);
+    }
 
 }

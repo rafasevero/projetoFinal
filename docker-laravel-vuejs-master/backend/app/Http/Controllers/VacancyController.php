@@ -20,10 +20,10 @@ class VacancyController extends Controller
             'company' => 'required|string|max:100',
             'salary' => 'required|string|max:50',
             'company_logo' => 'string',
+            'recruiter_id' => 'required|integer|exists:recruiters,id',
         ]);
 
-        $recruiter = Auth::user()->recruiter;
-        $array['recruiter_id'] = $recruiter->id;
+        $recruiter = Recruiter::find($array['recruiter_id']);
         $vacancy = Vacancies::create($array);
 
         return response()->json([
@@ -39,6 +39,7 @@ class VacancyController extends Controller
         return response()->json([
             'message' => 'Lista de vagas encontrada com sucesso!',
             'vacancies' => $vacancies,
+    
         ]);
     }
 }
