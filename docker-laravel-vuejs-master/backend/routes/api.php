@@ -24,10 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('user')->group(function () {
     Route::post('/user_register',[UserController::class, 'register'])->name('users.register');
     Route::post('/login', [UserController::class, 'login'])->name('login');
+    Route::post('/login', [RecruiterController::class, 'login'])->name('login');
 });
 Route::prefix('recruiter')->group(function () {
     Route::post('/recruiter_register',[RecruiterController ::class, 'registerRecruiter'])->name('recruiters.register');
-    Route::post('/login', [RecruiterController::class, 'login'])->name('login');
 });
 
 Route::prefix('recruiter')->group(function () {
