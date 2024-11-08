@@ -92,11 +92,11 @@ export default {
 
                 
             } else if (user.role === "recruiter") {
-                this.$router.push('/contato');
+                
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
                 setTimeout(() => {
-                    this.$router.push('/contato');
+                    this.$router.push('/vagas');
                 },2000);
             }
             } catch (error) {
