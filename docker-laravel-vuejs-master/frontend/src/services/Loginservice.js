@@ -2,7 +2,7 @@ import HttpService from "./HttpService";
 
 export const login = async (email, password) => {
     try {
-        const response = await HttpService.post('/login', {
+        const response = await HttpService.post('user/login', {
             email,
             password
         });

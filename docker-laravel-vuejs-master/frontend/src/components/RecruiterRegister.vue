@@ -157,7 +157,7 @@ export default {
 
             try{
                 await registerRecruiter(dataToSend);
-                this.$router.push('/')
+                this.$router.push('/vagas')
             }catch(error){
                 console.error('Erro ao cadastrar o usuário:', error);
             }
