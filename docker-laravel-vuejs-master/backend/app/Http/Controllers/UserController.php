@@ -58,10 +58,7 @@ class UserController extends Controller
         ], 200);
     }
 
-    return response()->json(['message' => 'Falha na autenticação do candidato'], 401);
-
-
-    if (Auth::guard('recruiter')->attempt($credentials)) {
+    elseif (Auth::guard('recruiter')->attempt($credentials)) {
         $recruiter = Auth::guard('recruiter')->user();
         $token = $recruiter->createToken('recruiterToken')->plainTextToken;
 
@@ -72,8 +69,11 @@ class UserController extends Controller
 
         ], 200);
     }
+    else{
+        return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
+    }
 
-    return response()->json(['message' => 'Recrutador não autenticado!'], 401);
+
 
     }
 
