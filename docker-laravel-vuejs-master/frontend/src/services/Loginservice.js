@@ -11,7 +11,7 @@ export const login = async (email, password) => {
         localStorage.setItem("token", response.data.token);
         
         // Retorna o usuário
-        return response.data.user;
+        return response.data;
     } catch (error) {
         console.error("Erro ao fazer login:", error);
         throw error;

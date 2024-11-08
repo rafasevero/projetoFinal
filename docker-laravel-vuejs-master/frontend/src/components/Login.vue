@@ -81,16 +81,17 @@ export default {
         async formLogin() {
             try {
             const user = await login(this.email, this.password);
-
-            if (user.is_recruiter == false) {
+                console.log(user);
+            if (user.role === "user") {
                 
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
                 setTimeout(() => {
                     this.$router.push('/vagas');
                 },2000);
+
                 
-            } else {
+            } else if (user.role === "recruiter") {
                 this.$router.push('/contato');
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
@@ -101,6 +102,7 @@ export default {
             } catch (error) {
                 alert('Email e/ou Senha inválidos!');
             }
+
         },
 
 
