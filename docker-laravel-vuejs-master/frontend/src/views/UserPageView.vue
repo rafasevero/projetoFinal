@@ -2,7 +2,7 @@
     <div>
         <NavbarCandidate />
         <main>
-            <Vagas />
+            <VacanciesUser/>
         </main>
         <Footer />
     </div>
@@ -11,12 +11,12 @@
 <script>
 import Footer from '@/components/Footer.vue';
 import NavbarCandidate from '@/components/NavbarCandidate.vue';
-import Vagas from '@/components/VacanciesUser.vue';
+import VacanciesUser from '@/components/VacanciesUser.vue';
     export default {
         name: 'UserPageView',
         components: {
             NavbarCandidate,
-            Vagas,
+            VacanciesUser,
             Footer,
         }
     }

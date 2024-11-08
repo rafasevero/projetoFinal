@@ -4,10 +4,31 @@
         <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
         <ul>
             <li v-for="vaga in filteredVagas" :key="vaga.id">
-                {{ vaga.titulo }}
-            </li>
-        </ul>
-    </div>
+                {{ vacancy_name }}
+              </li>
+            </ul>
+      </div>
+      <div class="card-vagas" v-for="vacancies in vacanciesData" :key="vacancies.id">
+        <img :src="company_logo" :alt="company_logo">
+        <h3>{{ company_name }}</h3>
+        <p>{{ vacancy_name }}</p>
+        <button @click="openModal(vacancies.id)">Ver mais</button>
+      </div>
+      <div v-if="showModal" class="modal">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <span class="close" @click="closeModal">&times;</span>
+              </div>
+              <div class="modal">
+                  <h2>Título: {{ vacanciesData.company_name }}</h2>
+                  <p>Descrição: {{ vacanciesData.description }}</p>
+                  <p>Requisitos: {{ vacanciesData.requirements }}</p>
+                  <p>Local: {{ vacanciesData.location }}</p>
+                  <p>Tipo: {{ vacanciesData.work_modality }}</p>
+                  <p>Valor: {{ vacanciesData.salary }}</p>
+              </div>
+          </div>
+      </div>
 </template>
 
 <script>
@@ -15,6 +36,7 @@ import axios from 'axios';
 
 export default {
   data() {
+    name: 'VacanciesUser'
     return {
       searchQuery: '', // Guarda o valor da pesquisa
       vagas: [] // Armazena as vagas carregadas da API
