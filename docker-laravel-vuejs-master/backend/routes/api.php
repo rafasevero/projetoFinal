@@ -24,7 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('user')->group(function () {
     Route::post('/user_register',[UserController::class, 'register'])->name('users.register');
     Route::post('/login', [UserController::class, 'login'])->name('login');
-    Route::post('/login', [RecruiterController::class, 'login'])->name('login');
 });
 Route::prefix('recruiter')->group(function () {
     Route::post('/recruiter_register',[RecruiterController ::class, 'registerRecruiter'])->name('recruiters.register');
@@ -33,7 +32,7 @@ Route::prefix('recruiter')->group(function () {
 Route::prefix('recruiter')->group(function () {
     Route::middleware('auth:sanctum')->post('/vacancy_register',[VacancyController::class, 'registerVacancy'] );
 });
-//Route::post('/vacancy_register', [VacancyController::class, 'registerVacancy'])->name('vacancies.register');
+
 Route::get('/vacancies',[VacancyController::class,'vacancies'])->name('vacancies');
 Route::get('index_vacancies',[VacancyController::class,'index_vacancies'])->name('vacancies.index');
 Route::get('/recruiters/{recruiterId}/vacancies', [RecruiterController::class, 'getRecruiterVacancies']);
