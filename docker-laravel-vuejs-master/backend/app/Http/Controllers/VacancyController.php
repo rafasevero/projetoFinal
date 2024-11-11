@@ -30,7 +30,7 @@ class VacancyController extends Controller
             'message' => 'Vaga cadastrada com sucesso! ',
             'vacancy'=>$vacancy,
             'recruiter'=>$recruiter,
-            ]); 
+            ]);
 
     }
 
@@ -39,7 +39,7 @@ class VacancyController extends Controller
         return response()->json([
             'message' => 'Lista de vagas encontrada com sucesso!',
             'vacancies' => $vacancies,
-    
+
         ]);
     }
 }
