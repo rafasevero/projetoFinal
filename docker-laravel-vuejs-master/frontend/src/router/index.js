@@ -6,11 +6,11 @@ import HomeView from '../views/HomeView.vue'
 import App from '@/App.vue';
 import UserProfileView from '@/views/UserProfileView.vue';
 import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
-import UserPageView from '@/views/UserPageView.vue';
 import ApplicationView from '@/views/ApplicationView.vue';
-import VacanciesView from '@/views/VacanciesRecruiterView.vue';
-import RecruiterProfileView from '@/views/RecruiterProfileView.vue';
 import VacanciesRecruiterView from '@/views/VacanciesRecruiterView.vue';
+import RecruiterProfileView from '@/views/RecruiterProfileView.vue';
+import VacanciesUserView from '@/views/VacanciesUserView.vue';
+import AvailableVacanciesView from '@/views/AvailableVacanciesView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,8 +57,8 @@ const router = createRouter({
       }
     },
     {
-      path: '/vagas',
-      name: 'vagas',
+      path: '/vacanciesUser',
+      name: 'VacanciesUser',
       component: VacanciesUserView,
       meta: {
         title: 'Vagas'
@@ -92,6 +92,14 @@ const router = createRouter({
       path: '/vacanciesRecruiter',
       name: 'vacanciesRecruiter',
       component: VacanciesRecruiterView,
+      meta: {
+        title: 'Minhas vagas'
+      }
+    },
+    {
+      path: '/availableVacancies',
+      name: 'availableVacancies',
+      component: AvailableVacanciesView,
       meta: {
         title: 'Minhas vagas'
       }

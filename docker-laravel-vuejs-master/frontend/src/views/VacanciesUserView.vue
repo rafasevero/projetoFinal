@@ -12,10 +12,10 @@ import Footer from '@/components/Footer.vue';
 import NavbarCandidate from '@/components/NavbarCandidate.vue';
 import VacanciesUser from '@/components/VacanciesUser.vue';
 export default {
-    name: 'VacanciesView',
+    name: 'VacanciesUserView',
     components: {
-        NavbarRecruiter,
-        VacanciesRecruiter,
+        NavbarCandidate,
+        VacanciesUser,
         Footer, 
     }   
 }

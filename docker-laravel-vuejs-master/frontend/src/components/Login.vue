@@ -87,7 +87,7 @@ export default {
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
                 setTimeout(() => {
-                    this.$router.push('/vagas');
+                    this.$router.push('/vacanciesUser');
                 },2000);
 
                 
@@ -96,7 +96,7 @@ export default {
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
                 setTimeout(() => {
-                    this.$router.push('/vagas');
+                    this.$router.push('/vacanciesRecruiter');
                 },2000);
             }
             } catch (error) {

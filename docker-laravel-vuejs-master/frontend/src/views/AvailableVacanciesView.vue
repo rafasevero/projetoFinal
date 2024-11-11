@@ -1,7 +1,8 @@
+
 <template>
     <div>
         <NavbarRecruiter />
-        <VacanciesRecruiter />
+        <AvailableVacancies />
         <Footer />
     </div>
 </template>
@@ -10,12 +11,12 @@
 <script>
 import Footer from '@/components/Footer.vue';
 import NavbarRecruiter from '@/components/NavbarRecruiter.vue';
-import VacanciesRecruiter from '@/components/VacanciesRecruiter.vue';
+import AvailableVacancies from '@/components/AvailableVacancies.vue';
 export default {
-    name: 'VacanciesRecruiterView',
+    name: 'AvailableVacanciesView',
     components: {
         NavbarRecruiter,
-        VacanciesRecruiter,
+        AvailableVacancies,
         Footer, 
     }   
 }
