@@ -5,7 +5,7 @@
                 <img src="../assets/img/RRM LOGO(1).jpg" alt="logo">
             </div>
             <div class="links-navbar">
-                <router-link to="/vagas">Vagas</router-link>
+                <router-link to="/availableVacancies">Vagas</router-link>
                 <router-link to="/recruiterProfile">Meu Perfil</router-link>
                 <router-link to="/vacanciesRecruiter">Minhas Vagas</router-link>
                 <router-link to ="/">Sair</router-link>
