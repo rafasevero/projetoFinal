@@ -12,7 +12,7 @@ use PharIo\Manifest\Author;
 class RecruiterController extends Controller
 {
     public function registerRecruiter(Request $request){
-        $array =  $request->validate([d
+        $array =  $request->validate([
            'company_name' => 'required|string|max:100',
             'cnpj' => 'required|string|max:14',
             'cep' => 'required|string|max:8',
