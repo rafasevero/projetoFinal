@@ -2,7 +2,6 @@
     <div class="container">
         <h1>Vagas Disponíveis</h1>
         <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
-
         <ul>
             <li v-for="vaga in filteredVagas" :key="vaga.id">
                 {{ vacancy_name }}
