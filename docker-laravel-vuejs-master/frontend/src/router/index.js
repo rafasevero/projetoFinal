@@ -11,6 +11,7 @@ import VacanciesRecruiterView from '@/views/VacanciesRecruiterView.vue';
 import RecruiterProfileView from '@/views/RecruiterProfileView.vue';
 import VacanciesUserView from '@/views/VacanciesUserView.vue';
 import AvailableVacanciesView from '@/views/AvailableVacanciesView.vue';
+import CreateVacancyView from '@/views/CreateVacancyView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -102,6 +103,14 @@ const router = createRouter({
       component: AvailableVacanciesView,
       meta: {
         title: 'Minhas vagas'
+      }
+    },
+    {
+      path: '/createVacancy',
+      name: 'createVacancy',
+      component: CreateVacancyView,
+      meta: {
+        title: 'Criar vaga'
       }
     },
   ]
