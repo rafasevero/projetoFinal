@@ -1,13 +1,6 @@
 <template>
     <div class="container">
         <h1>Vagas Disponíveis</h1>
-        <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
-
-        <ul>
-            <li v-for="vaga in filteredVagas" :key="vaga.id">
-                {{ vacancy_name }}
-              </li>
-            </ul>
       </div>
       <div class="card-vagas" v-for="vacancies in vacanciesData" :key="vacancies.id">
         <img :src="company_logo" :alt="company_logo">
