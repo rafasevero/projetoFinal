@@ -19,7 +19,7 @@ class VacancyController extends Controller
             'creation_date' => 'required|date',
             'company' => 'required|string|max:100',
             'salary' => 'required|string|max:50',
-            'company_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'company_logo' => 'string'//'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $array['recruiter_id'] = Auth::id();
