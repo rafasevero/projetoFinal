@@ -26,8 +26,10 @@
                             Alterar Imagem
                         </button>
                         
+
                         <span class="font-weight-bold">{{ nome }}</span>
                         <span class="text-black-50">{{ email }}</span>
+
 
                     </div>
                 </div>

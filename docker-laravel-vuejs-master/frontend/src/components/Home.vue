@@ -13,7 +13,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .main-container-content {
     display: flex;
     flex-direction: column;

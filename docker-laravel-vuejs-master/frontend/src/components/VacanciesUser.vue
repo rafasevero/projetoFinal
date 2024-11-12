@@ -26,6 +26,7 @@
                   <p>Local: {{ vacanciesData.location }}</p>
                   <p>Tipo: {{ vacanciesData.work_modality }}</p>
                   <p>Valor: {{ vacanciesData.salary }}</p>
+                  <b @click="applyForm">Candidate-se</b>
               </div>
           </div>
       </div>
@@ -58,6 +59,33 @@ export default {
       } catch (error) {
         console.error('Erro ao buscar vagas:', error);
       }
+    },
+    applyForm() {
+      axios.post('http://localhost:8000/api/apply', {
+        recruiter_id: this.recruiter_id,
+        vacancy_id: this.vacancy_id,
+        user_id: this.user_id,
+      })
+      .then(response => {
+        console.log('Candidatura enviada com sucesso:', response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao enviar candidatura:', error);
+      });
+    },
+    props: {
+      recruiter_id:{
+        type: Number,
+        required: true
+      },
+      vacancy_id:{
+        type: Number,
+        required: true
+      },
+      user_id:{
+        type: Number,
+        required: true
+      },
     }
   },
   mounted() {

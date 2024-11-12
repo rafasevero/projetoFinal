@@ -47,7 +47,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 article {
     margin-top: 50px;
     font-family: var(--font-family);

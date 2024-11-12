@@ -220,6 +220,7 @@ input {
     border: 2px solid black;
     border-radius: 20px;
     font-size: 1em;
+    color: black;
 }
 
 button {
@@ -230,6 +231,7 @@ button {
     background-color: transparent;
     transition: 0.3s;
     cursor: pointer;
+    color: black;
 }
 
 button:hover {

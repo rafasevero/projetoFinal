@@ -38,7 +38,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .carousel-container {
     margin-top: 50px;
     position: relative;
