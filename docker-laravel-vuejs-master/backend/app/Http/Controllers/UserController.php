@@ -24,7 +24,7 @@ class UserController extends Controller
             'state' => 'required|string|max:2',
             'phone' => 'required|string|max:11',
             'is_recruiter' => 'required|boolean',
-            'perfilPicture' => 'string',
+            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $array['password'] = Hash::make($array['password']);
@@ -77,11 +77,11 @@ class UserController extends Controller
 
     }
 
-   
-
     public function destroy(){
         auth()->guard('user')->logout();
         return response()->json(['message' => 'Logout efetuado com sucesso!']);
     }
+
+    //tenho que criar a função de atualizar o perfil do user
 
 }

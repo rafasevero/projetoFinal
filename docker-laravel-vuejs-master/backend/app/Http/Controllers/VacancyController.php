@@ -19,14 +19,14 @@ class VacancyController extends Controller
             'creation_date' => 'required|date',
             'company' => 'required|string|max:100',
             'salary' => 'required|string|max:50',
-            'company_logo' => 'string',//sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'company_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $array['recruiter_id'] = Auth::id();
         $vacancy = Vacancies::create($array);
 
         return response()->json([
-            'message' => 'Vaga cadastrada com sucesso! ',
+            'message' => 'Vaga cadastrrada com sucesso! ',
             'vacancy'=>$vacancy,
             ]);
 
@@ -40,4 +40,30 @@ class VacancyController extends Controller
 
         ]);
     }
+
+    public function updateVacancy(Request $request, $id){
+        $array = $request->validate([
+            'vacancy_name' => 'nullable|string|max:100',
+            'description' => 'nullable|string|max:255',
+            'requirements' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:100',
+            'work_modality' => 'nullable|string|max:50',
+            'creation_date' => 'nullable|date',
+            'company' => 'nullable|string|max:100',
+            'salary' => 'nullable|string|max:50',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $array['recruiter_id'] = Auth::id();
+
+        $vacancy = Vacancies::find($id);
+
+        $vacancy->update($array);
+
+        return response()->json([
+            'message' => 'Vaga atualizada com sucesso!',
+            'vacancy' => $vacancy,
+        ]);
+
+}
 }

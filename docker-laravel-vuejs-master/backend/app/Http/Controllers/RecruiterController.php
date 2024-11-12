@@ -21,11 +21,17 @@ class RecruiterController extends Controller
             'is_recruiter' => 'required|boolean',
             'password' => 'required|string|max:255',
             'email' => 'required|string|email|max:100',
-            'perfilPicture' => 'string',
+            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'phone' => 'required|string|max:11',
         ]);
 
         $array['password'] = Hash::make($array['password']);
+
+        if ($request->hasFile('perfilPicture')) {
+            $path = $request->file('perfilPicture')->store('photos', 'public');
+            $array['perfilPicture'] = $path;
+        }
+
 
         $recruiter = Recruiter::create($array);
 
@@ -36,21 +42,46 @@ class RecruiterController extends Controller
             ]);
     }
 
-
-
     public function getRecruiterVacancies($recruiterId)
-{
-    $recruiter = Recruiter::findOrFail($recruiterId);
-    return response()->json([
-        'message' => 'Vagas encontradas com sucesso!',
-        'vacancies' => $recruiter->vacancies,
-    ]);
-}
+    {
+        $recruiter = Recruiter::findOrFail($recruiterId);
+        return response()->json([
+            'message' => 'Vagas encontradas com sucesso!',
+            'vacancies' => $recruiter->vacancies,
+        ]);
+    }
 
     public function destroy(){
         auth()->guard('recruiter')->logout();
         return response()->json(['message' => 'Logout efetuado com sucesso!']);
     }
+
+    public function update(Request $request, $id){
+        $array = $request->validate([
+            'company_name' => 'nullable|string|max:255',
+            'cnpj' => 'nullable|string|max:14',
+            'cep' => 'nullable|string|max:8',
+            'city' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:2',
+            'is_recruiter' => 'nullable|boolean',
+            'password' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:100',
+            'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'phone' => 'nullable|string|max:11',
+        ]);
+
+        $recruiter = Recruiter::find($id);
+
+        $array['password'] = Hash::make($array['password']);
+
+        $recruiter->update($array);
+
+        return response()->json([
+            'message' => 'Recrutador atualizado com sucesso!',
+            'recruiter' => $recruiter,
+        ], 201);
+    }
+
 
 
 }
