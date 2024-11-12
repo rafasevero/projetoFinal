@@ -4,12 +4,11 @@
         <div class="container rounded bg-white mt-5 mb-5">
             <div class="row">
                 <div class="col-md-3 border-right">
-
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <img
                             class="rounded-circle mt-5" 
                             width="150px" 
-                            :src="profileImage" 
+                            :src="perfilPicture" 
                             alt="Imagem de Perfil"
                         >
                         
@@ -25,12 +24,9 @@
                         >
                             Alterar Imagem
                         </button>
-                        
 
-                        <span class="font-weight-bold">{{ nome }}</span>
+                        <span class="font-weight-bold">{{ full_name }}</span>
                         <span class="text-black-50">{{ email }}</span>
-
-
                     </div>
                 </div>
                 <div class="col-md-5 border-right">
@@ -40,21 +36,12 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-6">
-                                <label class="labels">Nome</label>
+                                <label class="labels">Nome completo</label>
                                 <input 
                                     type="text" 
                                     class="form-control" 
-                                    placeholder="first name" 
-                                    v-model="nome"
-                                />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="labels">Sobrenome</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="surname" 
-                                    v-model="sobrenome"
+                                    placeholder="Nome completo" 
+                                    v-model="full_name"
                                 />
                             </div>
                             <div class="col-md-6">
@@ -62,7 +49,7 @@
                                 <input 
                                     type="date" 
                                     class="form-control" 
-                                    v-model="dataNascimento"
+                                    v-model="date_of_birth"
                                 />
                             </div>
                         </div>
@@ -72,8 +59,8 @@
                                 <input 
                                     type="text" 
                                     class="form-control" 
-                                    placeholder="enter phone number" 
-                                    v-model="celular"
+                                    placeholder="Número de telefone" 
+                                    v-model="phone"
                                 />
                             </div>
                             <div class="col-md-12">
@@ -81,37 +68,28 @@
                                 <input 
                                     type="text" 
                                     class="form-control" 
-                                    placeholder="enter email id" 
+                                    placeholder="Email" 
                                     v-model="email"
-                                />
-                            </div>
-                            <div class="col-md-12">
-                                <label class="labels">Endereço</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="enter address line 1" 
-                                    v-model="endereco"
                                 />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label class="labels">Country</label>
+                                <label class="labels">Cidade</label>
                                 <input 
                                     type="text" 
                                     class="form-control" 
-                                    placeholder="country" 
-                                    v-model="pais"
+                                    placeholder="Cidade" 
+                                    v-model="city"
                                 />
                             </div>
                             <div class="col-md-6">
-                                <label class="labels">State/Region</label>
+                                <label class="labels">Estado</label>
                                 <input 
                                     type="text" 
                                     class="form-control" 
-                                    placeholder="state" 
-                                    v-model="estado"
+                                    placeholder="Estado" 
+                                    v-model="state"
                                 />
                             </div>
                         </div>
@@ -136,19 +114,19 @@
                             </span>
                         </div><br>
                         <div class="col-md-12">
-                            <label class="labels">Experiencia</label>
+                            <label class="labels">Experiência</label>
                             <input 
                                 type="text" 
                                 class="form-control" 
-                                placeholder="experience" 
+                                placeholder="Experiência" 
                             />
                         </div><br>
                         <div class="col-md-12">
-                            <label class="labels">Escrava sobre</label>
+                            <label class="labels">Descrição</label>
                             <input 
                                 type="text" 
                                 class="form-control" 
-                                placeholder="additional details" 
+                                placeholder="Detalhes adicionais" 
                             />
                         </div>
                         <div class="col-md-12">
@@ -166,7 +144,6 @@
     </div>
 </template>
 
-
 <script>
 import NavbarCandidato from './NavbarCandidate.vue';
 import axios from 'axios';
@@ -178,15 +155,13 @@ export default {
     },
     data() {
         return {
-            nome: '',
-            sobrenome: '',
+            full_name: '',
             email: '',
-            celular: '',
-            endereco: '',
-            pais: '',
-            estado: '',
-            dataNascimento: '',
-            profileImage: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
+            phone: '',
+            city: '',
+            state: '',
+            date_of_birth: '',
+            perfilPicture: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
         };
     },
     created() {
@@ -201,15 +176,13 @@ export default {
                     }
                 });
                 const user = response.data;
-                this.nome = user.name;
-                this.sobrenome = user.sobrenome || '';
-                this.email = user.email;
-                this.celular = user.celular || '';
-                this.endereco = user.endereco || '';
-                this.pais = user.pais || '';
-                this.estado = user.estado || '';
-                this.dataNascimento = user.data_nascimento || '';
-                this.profileImage = user.profile_image_url || this.profileImage;
+                this.full_name = user.full_name || '';
+                this.email = user.email || '';
+                this.phone = user.phone || '';
+                this.city = user.city || '';
+                this.state = user.state || '';
+                this.date_of_birth = user.date_of_birth || '';
+                this.perfilPicture = user.perfilPicture || this.perfilPicture;
             } catch (error) {
                 console.error('Erro ao carregar o perfil do usuário:', error);
             }
@@ -220,12 +193,12 @@ export default {
         onImageChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.profileImage = URL.createObjectURL(file);
+                this.perfilPicture = URL.createObjectURL(file);
             }
         },
         salvarPerfil() {
-            alert(`Perfil salvo!\nNome: ${this.nome} ${this.sobrenome}\nImagem atualizada!`);
-            },
+            alert(`Perfil salvo!\nNome: ${this.full_name} \nImagem atualizada!`);
+        },
         handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -234,9 +207,7 @@ export default {
         },
     },
 }
-
 </script>
-
 
 <style scoped>
 .form-control:focus {
@@ -255,11 +226,6 @@ export default {
 }
 
 .profile-button:focus {
-    background: #4ea1db;
-    box-shadow: none;
-}
-
-.profile-button:active {
     background: #4ea1db;
     box-shadow: none;
 }
@@ -298,3 +264,4 @@ export default {
     background-color: #124366;
 }
 </style>
+    

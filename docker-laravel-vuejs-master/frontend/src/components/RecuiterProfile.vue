@@ -38,7 +38,7 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="exemplo"
+                                    placeholder="Digite seu nome"
                                     v-model="nome"
                                 >
                             </div>
@@ -47,7 +47,8 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="exemplo"
+                                    placeholder="Digite a razão social"
+                                    v-model="razaoSocial"
                                 >
                             </div>
                         </div>
@@ -57,15 +58,16 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="enter phone number"
+                                    placeholder="Digite seu celular"
+                                    v-model="celular"
                                 >
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">Email ID</label>
+                                <label class="labels">Email</label>
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="enter email id"
+                                    placeholder="Digite seu email"
                                     v-model="email"
                                 >
                             </div>
@@ -74,29 +76,31 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="enter address line 1"
+                                    placeholder="Digite seu endereço"
+                                    v-model="endereco"
                                 >
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label class="labels">Country</label>
+                                <label class="labels">País</label>
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="country"
+                                    placeholder="Digite seu país"
+                                    v-model="pais"
                                 >
                             </div>
                             <div class="col-md-6">
-                                <label class="labels">State/Region</label>
+                                <label class="labels">Estado/Região</label>
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="state"
+                                    placeholder="Digite seu estado"
+                                    v-model="estado"
                                 >
                             </div>
                         </div>
-                        <!-- Botão de salvar -->
                         <div class="mt-5 text-center">
                             <button 
                                 class="btn btn-primary profile-button" 
@@ -113,8 +117,6 @@
     </div>
 </template>
 
-
-
 <script>
 import axios from 'axios';
 
@@ -125,6 +127,11 @@ export default {
             nome: '',
             email: '',
             profileImage: '',
+            razaoSocial: '',
+            celular: '',
+            endereco: '',
+            pais: '',
+            estado: ''
         };
     },
     created() {
@@ -139,8 +146,8 @@ export default {
                     }
                 });
                 const user = response.data;
-                this.nome = user.name;
-                this.email = user.email;
+                this.nome = user.name || '';
+                this.email = user.email || '';
                 this.profileImage = user.profile_image_url || 'url-da-imagem-padrao.jpg';
             } catch (error) {
                 console.error('Erro ao carregar o perfil do usuário:', error);
@@ -160,12 +167,9 @@ export default {
         },
     },
 }
-
 </script>
 
-
 <style scoped>
-
 .form-control:focus {
     box-shadow: none;
     border-color: #4ea1db;
@@ -174,37 +178,14 @@ export default {
 .profile-button {
     background: #4ea1db;
     box-shadow: none;
-    border: none
+    border: none;
 }
 
 .profile-button:hover {
-    background: #124366
-}
-
-.profile-button:focus {
-    background: #4ea1db;
-    box-shadow: none
-}
-
-.profile-button:active {
-    background: #4ea1db;
-    box-shadow: none
-}
-
-.back:hover {
-    color: #4ea1db;
-    cursor: pointer
+    background: #124366;
 }
 
 .labels {
-    font-size: 11px
-}
-
-.add-experience:hover {
-    background: #4ea1db;
-    color: #fff;
-    cursor: pointer;
-    border: solid 1px #4ea1db;
-    transition: 0.5s;   
+    font-size: 11px;
 }
 </style>
