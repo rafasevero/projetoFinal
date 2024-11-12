@@ -116,36 +116,51 @@
 
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'RecruiterProfile',
     data() {
         return {
-            nome: 'Edogaru', // Nome do usuário (variável inicial)
-            email: 'edogaru@mail.com.my', // Email do usuário
-            profileImage: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg', // Imagem do perfil
+            nome: '',
+            email: '',
+            profileImage: '',
         };
     },
+    created() {
+        this.fetchUserProfile();
+    },
     methods: {
+        async fetchUserProfile() {
+            try {
+                const response = await axios.get('/api/recruiter/profile', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const user = response.data;
+                this.nome = user.name;
+                this.email = user.email;
+                this.profileImage = user.profile_image_url || 'url-da-imagem-padrao.jpg';
+            } catch (error) {
+                console.error('Erro ao carregar o perfil do usuário:', error);
+            }
+        },
         triggerFileInput() {
             this.$refs.fileInput.click();
         },
         onImageChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.profileImage = URL.createObjectURL(file); // Atualiza a imagem do perfil
+                this.profileImage = URL.createObjectURL(file);
             }
         },
-        // Função para salvar o perfil
         salvarPerfil() {
-            // Aqui você pode adicionar a lógica para salvar as alterações, por exemplo, fazendo uma requisição a um backend.
-            // Neste exemplo, vamos apenas exibir um alerta que confirma a atualização do nome.
-
             alert(`Perfil salvo! Nome atualizado para: ${this.nome}`);
-            
-            // O Vue já vai atualizar a exibição do nome automaticamente, pois usamos v-model no campo de texto e na tag <span> de exibição.
         },
     },
 }
+
 </script>
 
 

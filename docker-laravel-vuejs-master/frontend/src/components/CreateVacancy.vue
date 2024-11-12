@@ -2,12 +2,12 @@
     <div class="container">
         <form class="row g-3 form-container">
             <div id="form-group" class="col-md-4 text-center">
-                <img src="" alt="logo da empresa" id="company_logo" class="img-fluid" />
+                <img :src="company_logo" alt="logo da empresa" id="company_logo" class="img-fluid" />
             </div>
 
             <div class="col-md-4">
                 <label for="validationDefault01" class="form-label" id="company">Nome da empresa</label>
-                <input type="text" class="form-control" id="company_name" required>
+                <input type="text" class="form-control" id="company_name" v-model="companyName">
             </div>
 
             <div class="col-md-4">
@@ -59,11 +59,21 @@
 
 <script>
 export default {
-    name: 'CreateVacancy'
+    name: 'CreateVacancy',
+    data() {
+        return {
+            company_name: '',
+            company_logo: '',
+        }
+    },
+    created() {
+        this.companyName = "";
+        this.companyLogo = "";
+    }
 }
 </script>
 
-<style>
+<style scoped>
 .container {
     max-width: 800px;
     margin: 0 auto;
