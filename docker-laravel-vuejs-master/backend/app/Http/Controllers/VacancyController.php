@@ -64,7 +64,7 @@ class VacancyController extends Controller
         }
 
         $array['recruiter_id'] = Auth::id();
-        
+
         $vacancy->update($array);
 
         return response()->json([
