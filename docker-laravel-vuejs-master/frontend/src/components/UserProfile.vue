@@ -6,7 +6,6 @@
                 <div class="col-md-3 border-right">
 
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                        <!-- Imagem de Perfil -->
                         <img
                             class="rounded-circle mt-5" 
                             width="150px" 
@@ -14,7 +13,6 @@
                             alt="Imagem de Perfil"
                         >
                         
-                        <!-- Botão para alterar a imagem -->
                         <input 
                             type="file" 
                             @change="onImageChange" 
@@ -28,9 +26,10 @@
                             Alterar Imagem
                         </button>
                         
-                        <!-- Nome Dinâmico -->
-                        <span class="font-weight-bold"></span>
-                        <span class="text-black-50"></span>
+
+                        <span class="font-weight-bold">{{ nome }}</span>
+                        <span class="text-black-50">{{ email }}</span>
+
 
                     </div>
                 </div>
@@ -170,7 +169,7 @@
 
 <script>
 import NavbarCandidato from './NavbarCandidate.vue';
-import { mapGetters, mapActions } from 'vuex';
+import axios from 'axios';
 
 export default {
     name: 'UserProfile',
@@ -179,34 +178,54 @@ export default {
     },
     data() {
         return {
-            nome: 'Edogaru',  // Nome inicial do usuário
-            sobrenome: 'Silva',  // Sobrenome inicial
-            email: 'edogaru@mail.com.my',
+            nome: '',
+            sobrenome: '',
+            email: '',
             celular: '',
             endereco: '',
             pais: '',
             estado: '',
             dataNascimento: '',
-            profileImage: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',  // Imagem de perfil inicial
+            profileImage: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
         };
     },
+    created() {
+        this.fetchUserProfile();
+    },
     methods: {
-        // Função para abrir o seletor de arquivos
+        async fetchUserProfile() {
+            try {
+                const response = await axios.get('/api/user/profile', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const user = response.data;
+                this.nome = user.name;
+                this.sobrenome = user.sobrenome || '';
+                this.email = user.email;
+                this.celular = user.celular || '';
+                this.endereco = user.endereco || '';
+                this.pais = user.pais || '';
+                this.estado = user.estado || '';
+                this.dataNascimento = user.data_nascimento || '';
+                this.profileImage = user.profile_image_url || this.profileImage;
+            } catch (error) {
+                console.error('Erro ao carregar o perfil do usuário:', error);
+            }
+        },
         triggerFileInput() {
             this.$refs.fileInput.click();
         },
-        // Função para alterar a imagem de perfil
         onImageChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.profileImage = URL.createObjectURL(file);  // Atualiza a imagem do perfil
+                this.profileImage = URL.createObjectURL(file);
             }
         },
-        // Função para salvar o perfil
         salvarPerfil() {
             alert(`Perfil salvo!\nNome: ${this.nome} ${this.sobrenome}\nImagem atualizada!`);
-            // Aqui você pode adicionar a lógica para salvar as informações em um banco de dados, se necessário
-        },
+            },
         handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -214,8 +233,8 @@ export default {
             }
         },
     },
-
 }
+
 </script>
 
 

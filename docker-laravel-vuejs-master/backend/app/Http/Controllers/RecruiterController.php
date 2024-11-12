@@ -82,6 +82,21 @@ class RecruiterController extends Controller
         ], 201);
     }
 
+    public function getRecruiterProfile(Request $request)
+    {
+        // Verifica se o usuário está autenticado com o guard de recrutador
+        $recruiter = auth()->guard('recruiter')->user();
 
+        // Verifica se o recrutador está autenticado
+        if (!$recruiter) {
+            return response()->json([
+                'message' => 'Acesso negado. Usuário não autenticado.'
+            ], 401);
+        }
 
-}
+        // Carrega todos os relacionamentos que você deseja retornar com os dados do recrutador
+        $recruiter = Recruiter::with(['vacancies'])->find($recruiter->id);
+
+        // Retorna todos os dados do recrutador com relacionamentos
+        return response()->json($recruiter, 200);
+    }
