@@ -82,6 +82,20 @@ class UserController extends Controller
         return response()->json(['message' => 'Logout efetuado com sucesso!']);
     }
 
+    public function getUserProfile(Request $request){
+        $user = auth()->user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Acesso negadoo. Usuário não autenticado.'
+            ], 401);
+        }
+
+        $user = User::find($user->id);
+
+        return response()->json($user, 200);
+
+    }
     //tenho que criar a função de atualizar o perfil do user
 
 }
