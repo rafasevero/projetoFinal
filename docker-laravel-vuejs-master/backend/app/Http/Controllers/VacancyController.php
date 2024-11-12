@@ -51,12 +51,19 @@ class VacancyController extends Controller
             'creation_date' => 'nullable|date',
             'company' => 'nullable|string|max:100',
             'salary' => 'nullable|string|max:50',
-            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'company_logo' => 'string'
         ]);
 
-        $array['recruiter_id'] = Auth::id();
 
         $vacancy = Vacancies::find($id);
+
+        if (!$vacancy) {
+            return response()->json([
+                'message' => 'Vaga não encontrada!',
+            ], 404);
+        }
+
+        $array['recruiter_id'] = Auth::id();
 
         $vacancy->update($array);
 
