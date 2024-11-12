@@ -26,7 +26,7 @@ class VacancyController extends Controller
         $vacancy = Vacancies::create($array);
 
         return response()->json([
-            'message' => 'Vaga cadastrada com sucesso! ',
+            'message' => 'Vaga cadastrrada com sucesso! ',
             'vacancy'=>$vacancy,
             ]);
 
