@@ -24,6 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('user')->group(function () {
     Route::post('/user_register',[UserController::class, 'register'])->name('users.register');
     Route::post('/login', [UserController::class, 'login'])->name('login');
+    Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getUserProfile']);
+
 });
 Route::prefix('recruiter')->group(function () {
     Route::post('/recruiter_register',[RecruiterController ::class, 'registerRecruiter'])->name('recruiters.register');
@@ -33,7 +35,7 @@ Route::prefix('recruiter')->group(function () {
 Route::prefix('recruiter')->group(function () {
     Route::middleware('auth:sanctum')->post('/vacancy_register',[VacancyController::class, 'registerVacancy']);
     Route::middleware('auth:sanctum')->put('/updateVacancy/{id}',[VacancyController::class, 'updateVacancy']);
-    Route::middleware('auth:sanctum')->get('/recruiter_profile', [RecruiterController::class, 'getRecruiterProfile']);
+    Route::middleware('auth:sanctum')->get('/profile', [RecruiterController::class, 'getRecruiterProfile']);
 });
 
 Route::get('/vacancies',[VacancyController::class,'vacancies'])->name('vacancies');

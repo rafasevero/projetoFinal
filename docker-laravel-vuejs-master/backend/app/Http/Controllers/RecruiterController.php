@@ -85,7 +85,7 @@ class RecruiterController extends Controller
     public function getRecruiterProfile(Request $request)
     {
         // Verifica se o usuário está autenticado com o guard de recrutador
-        $recruiter = auth()->guard('recruiter')->user();
+        $recruiter = auth()->user();
 
         // Verifica se o recrutador está autenticado
         if (!$recruiter) {
@@ -100,3 +100,4 @@ class RecruiterController extends Controller
         // Retorna todos os dados do recrutador com relacionamentos
         return response()->json($recruiter, 200);
     }
+}
