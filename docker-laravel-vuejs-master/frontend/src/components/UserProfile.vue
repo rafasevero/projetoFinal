@@ -29,8 +29,8 @@
                         </button>
                         
                         <!-- Nome Dinâmico -->
-                        <span class="font-weight-bold">{{ nome }}</span>
-                        <span class="text-black-50">{{ email }}</span>
+                        <span class="font-weight-bold"></span>
+                        <span class="text-black-50"></span>
 
                     </div>
                 </div>

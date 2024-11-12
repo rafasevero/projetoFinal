@@ -10,7 +10,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 footer{
     margin-top: 50px;
     font-family: var(--font-family);

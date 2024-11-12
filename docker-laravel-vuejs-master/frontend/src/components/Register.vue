@@ -103,6 +103,7 @@ button {
     transition: 0.3s;
     cursor: pointer;
     text-decoration: none;
+    color: black;
 }
 
 button:hover {

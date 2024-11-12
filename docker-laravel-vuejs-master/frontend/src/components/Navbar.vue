@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 :root {
     /*colors*/
     --background-color: #faf0f0;
