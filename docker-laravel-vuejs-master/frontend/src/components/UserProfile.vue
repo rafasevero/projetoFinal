@@ -6,7 +6,6 @@
                 <div class="col-md-3 border-right">
 
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                        <!-- Imagem de Perfil -->
                         <img
                             class="rounded-circle mt-5" 
                             width="150px" 
@@ -14,7 +13,6 @@
                             alt="Imagem de Perfil"
                         >
                         
-                        <!-- Botão para alterar a imagem -->
                         <input 
                             type="file" 
                             @change="onImageChange" 
@@ -28,7 +26,6 @@
                             Alterar Imagem
                         </button>
                         
-                        <!-- Nome Dinâmico -->
                         <span class="font-weight-bold">{{ nome }}</span>
                         <span class="text-black-50">{{ email }}</span>
 
@@ -203,7 +200,7 @@ export default {
                 });
                 const user = response.data;
                 this.nome = user.name;
-                this.sobrenome = user.sobrenome || '';  // Supondo que você tenha o campo 'sobrenome' no banco
+                this.sobrenome = user.sobrenome || '';
                 this.email = user.email;
                 this.celular = user.celular || '';
                 this.endereco = user.endereco || '';
@@ -226,7 +223,7 @@ export default {
         },
         salvarPerfil() {
             alert(`Perfil salvo!\nNome: ${this.nome} ${this.sobrenome}\nImagem atualizada!`);
-        },
+            },
         handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
