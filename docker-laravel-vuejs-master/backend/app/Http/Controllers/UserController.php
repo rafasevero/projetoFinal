@@ -87,7 +87,7 @@ class UserController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'Acesso negado. Usuário não autenticado.'
+                'message' => 'Acesso negadoo. Usuário não autenticado.'
             ], 401);
         }
 
