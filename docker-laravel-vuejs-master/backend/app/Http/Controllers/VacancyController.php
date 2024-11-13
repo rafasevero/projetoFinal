@@ -51,7 +51,7 @@ class VacancyController extends Controller
             'creation_date' => 'nullable|date',
             'company' => 'nullable|string|max:100',
             'salary' => 'nullable|string|max:50',
-            'company_logo' => 'string'
+            'company_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
 
@@ -71,6 +71,28 @@ class VacancyController extends Controller
             'message' => 'Vaga atualizada com sucesso!',
             'vacancy' => $vacancy,
         ]);
+    }
 
-}
+    public function destroyVacancy($id){
+        $vacancy = Vacancies::find($id);
+
+        if (!$vacancy) {
+            return response()->json([
+                'message' => 'Vaga não encontrada!',
+            ], 404);
+        }
+
+        if ($vacancy->recruiter_id !== auth('recruiter')->id()) {
+            return response()->json([
+                'message' => 'Você não tem permissão para excluir esta vaga!',
+            ], 403);
+        }
+        
+        $vacancy->delete();
+
+        return response()->json([
+            'message' => 'Vaga excluída com sucesso!',
+        ]);
+    }
+
 }

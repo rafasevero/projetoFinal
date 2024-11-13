@@ -42,6 +42,7 @@ class RecruiterController extends Controller
             ]);
     }
 
+
     public function getRecruiterVacancies($recruiterId)
     {
         $recruiter = Recruiter::findOrFail($recruiterId);
@@ -51,10 +52,12 @@ class RecruiterController extends Controller
         ]);
     }
 
+
     public function destroy(){
         auth()->guard('recruiter')->logout();
         return response()->json(['message' => 'Logout efetuado com sucesso!']);
     }
+
 
     public function update(Request $request, $id){
         $array = $request->validate([
@@ -81,6 +84,7 @@ class RecruiterController extends Controller
             'recruiter' => $recruiter,
         ], 201);
     }
+    
 
     public function getRecruiterProfile(Request $request)
     {
