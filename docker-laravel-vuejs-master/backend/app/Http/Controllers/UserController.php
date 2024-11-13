@@ -72,7 +72,7 @@ class UserController extends Controller
     }
     }
 
-    
+
     public function destroy(){
         auth()->guard('user')->logout();
         return response()->json(['message' => 'Logout efetuado com sucesso!']);
@@ -99,7 +99,10 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Perfil atualizado com sucesso!',
             'user' => $user,
+
+
         ]);
+        $user->save();
     }
     //tenho que criar a função de atualizar o perfil do user
 
