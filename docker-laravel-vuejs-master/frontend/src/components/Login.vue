@@ -141,7 +141,7 @@ export default {
 #fundo {
     position: absolute;
     width: 100%;
-    height: 100vh;
+    height: 120vh;
     object-fit: cover;
     z-index: -1;
 }
