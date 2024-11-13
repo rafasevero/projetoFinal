@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserController extends Controller
 {
     public function register(Request $request)
@@ -24,7 +25,7 @@ class UserController extends Controller
             'state' => 'required|string|max:2',
             'phone' => 'required|string|max:11',
             'is_recruiter' => 'required|boolean',
-            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'perfilPicture' => 'string',
         ]);
 
         $array['password'] = Hash::make($array['password']);
@@ -56,9 +57,7 @@ class UserController extends Controller
             'role' => $user->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
 
         ], 200);
-    }
-
-    elseif (Auth::guard('recruiter')->attempt($credentials)) {
+    } elseif (Auth::guard('recruiter')->attempt($credentials)) {
         $recruiter = Auth::guard('recruiter')->user();
         $token = $recruiter->createToken('recruiterToken')->plainTextToken;
 
@@ -68,21 +67,18 @@ class UserController extends Controller
             'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
 
         ], 200);
-    }
-    else{
+    } else{
         return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
     }
-
-
-
     }
 
+    
     public function destroy(){
         auth()->guard('user')->logout();
         return response()->json(['message' => 'Logout efetuado com sucesso!']);
     }
 
-    public function getUserProfile(Request $request){
+    public function getUserProfile(){
         $user = auth()->user();
 
         if (!$user) {
@@ -95,6 +91,15 @@ class UserController extends Controller
 
         return response()->json($user, 200);
 
+    }
+
+    public function update(Request $request){
+        $user = User::find(Auth::id());
+        $user->update($request->all());
+        return response()->json([
+            'message' => 'Perfil atualizado com sucesso!',
+            'user' => $user,
+        ]);
     }
     //tenho que criar a função de atualizar o perfil do user
 

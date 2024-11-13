@@ -14,9 +14,5 @@ class User_application extends Pivot
         'application_id',
     ];
 
-    protected $casts = [
-   
 
-    ];
-    
 }
