@@ -1,12 +1,11 @@
 <template>
     <div>
         <Navbar />
-    </div>
-    <div>
+    
+    
         <Login/>
-    </div>
-    <Footer/>
-    <div>
+    
+    
         <Footer />
     </div>
 </template>
