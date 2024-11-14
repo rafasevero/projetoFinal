@@ -2,12 +2,12 @@
     <div class="container">
         <form class="row g-3 form-container">
             <div id="form-group" class="col-md-4 text-center">
-                <img :src="companyLogo" alt="logo da empresa" id="company_logo" class="img-fluid" />
+                <img :src="perfilPicture" alt="logo da empresa" id="company_logo" class="img-fluid" />
             </div>
 
             <div class="col-md-4">
                 <label for="company_name" class="form-label" id="company">Nome da empresa</label>
-                <input type="text" class="form-control" id="company_name" v-model="companyName" readonly>
+                <input type="text" class="form-control" id="company_name" v-model="company_name" readonly>
             </div>
 
             <div class="col-md-4">
@@ -63,7 +63,7 @@ export default {
     data() {
         return {
             company_name: '',
-            company_logo: '',
+            perfilPicture: '',
         }
     },
     created() {
@@ -72,10 +72,10 @@ export default {
     methods: {
         async fetchCompanyData() {
             try {
-                const response = await fetch('/api/recruiter_register'); // Substitua com o endpoint correto
+                const response = await fetch('/api/recruiter/vacancy_register'); // Substitua com o endpoint correto
                 const data = await response.json();
-                this.companyName = data.name;       // Atribua o nome da empresa
-                this.companyLogo = data.logo_url;   // Atribua a URL do logo
+                this.company_name = data.name;       // Atribua o nome da empresa
+                this.perfilPicture = data.logo_url;   // Atribua a URL do logo
             } catch (error) {
                 console.error("Erro ao buscar os dados da empresa:", error);
             }

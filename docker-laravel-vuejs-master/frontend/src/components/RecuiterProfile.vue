@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import HttpService from '@/services/HttpService';
 import axios from 'axios';
 
 export default {
@@ -140,7 +141,7 @@ export default {
     methods: {
         async fetchUserProfile() {
             try {
-                const response = await axios.get('/api/recruiter/profile', {
+                const response = await HttpService.get('/recruiter/profile', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
