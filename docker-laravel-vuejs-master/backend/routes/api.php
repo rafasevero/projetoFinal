@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\RecruiterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
@@ -26,6 +27,7 @@ Route::prefix('user')->group(function () {
     Route::post('/login', [UserController::class, 'login'])->name('login');
     Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getUserProfile']);
     Route::middleware('auth:sanctum')->put('/update/{id}',[UserController::class, 'update']);
+    Route::middleware('auth:sanctum')->post('/applyForJob/{vacancy_id}',[ApplicationController::class, 'applyForJob']);
 
 });
 Route::prefix('recruiter')->group(function () {
