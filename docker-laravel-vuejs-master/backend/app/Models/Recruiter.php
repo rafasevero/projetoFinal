@@ -18,6 +18,7 @@ class Recruiter extends Authenticatable
     protected $fillable = [
         'company_name',
         'cnpj',
+        'social_name',
         'cep',
         'city',
         'state',
