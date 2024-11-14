@@ -145,6 +145,7 @@
 </template>
 
 <script>
+import HttpService from '@/services/HttpService';
 import NavbarCandidato from './NavbarCandidate.vue';
 import axios from 'axios';
 
@@ -170,11 +171,13 @@ export default {
     methods: {
         async fetchUserProfile() {
             try {
-                const response = await axios.get('/api/user/profile', {
+                const response = await HttpService.get('/user/profile', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
+
                     }
                 });
+                console.log(response);
                 const user = response.data;
                 this.full_name = user.full_name || '';
                 this.email = user.email || '';
@@ -197,7 +200,7 @@ export default {
             }
         },
         salvarPerfil() {
-            alert(`Perfil salvo!\nNome: ${this.full_name} \nImagem atualizada!`);
+
         },
         handleFileUpload(event) {
             const file = event.target.files[0];
