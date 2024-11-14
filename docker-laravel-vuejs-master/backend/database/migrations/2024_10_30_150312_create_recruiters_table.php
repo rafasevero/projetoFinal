@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('company_name');
             $table->string('cnpj');
+            $table->string('social_name');
             $table->string('cep');
             $table->string('city');
             $table->string('state');
