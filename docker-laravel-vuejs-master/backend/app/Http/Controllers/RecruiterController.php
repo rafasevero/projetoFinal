@@ -15,13 +15,14 @@ class RecruiterController extends Controller
         $array =  $request->validate([
            'company_name' => 'required|string|max:100',
             'cnpj' => 'required|string|max:14',
+            'social_name' => 'required|string|max:100',
             'cep' => 'required|string|max:8',
             'city' => 'required|string|max:100',
             'state' => 'required|string|max:2',
             'is_recruiter' => 'required|boolean',
             'password' => 'required|string|max:255',
             'email' => 'required|string|email|max:100',
-            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
             'phone' => 'required|string|max:11',
         ]);
 
@@ -63,13 +64,14 @@ class RecruiterController extends Controller
         $array = $request->validate([
             'company_name' => 'nullable|string|max:255',
             'cnpj' => 'nullable|string|max:14',
+            'social_name' => 'nullable|string|max:100',
             'cep' => 'nullable|string|max:8',
             'city' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:2',
             'is_recruiter' => 'nullable|boolean',
             'password' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:100',
-            'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'phone' => 'nullable|string|max:11',
         ]);
 
@@ -83,8 +85,11 @@ class RecruiterController extends Controller
             'message' => 'Recrutador atualizado com sucesso!',
             'recruiter' => $recruiter,
         ], 201);
+
+        $recruiter->save();
+
     }
-    
+
 
     public function getRecruiterProfile(Request $request)
     {
