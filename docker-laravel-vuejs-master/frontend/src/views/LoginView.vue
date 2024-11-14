@@ -5,7 +5,6 @@
     <div>
         <Login/>
     </div>
-    <Footer/>
     <div>
         <Footer />
     </div>
