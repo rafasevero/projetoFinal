@@ -108,10 +108,7 @@
                 <div class="col-md-4">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center experience">
-                            <span>Edit Experience</span>
-                            <span class="border px-3 p-1 add-experience">
-                                <i class="fa fa-plus"></i>&nbsp;Experience
-                            </span>
+                            <span>Editar experiência</span>
                         </div><br>
                         <div class="col-md-12">
                             <label class="labels">Experiência</label>
@@ -120,14 +117,42 @@
                                 class="form-control" 
                                 placeholder="Experiência" 
                             />
-                        </div><br>
+                        </div>
                         <div class="col-md-12">
-                            <label class="labels">Descrição</label>
+                            <label class="labels">Formação</label>
+                            <select class="select">
+                                <option value="">Selecione</option>
+                                <option value="complete_fundamental">Ensino fundamental completo</option>
+                                <option value="incomplete_fundamental">Ensino fundamental incompleto</option>
+                                <option value="complete_school">Ensino médio completo</option>
+                                <option value="incomplete_school">Ensino médio incompleto</option>
+                                <option value="complete_college">Ensino superior completo</option>
+                                <option value="incomplete_college">Ensino superior incompleto</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Instituição de ensino</label>
                             <input 
                                 type="text" 
                                 class="form-control" 
-                                placeholder="Detalhes adicionais" 
+                                placeholder="Instituição de ensino" 
                             />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Curso</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                placeholder="Curso" 
+                            />
+                        </div>  
+                        <div class="col-md-12">
+                            <label class="labels">Data de início</label>
+                            <input type="date" class="form-control" id="date" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Data de término</label>
+                            <input type="date" class="form-control" id="date" required>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Anexar Currículo</label>
@@ -235,6 +260,16 @@ export default {
 
 .labels {
     font-size: 11px;
+}
+
+.select {
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 25px;    
 }
 
 .add-experience:hover {
