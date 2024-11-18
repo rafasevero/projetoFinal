@@ -17,4 +17,9 @@ class Curriculum extends Model
         'file' => 'string',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+
+    }
 }

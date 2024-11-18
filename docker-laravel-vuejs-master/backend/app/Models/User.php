@@ -78,4 +78,6 @@ class User extends Authenticatable
         'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
     ];
+
+    public f
 }
