@@ -9,6 +9,7 @@ class Academic_background extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'institution',
         'course',
         'education_level',
@@ -23,4 +24,10 @@ class Academic_background extends Model
         'start_date' => 'date',
         'completion_date' => 'date'
     ];
+
+    public function user()
+{
+    return $this->belongsTo(User::class);
+
+    }
 }

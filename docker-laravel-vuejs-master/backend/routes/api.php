@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AcademicBackgroundController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\RecruiterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
@@ -28,8 +30,11 @@ Route::prefix('user')->group(function () {
     Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getUserProfile']);
     Route::middleware('auth:sanctum')->put('/update/{id}',[UserController::class, 'update']);
     Route::middleware('auth:sanctum')->post('/applyForJob/{vacancy_id}',[ApplicationController::class, 'applyForJob']);
-
+    Route::middleware('auth:sanctum')->post('/storeAcademic',[AcademicBackgroundController::class,'storeAcademic']);
+    Route::middleware('auth:sanctum')->post('/storeCurriculum',[CurriculumController::class,'storeCurriculum']);
 });
+
+
 Route::prefix('recruiter')->group(function () {
     Route::post('/recruiter_register',[RecruiterController ::class, 'registerRecruiter'])->name('recruiters.register');
     Route::post('/login', [RecruiterController::class, 'login'])->name('login');
