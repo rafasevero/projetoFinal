@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Softskill;
+use App\Models\Hardskill;
 use Illuminate\Http\Request;
 
-class SoftskillController extends Controller
+class HardSkillController extends Controller
 {
-    public function storeSoftSkill(Request $request){
+    public function storeHardSkill(Request $request){
 
         $user = auth()->user();
         if (!$user) {
@@ -20,8 +20,8 @@ class SoftskillController extends Controller
 
         $validated['user_id'] = $user->id;
 
-        Softskill::create($validated);
+        Hardskill::create($validated);
 
-        return response()->json(['message' => 'Softskills adicionadas com sucesso!'], 201);
+        return response()->json(['message' => 'Hardskills adicionadas com sucesso!'], 201);
     }
 }

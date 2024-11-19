@@ -3,7 +3,9 @@
 use App\Http\Controllers\AcademicBackgroundController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\RecruiterController;
+use App\Http\Controllers\SoftskillController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Http\Request;
@@ -32,6 +34,9 @@ Route::prefix('user')->group(function () {
     Route::middleware('auth:sanctum')->post('/applyForJob/{vacancy_id}',[ApplicationController::class, 'applyForJob']);
     Route::middleware('auth:sanctum')->post('/storeAcademic',[AcademicBackgroundController::class,'storeAcademic']);
     Route::middleware('auth:sanctum')->post('/storeCurriculum',[CurriculumController::class,'storeCurriculum']);
+    Route::middleware('auth:sanctum')->post('/storeSoftSkill',[SoftskillController::class,'storeSoftSkill']);
+    Route::middleware('auth:sanctum')->post('/storeHardSkill',[HardSkillController::class,'storeHardSkill']);
+
 });
 
 
@@ -42,6 +47,7 @@ Route::prefix('recruiter')->group(function () {
     Route::middleware('auth:sanctum')->put('/updateVacancy/{id}',[VacancyController::class, 'updateVacancy']);
     Route::middleware('auth:sanctum')->get('/profile', [RecruiterController::class, 'getRecruiterProfile']);
     Route::middleware('auth:sanctum')->put('/update/{id}',[RecruiterController::class, 'update']);
+
 });
 
 
