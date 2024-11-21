@@ -191,30 +191,23 @@ export default {
         };
     },
     created() {
-        this.fetchUserProfile();
+        this.fetchUser();
     },
     methods: {
-        async fetchUserProfile() {
-            try {
-                const response = await HttpService.get('/user/profile', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-
-                    }
-                });
-                console.log(response);
-                const user = response.data;
-                this.full_name = user.full_name || '';
-                this.email = user.email || '';
-                this.phone = user.phone || '';
-                this.city = user.city || '';
-                this.state = user.state || '';
-                this.date_of_birth = user.date_of_birth || '';
-                this.perfilPicture = user.perfilPicture || this.perfilPicture;
-            } catch (error) {
-                console.error('Erro ao carregar o perfil do usuário:', error);
-            }
+        fecthUser(){
+            axios.get('http://localhost:8000/api/user/pullAuth',{
+                headers:{
+                    Authorization: 'Bearer ${localStorage.getItem('token')}',
+                },
+            })
+            .then(response => {
+                this.user = response.data;
+            })
+            .catch(error=>{
+                console.log('Erro ao buscar usuario: ', error);
+            });
         },
+
         triggerFileInput() {
             this.$refs.fileInput.click();
         },
@@ -224,8 +217,40 @@ export default {
                 this.perfilPicture = URL.createObjectURL(file);
             }
         },
-        salvarPerfil() {
+        async salvarPerfil() {
+            const token = localStorage.getItem('token'); // Obtém o token do usuário
 
+            if (!token) {
+                alert('Token não encontrado. Por favor, faça login novamente.');
+                return;
+            }
+
+            const perfilAtualizado = {
+                full_name: this.full_name,
+                email: this.email,
+                phone: this.phone,
+                city: this.city,
+                state: this.state,
+                date_of_birth: this.date_of_birth,
+                perfilPicture: this.perfilPicture,
+            };
+
+            try {
+                await SaveProfileService.saveUserProfile(perfilAtualizado, token);
+
+                const response = await HttpService.get('/user/profile', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                alert('Perfil salvo com sucesso!');
+                this.$router.push('/userProfile');
+            } catch (error) {
+                console.error('Erro ao salvar o perfil:', error);
+                alert('Não foi possível salvar o perfil. Por favor, tente novamente.');
+                }
+            },
         },
         handleFileUpload(event) {
             const file = event.target.files[0];
@@ -233,8 +258,7 @@ export default {
                 console.log('Arquivo de currículo enviado:', file.name);
             }
         },
-    },
-}
+    }
 </script>
 
 <style scoped>
