@@ -26,7 +26,7 @@ class Academic_background extends Model
     ];
 
     public function user()
-{
+    {
     return $this->belongsTo(User::class);
 
     }

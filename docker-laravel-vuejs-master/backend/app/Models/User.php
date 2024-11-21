@@ -75,7 +75,7 @@ class User extends Authenticatable
         'state' => 'string',
         'phone' => 'integer',
         'is_recruiter' => 'boolean',
-        'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'perfilPicture' => 'string',
 
     ];
 
