@@ -13,7 +13,7 @@ class RecruiterController extends Controller
 {
     public function registerRecruiter(Request $request){
         $array =  $request->validate([
-           'company_name' => 'required|string|max:100',
+            'company_name' => 'required|string|max:100',
             'cnpj' => 'required|string|max:14',
             'social_name' => 'required|string|max:100',
             'cep' => 'required|string|max:8',
@@ -110,3 +110,4 @@ class RecruiterController extends Controller
         return response()->json($recruiter, 200);
     }
 }
+// preciso fazer a requisição para verificar se a empresa está mexendo com as próprias vagas, não com as de outras empresas

@@ -34,11 +34,20 @@ Route::prefix('user')->group(function () {
     Route::post('/login', [UserController::class, 'login'])->name('login');
     Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getUserProfile']);
     Route::middleware('auth:sanctum')->put('/update/{id}',[UserController::class, 'update']);
-    Route::middleware('auth:sanctum')->post('/applyForJob/{vacancy_id}',[ApplicationController::class, 'applyForJob']);
     Route::middleware('auth:sanctum')->post('/storeAcademic',[AcademicBackgroundController::class,'storeAcademic']);
     Route::middleware('auth:sanctum')->post('/storeCurriculum',[CurriculumController::class,'storeCurriculum']);
     Route::middleware('auth:sanctum')->post('/storeSoftSkill',[SoftskillController::class,'storeSoftSkill']);
     Route::middleware('auth:sanctum')->post('/storeHardSkill',[HardSkillController::class,'storeHardSkill']);
+    Route::middleware('auth:sanctum')->post('/updateAcademic/{id}',[AcademicBackgroundController::class,'updateAcademic']);
+    Route::middleware('auth:sanctum')->post('/deleteAcademic/{id}',[AcademicBackgroundController::class, 'destroyAcademic']);
+    Route::middleware('auth:sanctum')->post('/applyForJob/{vacancy_id}',[ApplicationController::class, 'applyForJob']);
+    Route::middleware('auth:sanctum')->post('/updateHardSkill/{id}',[HardSkillController::class, 'updateHardSkill']);//testar
+    Route::middleware('auth:sanctum')->post('/deleteHardSkill/{id}',[HardSkillController::class, 'destroyHardSkill']);//testar
+    Route::middleware('auth:sanctum')->post('/updateSoftSkill/{id}',[SoftskillController::class, 'updateSoftSkill']);//testar
+    Route::middleware('auth:sanctum')->post('/deleteSoftSkill/{id}',[SoftskillController::class, 'destroySoftSkill']);//testar
+    Route::middleware('auth:sanctum')->post('/updateCurriculum/{id}',[CurriculumController::class, 'updateCurriculum']);//testar
+    Route::middleware('auth:sanctum')->post('/deleteCurriculum/{id}',[CurriculumController::class, 'destroyCurriculum']);//testar
+
 
 });
 

@@ -17,14 +17,15 @@ class User extends Authenticatable
 
     public function applications(): BelongsToMany
     {
-        return $this->belongsToMany(Application::class)->using(User_application::class);
+        return $this->belongsToMany(Application::class, 'user_application', 'user_id', 'application_id')
+            ->using(User_application::class);
     }
 
-        // Método para verificar se o usuário é recrutador
-        public function isRecruiter(): bool
-        {
-            return $this->is_recruiter;
-        }
+    // Método para verificar se o usuário é recrutador
+    public function isRecruiter(): bool
+    {
+        return $this->is_recruiter;
+    }
 
 
     /**
@@ -75,7 +76,7 @@ class User extends Authenticatable
         'state' => 'string',
         'phone' => 'integer',
         'is_recruiter' => 'boolean',
-        'perfilPicture' => 'string',
+        'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
     ];
 

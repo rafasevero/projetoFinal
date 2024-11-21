@@ -104,6 +104,6 @@ class UserController extends Controller
         ]);
         $user->save();
     }
-    //tenho que criar a função de atualizar o perfil do user
-
+    //preciso fazer a requisição para verificar se um usuário já está cadastrado
+    
 }

@@ -87,7 +87,7 @@ class VacancyController extends Controller
                 'message' => 'Você não tem permissão para excluir esta vaga!',
             ], 403);
         }
-        
+
         $vacancy->delete();
 
         return response()->json([
