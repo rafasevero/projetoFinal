@@ -28,4 +28,5 @@ class AcademicBackgroundController extends Controller
 
         return response()->json(['message' => 'Experiência Acadêmica adicionada com sucesso!'], 201);
     }
+
 }
