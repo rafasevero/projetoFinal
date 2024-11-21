@@ -64,7 +64,7 @@
                                 />
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">Email ID</label>
+                                <label class="labels">Email </label>
                                 <input 
                                     type="text" 
                                     class="form-control" 
@@ -169,161 +169,168 @@
     </div>
 </template>
 
-<script>
-import HttpService from '@/services/HttpService';
-import NavbarCandidato from './NavbarCandidate.vue';
-import axios from 'axios';
-
-export default {
-    name: 'UserProfile',
+  
+  <script>
+  import axios from "axios";
+  import NavbarCandidato from "./NavbarCandidate.vue";
+  
+  export default {
+    name: "UserProfile",
     components: {
-        NavbarCandidato
+      NavbarCandidato,
     },
     data() {
-        return {
-            full_name: '',
-            email: '',
-            phone: '',
-            city: '',
-            state: '',
-            date_of_birth: '',
-            perfilPicture: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
-        };
+      return {
+        full_name: "",
+        email: "",
+        phone: "",
+        city: "",
+        state: "",
+        date_of_birth: "",
+        perfilPicture:
+          "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+      };
     },
     created() {
-        this.fetchUser();
+      this.fetchUserProfile();
     },
     methods: {
-        fecthUser(){
-            axios.get('http://localhost:8000/api/user/pullAuth',{
-                headers:{
-                    Authorization: 'Bearer ${localStorage.getItem('token')}',
-                },
-            })
-            .then(response => {
-                this.user = response.data;
-            })
-            .catch(error=>{
-                console.log('Erro ao buscar usuario: ', error);
-            });
-        },
-
-        triggerFileInput() {
-            this.$refs.fileInput.click();
-        },
-        onImageChange(event) {
-            const file = event.target.files[0];
-            if (file) {
-                this.perfilPicture = URL.createObjectURL(file);
-            }
-        },
-        async salvarPerfil() {
-            const token = localStorage.getItem('token'); // Obtém o token do usuário
-
-            if (!token) {
-                alert('Token não encontrado. Por favor, faça login novamente.');
-                return;
-            }
-
-            const perfilAtualizado = {
-                full_name: this.full_name,
-                email: this.email,
-                phone: this.phone,
-                city: this.city,
-                state: this.state,
-                date_of_birth: this.date_of_birth,
-                perfilPicture: this.perfilPicture,
-            };
-
-            try {
-                await SaveProfileService.saveUserProfile(perfilAtualizado, token);
-
-                const response = await HttpService.get('/user/profile', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                alert('Perfil salvo com sucesso!');
-                this.$router.push('/userProfile');
-            } catch (error) {
-                console.error('Erro ao salvar o perfil:', error);
-                alert('Não foi possível salvar o perfil. Por favor, tente novamente.');
-                }
+      fetchUserProfile() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("Token não encontrado. Por favor, faça login novamente.");
+          return;
+        }
+  
+        axios
+          .get("http://localhost:8000/api/user/pullAuth", {
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
-        },
-        handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                console.log('Arquivo de currículo enviado:', file.name);
+          })
+          .then((response) => {
+            const { full_name, email, phone, city, state, date_of_birth, perfilPicture } =
+              response.data;
+            this.full_name = full_name;
+            this.email = email;
+            this.phone = phone;
+            this.city = city;
+            this.state = state;
+            this.date_of_birth = date_of_birth;
+            if (perfilPicture) {
+              this.perfilPicture = perfilPicture;
             }
-        },
-    }
-</script>
-
-<style scoped>
-.form-control:focus {
-    box-shadow: none;
-    border-color: #4ea1db;
-}
-
-.profile-button {
-    background: #4ea1db;
-    box-shadow: none;
-    border: none;
-}
-
-.profile-button:hover {
-    background: #124366;
-}
-
-.profile-button:focus {
-    background: #4ea1db;
-    box-shadow: none;
-}
-
-.labels {
-    font-size: 11px;
-}
-
-.select {
-    width: 100%;
-    background-color: transparent;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 14px;
-    margin-bottom: 25px;    
-}
-
-.add-experience:hover {
-    background: #4ea1db;
-    color: #fff;
-    cursor: pointer;
-    border: solid 1px #4ea1db;
-    transition: 0.5s;
-}
-
-.form-control-file {
-    margin-top: 10px;
-    display: block;
-    font-size: 14px;
-    color: #555;
-}
-
-.form-control-file::file-selector-button {
-    background-color: #4ea1db;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.form-control-file::file-selector-button:hover {
-    background-color: #124366;
-}
-</style>
-    
+          })
+          .catch((error) => {
+            console.error("Erro ao buscar usuário:", error);
+          });
+      },
+      triggerFileInput() {
+        this.$refs.fileInput.click();
+      },
+      onImageChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+          this.perfilPicture = URL.createObjectURL(file);
+        }
+      },
+      salvarPerfil() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("Token não encontrado. Por favor, faça login novamente.");
+          return;
+        }
+  
+        const updatedProfile = {
+          full_name: this.full_name,
+          email: this.email,
+          phone: this.phone,
+          city: this.city,
+          state: this.state,
+          date_of_birth: this.date_of_birth,
+        };
+  
+        axios
+          .put("http://localhost:8000/api/user/pullAuth", updatedProfile, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(() => {
+            alert("Perfil salvo com sucesso!");
+          })
+          .catch((error) => {
+            console.error("Erro ao salvar o perfil:", error);
+            alert("Não foi possível salvar o perfil. Tente novamente.");
+            });
+      },
+    },
+  };
+  </script>
+  
+  <style scoped>
+  .form-control:focus {
+      box-shadow: none;
+      border-color: #4ea1db;
+  }
+  
+  .profile-button {
+      background: #4ea1db;
+      box-shadow: none;
+      border: none;
+  }
+  
+  .profile-button:hover {
+      background: #124366;
+  }
+  
+  .profile-button:focus {
+      background: #4ea1db;
+      box-shadow: none;
+  }
+  
+  .labels {
+      font-size: 11px;
+  }
+  
+  .select {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 25px;    
+  }
+  
+  .add-experience:hover {
+      background: #4ea1db;
+      color: #fff;
+      cursor: pointer;
+      border: solid 1px #4ea1db;
+      transition: 0.5s;
+  }
+  
+  .form-control-file {
+      margin-top: 10px;
+      display: block;
+      font-size: 14px;
+      color: #555;
+  }
+  
+  .form-control-file::file-selector-button {
+      background-color: #4ea1db;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+  }
+  
+  .form-control-file::file-selector-button:hover {
+      background-color: #124366;
+  }
+  </style>
+  

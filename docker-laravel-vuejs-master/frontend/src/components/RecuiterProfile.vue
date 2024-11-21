@@ -23,7 +23,7 @@
                             Alterar Imagem
                         </button>
                         
-                        <span class="font-weight-bold">{{ nome }}</span>
+                        <span class="font-weight-bold">{{ company_name }}</span>
                         <span class="text-black-50">{{ email }}</span>
                     </div>
                 </div>
@@ -34,12 +34,12 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-6">
-                                <label class="labels">Nome</label>
+                                <label class="labels">Nome da Empresa</label>
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="Digite seu nome"
-                                    v-model="nome"
+                                    placeholder="Nome da Empresa"
+                                    v-model="company_name"
                                 >
                             </div>
                             <div class="col-md-6">
@@ -47,8 +47,8 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="Digite a razão social"
-                                    v-model="razaoSocial"
+                                    placeholder="Razão Social"
+                                    v-model="social_name"
                                 >
                             </div>
                         </div>
@@ -58,8 +58,8 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="Digite seu celular"
-                                    v-model="celular"
+                                    placeholder="Telefone"
+                                    v-model="phone"
                                 >
                             </div>
                             <div class="col-md-12">
@@ -67,28 +67,28 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="Digite seu email"
+                                    placeholder="Email"
                                     v-model="email"
                                 >
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">Endereço</label>
+                                <label class="labels">CEP</label>
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="Digite seu endereço"
-                                    v-model="endereco"
+                                    placeholder="Endereço"
+                                    v-model="cep"
                                 >
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label class="labels">País</label>
+                                <label class="labels">Cidade</label>
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="Digite seu país"
-                                    v-model="pais"
+                                    placeholder="Cidade"
+                                    v-model="city"
                                 >
                             </div>
                             <div class="col-md-6">
@@ -96,8 +96,17 @@
                                 <input 
                                     type="text"
                                     class="form-control" 
-                                    placeholder="Digite seu estado"
-                                    v-model="estado"
+                                    placeholder="Estado"
+                                    v-model="state"
+                                >
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">CNPJ</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                placeholder="CNPJ"
+                                v-model="cnpj"
                                 >
                             </div>
                         </div>
@@ -118,41 +127,65 @@
 </template>
 
 <script>
-import HttpService from '@/services/HttpService';
+
 import axios from 'axios';
 
 export default {
     name: 'RecruiterProfile',
     data() {
         return {
-            nome: '',
-            email: '',
-            profileImage: '',
-            razaoSocial: '',
-            celular: '',
-            endereco: '',
-            pais: '',
-            estado: ''
+            company_name:"",
+            social_name:"",
+            phone:"",
+            email:"",
+            cep:"",
+            city:"",
+            state:"",
+            cnpj:"",
+            profileImage:""
         };
     },
-    created() {
-        this.fetchUserProfile();
-    },
     methods: {
-        async fetchUserProfile() {
-            try {
-                const response = await HttpService.get('/recruiter/profile', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                const user = response.data;
-                this.nome = user.name || '';
-                this.email = user.email || '';
-                this.profileImage = user.profile_image_url || 'url-da-imagem-padrao.jpg';
-            } catch (error) {
-                console.error('Erro ao carregar o perfil do usuário:', error);
+        fetchRecruiterProfile() {
+            // Obtém o token do localStorage
+            const token = localStorage.getItem("token");
+            
+            // Verifica se o token existe
+            if (!token) {
+                alert('Perfil não encontrado. Tente logar novamente.');
+                return;
             }
+
+            // Requisição para buscar os dados do recrutador
+            axios.get('http://localhost:8000/api/user/pullAuth', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                // Verifica se a resposta contém os dados esperados
+                const { company_name, social_name, phone, email, cep, city, state, cnpj, profileImage } = response.data;
+
+                // Atribui os valores ao data do Vue para atualizar o perfil
+                this.company_name = company_name || "";
+                this.social_name = social_name || "";
+                this.phone = phone || "";
+                this.email = email || "";
+                this.cep = cep || "";
+                this.city = city || "";
+                this.state = state || "";
+                this.cnpj = cnpj || "";
+                // Se houver uma imagem de perfil, atribui
+                if (profileImage) {
+                    this.profileImage = profileImage;
+                }
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar perfil do recrutador:', error);
+            });
+        },
+        created() {
+            this.fetchRecruiterProfile();
         },
         triggerFileInput() {
             this.$refs.fileInput.click();
