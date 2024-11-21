@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Applications extends Model
@@ -12,7 +13,12 @@ class Applications extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->using(User_application::class);
+        return $this->belongsToMany(User::class)->using(User_application::class,'user_id','application_id');
+    }
+
+    public function vacancy(): BelongsTo
+    {
+        return $this->belongsTo(Vacancies::class, 'vacancy_id');
     }
 
     protected $fillable = [

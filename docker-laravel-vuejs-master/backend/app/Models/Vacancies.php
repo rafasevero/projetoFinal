@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Console\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -42,5 +44,10 @@ class Vacancies extends Authenticatable
     public function recruiter(): BelongsTo
     {
         return $this->belongsTo(Recruiter::class);
+    }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class, 'vacancy_id');
     }
 }
