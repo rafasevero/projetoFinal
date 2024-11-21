@@ -16,8 +16,10 @@
                         <label>Nome da empresa</label>
                         <input type="text" v-model="company_name" id="nome" required />
                         <label>CNPJ</label>
-                        <input type="text" v-model="cnpj" @input="formatCNPJ" @blur="fetchAddress"
+                        <input type="text" v-model="cnpj" @input="formatCNPJ" 
                             placeholder="XX.XXX.XXX/XXXX-XX" required />
+                        <label>Razão Social</label>
+                        <input type="text" v-model="social_name" @input="formatCNPJ" id="social_name" required/>
                     </div>
                     <div class="tel-container">
                         <label>Telefone</label>
@@ -79,9 +81,11 @@ export default {
     name: 'RecruiterRegister',
     data() {
         return {
+            company_name:'',
             cnpj: '',
             phone: '',
             cep: '',
+            social_name:'',
             address: {
                 street: '',
                 neighborhood: '',
@@ -94,14 +98,19 @@ export default {
     },
     methods: {
         formatCNPJ() {
-            this.cnpj = this.cnpj
-                .replace(/\D/g, '') 
-                .replace(/(\d{2})(\d)/, '$1.$2')
-                .replace(/(\d{3})(\d)/, '$1.$2')
-                .replace(/(\d{3})(\d)/, '$1/$2')
-                .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
-        },
+            // Remove todos os caracteres que não são dígitos
+            const cleaned = this.cnpj.replace(/\D/g, '');
 
+            // Aplica a máscara gradualmente
+            this.cnpj = cleaned
+                .replace(/^(\d{2})(\d)/, '$1.$2')       // Primeiro ponto
+                .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3') // Segundo ponto
+                .replace(/\.(\d{3})(\d)/, '.$1/$2')     // Barra
+                .replace(/(\d{4})(\d)/, '$1-$2');       // Traço
+            
+            // Atualiza o valor limpo sem máscara
+            this.rawCNPJ = cleaned;
+        },
         formatPhone() {
             let cleaned = this.phone.replace(/\D/g, '');
             if (cleaned.length <= 10) {
@@ -146,6 +155,7 @@ export default {
                 company_name: this.company_name,
                 cnpj: cleanedCNPJ,
                 cep: cleanedCep,
+                social_name: this.social_name,
                 city: this.address.city,
                 state: this.address.state,  
                 email: this.email,
