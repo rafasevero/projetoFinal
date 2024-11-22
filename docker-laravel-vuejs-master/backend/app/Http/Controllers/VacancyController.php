@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class VacancyController extends Controller
 {
     public function registerVacancy(Request $request){
+
+        $recruiter = Auth::user();
+        if (!$recruiter) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
+        }
+
+
         $array = $request->validate([
             'vacancy_name' => 'required|string|max:100',
             'description' => 'required|string|max:255',
@@ -22,17 +29,20 @@ class VacancyController extends Controller
             'company_logo' => 'string'//'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $array['recruiter_id'] = Auth::id();
+        $array['recruiter_id'] = $recruiter->id;
+
         $vacancy = Vacancies::create($array);
 
         return response()->json([
             'message' => 'Vaga cadastrada com sucesso! ',
             'vacancy'=>$vacancy,
+            'recruiter'=>$recruiter,
             ]);
 
     }
 
     public function index_vacancies(){
+
         $vacancies = Vacancies::all();
         return response()->json([
             'message' => 'Lista de vagas encontrada com sucesso!',
@@ -42,6 +52,21 @@ class VacancyController extends Controller
     }
 
     public function updateVacancy(Request $request, $id){
+
+        $recruiter = Auth::user();
+
+        if (!$recruiter) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
+        }
+
+        $vacancies = Vacancies::where('id', $id)->where('recruiter_id', $recruiter->id)->first();
+
+        if (!$vacancies) {
+            return response()->json([
+                'message' => 'Esta vaga não pertence à sua empresa.',
+            ], 404);
+        }
+
         $array = $request->validate([
             'vacancy_name' => 'nullable|string|max:100',
             'description' => 'nullable|string|max:255',
@@ -51,25 +76,15 @@ class VacancyController extends Controller
             'creation_date' => 'nullable|date',
             'company' => 'nullable|string|max:100',
             'salary' => 'nullable|string|max:50',
-            'company_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'company_logo' => 'string'
         ]);
 
 
-        $vacancy = Vacancies::find($id);
-
-        if (!$vacancy) {
-            return response()->json([
-                'message' => 'Vaga não encontrada!',
-            ], 404);
-        }
-
-        $array['recruiter_id'] = Auth::id();
-
-        $vacancy->update($array);
+        $vacancies->update($array);
 
         return response()->json([
             'message' => 'Vaga atualizada com sucesso!',
-            'vacancy' => $vacancy,
+            'vacancies' => $vacancies,
         ]);
     }
 

@@ -22,7 +22,7 @@ class RecruiterController extends Controller
             'is_recruiter' => 'required|boolean',
             'password' => 'required|string|max:255',
             'email' => 'required|string|email|max:100',
-            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
+            'perfilPicture' => 'string',
             'phone' => 'required|string|max:11',
         ]);
 
@@ -61,6 +61,21 @@ class RecruiterController extends Controller
 
 
     public function update(Request $request, $id){
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
+        }
+
+        $recruiter = Recruiter::where('id', $id)->where('id', $user->id)->first();
+
+        if (!$recruiter) {
+            return response()->json([
+                'message' => 'Você não é autenticado para atualizar esse perfil.',
+            ], 404);
+        }
+
         $array = $request->validate([
             'company_name' => 'nullable|string|max:255',
             'cnpj' => 'nullable|string|max:14',
@@ -71,7 +86,7 @@ class RecruiterController extends Controller
             'is_recruiter' => 'nullable|boolean',
             'password' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:100',
-            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'perfilPicture' => 'string',
             'phone' => 'nullable|string|max:11',
         ]);
 
