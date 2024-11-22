@@ -15,17 +15,19 @@
                     <div class="name-container">
                         <label>Nome da empresa</label>
                         <input type="text" v-model="company_name" id="nome" required />
+                    </div>
+                    <div class="cnpj-container">
                         <label>CNPJ</label>
-                        <input type="text" v-model="cnpj" @input="formatCNPJ" 
-                            placeholder="XX.XXX.XXX/XXXX-XX" required />
+                        <input type="text" v-model="cnpj" @input="formatCNPJ" placeholder="XX.XXX.XXX/XXXX-XX" required />
+                    </div>
+                    <div class="social-name-container">
                         <label>Razão Social</label>
-                        <input type="text" v-model="social_name" @input="formatCNPJ" id="social_name" required/>
+                        <input type="text" v-model="social_name" id="social_name" required />
                     </div>
-                    <div class="tel-container">
-                        <label>Telefone</label>
-                        <input type="text" name="phone" v-model="phone" @input="formatPhone"
-                            placeholder="(XX) XXXXX-XXXX" required />
-                    </div>
+                </div>
+                <div class="tel-container">
+                    <label>Telefone</label>
+                    <input type="text" name="phone" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" required />
                 </div>
                 <div class="email-password-container">
                     <div class="email-container">
@@ -34,18 +36,18 @@
                     </div>
                     <div class="password-container">
                         <label>Senha</label>
-                        <input name="password" :type="showPassword ? 'text' : 'password'" v-model="password" id="senha"
-                            placeholder="Digite sua senha" required />
-                        <label class="password-checkbox">
-                            Mostrar Senha
-                            <input type="checkbox" v-model="showPassword" />
-                        </label>
+                        <div class="password-input-container">
+                            <input :type="showPassword ? 'text' : 'password'" v-model="password" id="senha" placeholder="Digite sua senha" required />
+                            <label class="password-checkbox">
+                                Mostrar Senha
+                                <input type="checkbox" v-model="showPassword" />
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="CEP-container">
                     <label>CEP</label>
-                    <input type="text" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX"
-                        required />
+                    <input type="text" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" required />
                 </div>
                 <div class="address-container">
                     <div class="street-container">
@@ -177,7 +179,7 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos gerais */
+
 * {
     font-family: 'Inter', sans-serif;
     padding: 0;
@@ -187,14 +189,14 @@ export default {
 
 .bx-arrow-back {
     font-size: 5vh;
-    color: black;
+    color: #333;
 }
 
 #logo {
     position: absolute;
     text-align: center;
-    top: 20%;
-    font-size: 5%;
+    top: 15%; 
+    font-size: 6%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
@@ -203,62 +205,70 @@ export default {
 #fundo {
     position: absolute;
     width: 100%;
-    height: 120vh;
+    height: 130vh;
     object-fit: cover;
     z-index: -1;
 }
 
 .candidato {
     position: relative;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
-    border-radius: 10px;
-    width: 100%;
+    background: rgba(255, 255, 255, 0.9); 
+    padding: 40px; 
+    border-radius: 15px; 
+    width: 90%; 
+    max-width: 600px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    margin: auto;
 }
-
 form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; 
     color: black;
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    border: 2px solid black;
-    border-radius: 20px;
+    padding: 12px; 
+    border: 2px solid #ccc; 
+    border-radius: 25px;
     font-size: 1em;
-    color: black;
+    transition: border-color 0.3s; 
+}
+
+input:focus {
+    border-color: #007BFF; 
+    outline: none; 
 }
 
 button {
-    padding: 10px;
-    margin-top: 10px;
-    border: 2px solid black;
-    border-radius: 5px;
-    background-color: transparent;
-    transition: 0.3s;
+    padding: 12px; 
+    border: 2px solid #007BFF; 
+    border-radius: 25px; 
+    background-color: #007BFF; 
+    color: white; 
+    transition: background-color 0.3s, border-color 0.3s;
     cursor: pointer;
-    color: black;
 }
 
 button:hover {
-    color: white;
-    background-color: #31312f;
-    border: 2px solid white;
+    background-color: #0056b3;
+    border: 2px solid #0056b3;
 }
+
 
 .name-cpf-container,
 .address-container,
 .city-state-container {
     display: flex;
-    gap: 5px;
+    gap: 10px; 
     flex-wrap: wrap;
 }
 
 .name-container,
+.cnpj-container,
+.social-name-container,
 .tel-container,
 .CEP-container,
 .street-container,
@@ -270,23 +280,38 @@ button:hover {
     flex: 1;
 }
 
+.password-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+}
+
+.password-input-container {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+}
+.password-checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
 @media (max-width: 1000px) {
     input {
         font-size: 0.9em;
     }
 
     button {
-        padding: 8px;
-        font-size: 0.9em;
+        padding: 10px; 
     }
 }
 
 @media (max-width: 600px) {
-
     .name-cpf-container,
     .address-container,
     .city-state-container {
-        flex-direction: column;
+        flex-direction: column; 
     }
 }
 </style>

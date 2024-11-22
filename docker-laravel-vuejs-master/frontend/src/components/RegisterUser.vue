@@ -1,5 +1,6 @@
 <template>
     <main>
+        <Navbar/>
         <header>
             <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         </header>
@@ -16,13 +17,13 @@
                         <label>Seu Nome Completo</label>
                         <input type="text" v-model="full_name" id="nome" required />
                         <label>CPF</label>
-                        <input type="text" v-model="cpf" @input="formatCPF" @blur="fetchAddress" placeholder="XXX.XXX.XXX-XX" required />
+                        <input type="text" maxlength="14" v-model="cpf" @input="formatCPF" @blur="fetchAddress" placeholder="XXX.XXX.XXX-XX" required />
                     </div>
                     <div class="tel-container">
                         <label>Telefone</label>
-                        <input type="text"  v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" required />
+                        <input type="text" maxlength="15" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" required />
                         <label>Data De Nascimento</label>
-                        <input type="date" v-model="date_of_birth" id="data" required />
+                        <input type="date" maxlength="10" v-model="date_of_birth" id="data" required />
                     </div>
                 </div>
                 <div class="email-password-container">
@@ -32,16 +33,18 @@
                     </div>
                     <div class="password-container">
                         <label>Senha</label>
-                        <input  :type="showPassword ? 'text' : 'password'" v-model="password" id="senha" placeholder="Digite sua senha" required />
-                        <label class="password-checkbox">
-                            Mostrar Senha
-                            <input type="checkbox" v-model="showPassword" />
-                        </label>
+                        <div class="password-input-container">
+                            <input :type="showPassword ? 'text' : 'password'" v-model="password" id="senha" placeholder="Digite sua senha" required />
+                            <label class="password-checkbox">
+                                Mostrar Senha
+                                <input type="checkbox" v-model="showPassword" />
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="CEP-container">
                     <label>CEP</label>
-                    <input type="text" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" required />
+                    <input type="text" maxlength="9" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" required />
                 </div>
                 <div class="address-container">
                     <div class="street-container">
@@ -50,7 +53,7 @@
                     </div>
                     <div class="neighborhood-container">
                         <label>Bairro</label>
-                        <input type="text" v-model="address.neighborhood" placeholder="Bairro" required />
+                        <input type="text"  v-model="address.neighborhood" placeholder="Bairro" required />
                     </div>
                 </div>
                 <div class="city-state-container">
@@ -72,8 +75,14 @@
 <script>
 import axios from 'axios';
 import { registerUser } from '../services/RegisterUser';
+import Notification from './Notification.vue';
+import Navbar from './Navbar.vue';
 export default {
     name: 'RegisterUser',
+    components: {
+        Notification,
+        Navbar
+    },
     data() {
         return {
             full_name:'',
@@ -90,6 +99,8 @@ export default {
                 city: '',
                 state: '',
             },
+            showNotification: false,
+            notificationMessage: ''
         };
     },
     methods: {
@@ -156,9 +167,15 @@ export default {
             }
             try{
                 await registerUser(dataToSend)
-                this.$router.push('/vacanciesUser')
+                this.notificationMessage = 'Cadastro realizado com sucesso!';
+                this.showNotification = true;
+                setTimeout(() => {
+                    this.$router.push('/login');
+                },2000);
             }
             catch(error){
+                this.notificationMessage = 'Erro ao cadastrar o usuário! Tente novamente.';
+                this.showNotification = true;
                 console.error('Erro ao cadastrar o usuário:', error)
             }
 
@@ -178,14 +195,14 @@ export default {
 
 .bx-arrow-back {
     font-size: 5vh;
-    color: black;
+    color: #333; /* Cor um pouco mais suave */
 }
 
 #logo {
     position: absolute;
     text-align: center;
-    top: 20%;
-    font-size: 5%;
+    top: 15%; /* Ajuste a posição do logo */
+    font-size: 6%; /* Aumentei o tamanho do logo */
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
@@ -197,53 +214,63 @@ export default {
     height: 120vh;
     object-fit: cover;
     z-index: -1;
+    
 }
 
 .candidato {
     position: relative;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
-    border-radius: 10px;
-    width: 100%;
+    background: rgba(255, 255, 255, 0.9); /* Aumentei a opacidade do fundo */
+    padding: 40px; /* Aumentei o padding */
+    border-radius: 15px; /* Aumentei o raio das bordas */
+    width: 90%; /* Ajustei a largura para não ocupar 100% */
+    max-width: 600px; /* Defini uma largura máxima */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Adicionei sombra */
+    margin: auto; /* Centralizei o container */
 }
 
 form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; /* Aumentei o espaçamento entre os elementos */
     color: black;
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    border: 2px solid black;
-    border-radius: 20px;
+    padding: 12px; /* Aumentei o padding */
+    border: 2px solid #ccc; /* Cor mais suave para a borda */
+    border-radius: 25px; /* Aumentei o raio das bordas */
     font-size: 1em;
+    transition: border-color 0.3s; /* Transição suave para a borda */
+}
+
+input:focus {
+    border-color: #007BFF; /* Cor da borda ao focar no input */
+    outline: none; /* Remover contorno padrão */
 }
 
 button {
-    padding: 10px;
+    padding: 12px; /* Aumentei o padding */
     margin-top: 10px;
-    border: 2px solid black;
-    border-radius: 5px;
-    background-color: transparent;
-    transition: 0.3s;
+    border: 2px solid #007BFF; /* Cor da borda do botão */
+    border-radius: 25px; /* Aumentei o raio das bordas */
+    background-color: #007BFF; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    transition: background-color 0.3s, border-color 0.3s; /* Transições suaves */
     cursor: pointer;
 }
 
 button:hover {
-    color: white;
-    background-color: #31312f;
-    border: 2px solid white;
+    background-color: #0056b3; /* Cor do botão ao passar o mouse */
+    border: 2px solid #0056b3; /* Cor da borda ao passar o mouse */
 }
 
 .name-cpf-container,
 .address-container,
 .city-state-container {
     display: flex;
-    gap: 5px;
+    gap: 10px; /* Aumentei o espaço entre os elementos */
     flex-wrap: wrap;
 }
 
@@ -259,13 +286,31 @@ button:hover {
     flex: 1;
 }
 
+.password-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espaçamento entre o label e o campo de senha */
+}
+
+.password-input-container {
+    display: flex;
+    align-items: center; /* Alinha verticalmente os itens no centro */
+    gap: 10px; /* Espaçamento entre o input e o checkbox */
+}
+
+.password-checkbox {
+    display: flex;
+    align-items: center; /* Alinha o texto e o checkbox */
+    font-size: 0.9em; /* Ajusta o tamanho da fonte se necessário */
+}
+
 @media (max-width: 1000px) {
     input {
         font-size: 0.9em;
     }
 
     button {
-        padding: 8px;
+        padding: 10px; /* Ajuste no padding */
         font-size: 0.9em;
     }
 }
