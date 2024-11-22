@@ -25,7 +25,7 @@ class UserController extends Controller
             'state' => 'required|string|max:2',
             'phone' => 'required|string|max:11',
             'is_recruiter' => 'required|boolean',
-            'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'perfilPicture' => 'string',//lembrar de colocar o tipo de arquivo para img
         ]);
 
         $array['password'] = Hash::make($array['password']);
@@ -72,7 +72,6 @@ class UserController extends Controller
     }
     }
 
-
     public function destroy(){
         auth()->guard('user')->logout();
         return response()->json(['message' => 'Logout efetuado com sucesso!']);
@@ -93,17 +92,49 @@ class UserController extends Controller
 
     }
 
-    public function update(Request $request){
-        $user = User::find(Auth::id());
-        $user->update($request->all());
+    public function update(Request $request,$id){
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como candidato.'], 401);
+        }
+
+        $user = User::where('id',$id)->where('id', $user->id)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Você não é autenticado para atualizar seu perfil.',
+            ], 404);
+        }
+
+        $array = $request->validate([
+            'full_name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users,email',// Garantindo e-mails únicos
+            'password' => 'nullable|string|min:8|max:100',
+            'date_of_birth' => 'nullable|date',
+            'cpf' => 'nullable|string|max:11',
+            'cep' => 'nullable|string|max:8',
+            'city' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:2',
+            'phone' => 'nullable|string|max:11',
+            'is_recruiter' => 'nullable|boolean',
+            'perfilPicture' => 'string',
+        ]);
+
+        $user = User::find($id);
+
+        $array['password'] = Hash::make($array['password']);
+
+        $user->update($array);
+
         return response()->json([
             'message' => 'Perfil atualizado com sucesso!',
             'user' => $user,
-
-
         ]);
+
         $user->save();
     }
     //preciso fazer a requisição para verificar se um usuário já está cadastrado
-    
+
 }
