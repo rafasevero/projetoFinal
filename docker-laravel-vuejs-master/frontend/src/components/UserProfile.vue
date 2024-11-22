@@ -102,6 +102,102 @@
                             >
                                 Salvar Perfil
                             </button>
+                            <button class="btn btn-primary profile-button" type="button" @click="editProfile = true">Editar Perfil</button>
+                            <Modal :show="editProfile" @close="editProfile = false">
+                                <form>
+                                    <h2>Editar Perfil</h2>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Configurações do Perfil</h4>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label class="labels">Nome completo</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Nome completo" 
+                                            v-model="full_name"
+                                        />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Data de Nascimento</label>
+                                        <input 
+                                            type="date" 
+                                            class="form-control" 
+                                            v-model="date_of_birth"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Celular</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Número de telefone" 
+                                            v-model="phone"
+                                        />
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="labels">Email </label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Email" 
+                                            v-model="email"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                        <label class="labels">CEP</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="CEP" 
+                                            v-model="cep"
+                                        />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Rua</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Rua" 
+                                            v-model="address.street"
+                                        />
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label class="labels">Bairro</label>
+                                        <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        placeholder="Bairro" 
+                                        v-model="address.neighborhood"> 
+                                        
+                                    </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label class="labels">Cidade</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Cidade" 
+                                            v-model="address.city"
+                                        />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Estado</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            placeholder="Estado" 
+                                            v-model="address.state"
+                                        />
+                                    </div>
+                                </div>
+                                </form>
+                            </Modal>
                         </div>
                     </div>
                 </div>
@@ -169,18 +265,23 @@
     </div>
 </template>
 
-  
-  <script>
-  import axios from "axios";
-  import NavbarCandidato from "./NavbarCandidate.vue";
-  
-  export default {
+
+<script>
+import axios from "axios";
+import NavbarCandidato from "./NavbarCandidate.vue";
+import Modal from './Modal.vue';
+import { saveProfile } from '../services/SaveProfileService';
+
+export default {
     name: "UserProfile",
     components: {
-      NavbarCandidato,
+    NavbarCandidato,
+    Modal,
     },
     data() {
-      return {
+    return {
+        editProfile: false,
+        showModal: false,
         full_name: "",
         email: "",
         phone: "",
@@ -188,29 +289,29 @@
         state: "",
         date_of_birth: "",
         perfilPicture:
-          "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
-      };
+        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+    };
     },
     created() {
-      this.fetchUserProfile();
+    this.fetchUserProfile();
     },
     methods: {
-      fetchUserProfile() {
+    fetchUserProfile() {
         const token = localStorage.getItem("token");
         if (!token) {
-          alert("Token não encontrado. Por favor, faça login novamente.");
-          return;
+        alert("Token não encontrado. Por favor, faça login novamente.");
+        return;
         }
-  
+
         axios
-          .get("http://localhost:8000/api/user/pullAuth", {
+        .get("http://localhost:8000/api/user/pullAuth", {
             headers: {
-              Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             },
-          })
-          .then((response) => {
+        })
+        .then((response) => {
             const { full_name, email, phone, city, state, date_of_birth, perfilPicture } =
-              response.data;
+            response.data;
             this.full_name = full_name;
             this.email = email;
             this.phone = phone;
@@ -218,119 +319,116 @@
             this.state = state;
             this.date_of_birth = date_of_birth;
             if (perfilPicture) {
-              this.perfilPicture = perfilPicture;
+            this.perfilPicture = perfilPicture;
             }
-          })
-          .catch((error) => {
+        })
+        .catch((error) => {
             console.error("Erro ao buscar usuário:", error);
-          });
-      },
-      triggerFileInput() {
+        });
+    },
+    triggerFileInput() {
         this.$refs.fileInput.click();
-      },
-      onImageChange(event) {
+    },
+    onImageChange(event) {
         const file = event.target.files[0];
         if (file) {
-          this.perfilPicture = URL.createObjectURL(file);
+        this.perfilPicture = URL.createObjectURL(file);
         }
-      },
-      salvarPerfil() {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          alert("Token não encontrado. Por favor, faça login novamente.");
-          return;
-        }
-  
-        const updatedProfile = {
-          full_name: this.full_name,
-          email: this.email,
-          phone: this.phone,
-          city: this.city,
-          state: this.state,
-          date_of_birth: this.date_of_birth,
-        };
-  
-        axios
-          .put("http://localhost:8000/api/user/pullAuth", updatedProfile, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then(() => {
-            alert("Perfil salvo com sucesso!");
-          })
-          .catch((error) => {
-            console.error("Erro ao salvar o perfil:", error);
-            alert("Não foi possível salvar o perfil. Tente novamente.");
-            });
-      },
     },
-  };
-  </script>
-  
-  <style scoped>
-  .form-control:focus {
-      box-shadow: none;
-      border-color: #4ea1db;
-  }
-  
-  .profile-button {
-      background: #4ea1db;
-      box-shadow: none;
-      border: none;
-  }
-  
-  .profile-button:hover {
-      background: #124366;
-  }
-  
-  .profile-button:focus {
-      background: #4ea1db;
-      box-shadow: none;
-  }
-  
-  .labels {
-      font-size: 11px;
-  }
-  
-  .select {
-      width: 100%;
-      background-color: transparent;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      font-size: 14px;
-      margin-bottom: 25px;    
-  }
-  
-  .add-experience:hover {
-      background: #4ea1db;
-      color: #fff;
-      cursor: pointer;
-      border: solid 1px #4ea1db;
-      transition: 0.5s;
-  }
-  
-  .form-control-file {
-      margin-top: 10px;
-      display: block;
-      font-size: 14px;
-      color: #555;
-  }
-  
-  .form-control-file::file-selector-button {
-      background-color: #4ea1db;
-      color: white;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-  }
-  
-  .form-control-file::file-selector-button:hover {
-      background-color: #124366;
-  }
-  </style>
-  
+    salvarPerfil(){
+        const token = localStorage.getItem("token");
+        if(!token){
+            alert("Token não encontrado. Por favor, faça login novamente.");
+            return;
+        }
+        const updatedProfile = {
+            full_name: this.full_name,
+            email: this.email,
+            phone: this.phone,
+            city: this.city,
+            state: this.state,
+            date_of_birth: this.date_of_birth,
+        };
+        const headers ={
+            Authorization: `Bearer ${token}`,
+        };
+
+        saveProfile(updatedProfile, headers)
+        .then(()=>{
+            alert ("Perfil salvo com sucesso!");
+        })
+        .catch((error)=>{
+            console.error("Erro ao salvar o perfil: ", error);
+            alert("Não foi possível salvar o perfil. Tente novamente.");
+        });
+    },
+    },
+};
+</script>
+
+<style scoped>
+.form-control:focus {
+    box-shadow: none;
+    border-color: #4ea1db;
+}
+
+.profile-button {
+    background: #4ea1db;
+    box-shadow: none;
+    border: none;
+    margin:10px;
+}
+
+.profile-button:hover {
+    background: #124366;
+}
+
+.profile-button:focus {
+    background: #4ea1db;
+    box-shadow: none;
+}
+
+.labels {
+    font-size: 11px;
+}
+
+.select {
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 25px;    
+}
+
+.add-experience:hover {
+    background: #4ea1db;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #4ea1db;
+    transition: 0.5s;
+}
+
+.form-control-file {
+    margin-top: 10px;
+    display: block;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-control-file::file-selector-button {
+    background-color: #4ea1db;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.form-control-file::file-selector-button:hover {
+    background-color: #124366;
+}
+</style>
