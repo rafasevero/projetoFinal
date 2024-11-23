@@ -7,12 +7,12 @@
 
             <div class="col-md-4">
                 <label for="company_name" class="form-label" id="company">Nome da empresa</label>
-                <input type="text" class="form-control" id="company_name" v-model="company_name" readonly />
+                <input type="text" class="form-control" id="company_name" v-model="company_name" readonly>
             </div>
 
             <div class="col-md-4">
                 <label for="vacancy_name" class="form-label" id="vacancy_name">Nome da vaga</label>
-                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name" required />
+                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name" required>
             </div>
 
             <div class="mb-3">
@@ -27,7 +27,7 @@
 
             <div class="col-md-4">
                 <label for="local" class="form-label" id="local">Local</label>
-                <input type="text" class="form-control" id="local" v-model="local" required />
+                <input type="text" class="form-control" id="local" v-model="local" required>
             </div>
 
             <div class="mb-3">
@@ -42,12 +42,12 @@
 
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
-                <input type="number" class="form-control" id="salary" v-model="salary" required />
+                <input type="number" class="form-control" id="salary" v-model="salary" required>
             </div>
 
             <div class="mb-3">
                 <label for="date" class="form-label">Data de criação da vaga</label>
-                <input type="date" class="form-control" id="date" v-model="date" required />
+                <input type="date" class="form-control" id="date" v-model="date" required>
             </div>
 
             <div class="col-md-12 text-center">
@@ -57,9 +57,9 @@
     </div>
 </template>
 
-<script>
-import axios from "axios";
 
+<script>
+import axios from 'axios';
 export default {
     name: 'CreateVacancy',
     data() {
@@ -75,51 +75,22 @@ export default {
             date: ''
         };
     },
-
     created() {
         this.fetchCompanyData();
     },
-
     methods: {
         async fetchCompanyData() {
-            const token = localStorage.getItem("token");
-
-            if (!token) {
-                alert("Token não encontrado. Por favor, faça login novamente.");
-                return;
-            }
-
             try {
-                const response = await axios.get('http://localhost:8000/api/recruiter/vacancy_register', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                // Verifique se a resposta tem o formato esperado (JSON válido)
-                if (response.status === 200) {
-                    const { company_name, perfilPicture } = response.data;
-                    this.company_name = company_name || '';
-                    this.perfilPicture = perfilPicture || '';
-                } else {
-                    console.error("Erro na resposta da API: ", response);
-                    alert("Erro ao buscar dados da empresa.");
-                }
+                const response = await fetch('/api/recruiter/vacancy_register');
+                const data = await response.json();
+                this.company_name = data.name;
+                this.perfilPicture = data.logo_url;
             } catch (error) {
-                // Se a resposta não for JSON ou houver um erro
-                console.error("Erro ao buscar os dados da empresa:", error.response ? error.response.data : error.message);
-                alert("Erro ao buscar dados da empresa.");
+                console.error("Erro ao buscar os dados da empresa:", error);
             }
         },
-
         async createVacancy() {
-            const token = localStorage.getItem("token");
-
-            if (!token) {
-                alert("Token não encontrado. Por favor, faça login novamente.");
-                return;
-            }
-
+            // Dados do formulário
             const vacancyData = {
                 company: this.company_name,
                 vacancy_name: this.vacancy_name,
@@ -132,17 +103,13 @@ export default {
             };
 
             try {
-                await axios.post('http://localhost:8000/api/vagas', vacancyData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                // Envio ao backend
+                await axios.post('http://localhost:8000/api/vagas', vacancyData);
 
-                // Redireciona para a página de vagas após criação
+                // Redireciona para a página de vagas
                 this.$router.push('/vagas');
             } catch (error) {
-                console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
-                alert("Erro ao criar a vaga.");
+                console.error('Erro ao criar vaga:', error);
             }
         }
     }
@@ -159,9 +126,14 @@ export default {
     justify-content: space-evenly;
 }
 
-#company_logo {
-    width: 150px;
-    height: auto;
+.form-control:focus {
+    box-shadow: none;
+    border-color: #4ea1db;
+}
+
+.form-select:focus {
+    box-shadow: none;
+    border-color: #4ea1db;
 }
 
 button {
@@ -180,7 +152,65 @@ button:hover {
     transition: 0.5s;
 }
 
-.text-center {
-    text-align: center;
+
+.labels {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+textarea.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+}
+
+textarea.form-control:focus {
+    border-color: #4ea1db;
+    box-shadow: none;
+}
+
+input.form-control,
+select.form-select {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+}
+
+input.form-control:focus,
+select.form-select:focus {
+    border-color: #4ea1db;
+    box-shadow: none;
+}
+
+#company_logo {
+    width: 150px;
+    height: auto;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.row.g-3 {
+    margin: 0;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 767px) {
+    .col-md-4 {
+        margin-bottom: 20px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
 }
 </style>
