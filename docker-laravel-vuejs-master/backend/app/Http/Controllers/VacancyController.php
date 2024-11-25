@@ -26,7 +26,8 @@ class VacancyController extends Controller
             'creation_date' => 'required|date',
             'company' => 'required|string|max:100',
             'salary' => 'required|string|max:50',
-            'company_logo' => 'string'//'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'company_logo' => 'string',//'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'min_age' => 'integer'
         ]);
 
         $array['recruiter_id'] = $recruiter->id;
@@ -76,7 +77,8 @@ class VacancyController extends Controller
             'creation_date' => 'nullable|date',
             'company' => 'nullable|string|max:100',
             'salary' => 'nullable|string|max:50',
-            'company_logo' => 'string'
+            'company_logo' => 'string',
+            'min_age' => 'integer'
         ]);
 
 
@@ -89,6 +91,7 @@ class VacancyController extends Controller
     }
 
     public function destroyVacancy($id){
+
         $vacancy = Vacancies::find($id);
 
         if (!$vacancy) {

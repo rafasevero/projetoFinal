@@ -38,6 +38,7 @@ class Vacancies extends Authenticatable
         'salary' => 'string',
         'company_logo' => 'string',
         'recruiter_id' => 'integer',
+        'min_age' => 'integer'
 
     ];
 
