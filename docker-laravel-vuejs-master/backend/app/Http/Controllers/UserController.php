@@ -19,7 +19,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email',// Garantindo e-mails únicos
             'password' => 'required|string|min:8|max:100',
             'date_of_birth' => 'required|date',
-            'cpf' => 'required|string|max:11',
+            'cpf' => 'required|string|max:11|unique:users',
             'cep' => 'required|string|max:8',
             'city' => 'required|string|max:100',
             'state' => 'required|string|max:2',
