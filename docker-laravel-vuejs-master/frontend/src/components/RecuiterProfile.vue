@@ -41,6 +41,7 @@
                                     class="form-control" 
                                     placeholder="Nome completo" 
                                     v-model="company_name"
+                                    @input="convertToUpperCase"
                                 />
                             </div>
                             <div class="col-md-6">
@@ -116,6 +117,7 @@
                                                 class="form-control" 
                                                 placeholder="Nome completo" 
                                                 v-model="company_name"
+                                                @input="convertToUpperCase"
                                             />
                                         </div>
                                         <div class="col-md-6">
@@ -317,6 +319,9 @@ export default {
                     alert("Não foi possível salvar o perfil. Tente novamente.");
                 });
         },
+        convertToUpperCase() {
+            this.company_name = this.company_name.toUpperCase();
+        }
     },
 };
 </script>
