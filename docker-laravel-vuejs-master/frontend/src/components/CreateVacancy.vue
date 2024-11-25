@@ -143,9 +143,7 @@ export default {
             if (this.min_age <16)
                 this.min_age = 16;
             }
-
         }
-
     };
 </script>
 
