@@ -131,7 +131,6 @@ export default {
                     },
                 });
 
-                // Redireciona para a página de vagas após criação
                 this.$router.push('/index_vacancies');
             } catch (error) {
                 console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
