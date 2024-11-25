@@ -5,23 +5,10 @@
             <div class="row">
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                        <img
-                            class="rounded-circle mt-5" 
-                            width="150px" 
-                            :src="perfilPicture" 
-                            alt="Imagem de Perfil"
-                        >
-                        
-                        <input 
-                            type="file" 
-                            @change="onImageChange" 
-                            style="display: none;" 
-                            ref="fileInput" 
-                        />
-                        <button 
-                            class="btn btn-primary mt-3" 
-                            @click="triggerFileInput"
-                        >
+                        <img class="rounded-circle mt-5" width="150px" :src="perfilPicture" alt="Imagem de Perfil">
+
+                        <input type="file" @change="onImageChange" style="display: none;" ref="fileInput" />
+                        <button class="btn btn-primary mt-3" @click="triggerFileInput">
                             Alterar Imagem
                         </button>
 
@@ -37,166 +24,100 @@
                         <div class="row mt-2">
                             <div class="col-md-6">
                                 <label class="labels">Nome completo</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="Nome completo" 
-                                    v-model="full_name"
-                                />
+                                <input type="text" class="form-control" placeholder="Nome completo"
+                                    v-model="full_name" @input="convertToUpperCase" />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Data de Nascimento</label>
-                                <input 
-                                    type="date" 
-                                    class="form-control" 
-                                    v-model="date_of_birth"
-                                />
+                                <input type="date" class="form-control" v-model="date_of_birth" />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <label class="labels">Celular</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="Número de telefone" 
-                                    v-model="phone"
-                                />
+                                <input type="text" class="form-control" placeholder="Número de telefone"
+                                    v-model="phone" />
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">Email </label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="Email" 
-                                    v-model="email"
-                                />
+                                <input type="text" class="form-control" placeholder="Email" v-model="email" />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label class="labels">Cidade</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="Cidade" 
-                                    v-model="city"
-                                />
+                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Estado</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="Estado" 
-                                    v-model="state"
-                                />
+                                <input type="text" class="form-control" placeholder="Estado" v-model="state" />
                             </div>
                         </div>
                         <!-- Botão de salvar -->
                         <div class="mt-5 text-center">
-                            <button 
-                                class="btn btn-primary profile-button" 
-                                type="button" 
-                                @click="salvarPerfil"
-                            >
+                            <button class="btn btn-primary profile-button" type="button" @click="salvarPerfil">
                                 Salvar Perfil
                             </button>
-                            <button class="btn btn-primary profile-button" type="button" @click="editProfile = true">Editar Perfil</button>
-                            
+                            <button class="btn btn-primary profile-button" type="button"
+                                @click="editProfile = true">Editar Perfil</button>
+
                             <Modal :show="editProfile" @close="editProfile = false">
                                 <form>
                                     <h2>Editar Perfil</h2>
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Configurações do Perfil</h4>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-md-6">
-                                        <label class="labels">Nome completo</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="Nome completo" 
-                                            v-model="full_name"
-                                        />
+                                        <h4 class="text-right">Configurações do Perfil</h4>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label class="labels">Nome completo</label>
+                                            <input type="text" class="form-control" placeholder="Nome completo"
+                                                v-model="full_name" @input="convertToUpperCase" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="labels">Data de Nascimento</label>
+                                            <input type="date" class="form-control" v-model="date_of_birth" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label class="labels">Celular</label>
+                                            <input type="text" class="form-control" placeholder="Número de telefone"
+                                                v-model="phone" />
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">Email </label>
+                                            <input type="text" class="form-control" placeholder="Email"
+                                                v-model="email" />
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="labels">Data de Nascimento</label>
-                                        <input 
-                                            type="date" 
-                                            class="form-control" 
-                                            v-model="date_of_birth"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <label class="labels">Celular</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="Número de telefone" 
-                                            v-model="phone"
-                                        />
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="labels">Email </label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="Email" 
-                                            v-model="email"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
                                         <label class="labels">CEP</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="CEP" 
-                                            v-model="cep"
-                                        />
+                                        <input type="text" class="form-control" placeholder="CEP" v-model="cep" />
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels">Rua</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="Rua" 
-                                            v-model="address.street"
-                                        />
+                                        <input type="text" class="form-control" placeholder="Rua"
+                                            v-model="address.street" />
                                     </div>
                                     <div class="col-md-6">
 
                                         <label class="labels">Bairro</label>
-                                        <input 
-                                        type="text" 
-                                        class="form-control" 
-                                        placeholder="Bairro" 
-                                        v-model="address.neighborhood"> 
-                                        
+                                        <input type="text" class="form-control" placeholder="Bairro"
+                                            v-model="address.neighborhood">
+
                                     </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <label class="labels">Cidade</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="Cidade" 
-                                            v-model="address.city"
-                                        />
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label class="labels">Cidade</label>
+                                            <input type="text" class="form-control" placeholder="Cidade"
+                                                v-model="address.city" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="labels">Estado</label>
+                                            <input type="text" class="form-control" placeholder="Estado"
+                                                v-model="address.state" />
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">Estado</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="Estado" 
-                                            v-model="address.state"
-                                        />
-                                    </div>
-                                </div>
                                 </form>
                             </Modal>
                         </div>
@@ -209,11 +130,7 @@
                         </div><br>
                         <div class="col-md-12">
                             <label class="labels">Experiência</label>
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                placeholder="Experiência" 
-                            />
+                            <input type="text" class="form-control" placeholder="Experiência" />
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Formação</label>
@@ -229,20 +146,12 @@
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Instituição de ensino</label>
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                placeholder="Instituição de ensino" 
-                            />
+                            <input type="text" class="form-control" placeholder="Instituição de ensino" />
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Curso</label>
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                placeholder="Curso" 
-                            />
-                        </div>  
+                            <input type="text" class="form-control" placeholder="Curso" />
+                        </div>
                         <div class="col-md-12">
                             <label class="labels">Data de início</label>
                             <input type="date" class="form-control" id="date" required>
@@ -253,11 +162,7 @@
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Anexar Currículo</label>
-                            <input 
-                                type="file" 
-                                class="form-control-file" 
-                                @change="handleFileUpload" 
-                            />
+                            <input type="file" class="form-control-file" @change="handleFileUpload" />
                         </div>
                     </div>
                 </div>
@@ -276,97 +181,101 @@ import { saveProfile } from '../services/SaveProfileService';
 export default {
     name: "UserProfile",
     components: {
-    NavbarCandidato,
-    Modal,
+        NavbarCandidato,
+        Modal,
     },
     data() {
-    return {
-        editProfile: false,
-        showModal: false,
-        full_name: "",
-        email: "",
-        phone: "",
-        address: {
+        return {
+            editProfile: false,
+            showModal: false,
+            full_name: "",
+            email: "",
+            phone: "",
+            address: {
                 street: '',
                 neighborhood: '',
                 city: '',
                 state: '',
             },
-        date_of_birth: "",
-        perfilPicture:
-        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
-    };
+            date_of_birth: "",
+            perfilPicture:
+                "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+        };
     },
     created() {
-    this.fetchUserProfile();
+        this.fetchUserProfile();
     },
     methods: {
-    fetchUserProfile() {
-        const token = localStorage.getItem("token");
-        if (!token) {
-        alert("Token não encontrado. Por favor, faça login novamente.");
-        return;
-        }
-
-        axios
-        .get("http://localhost:8000/api/user/pullAuth", {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        })
-        .then((response) => {
-            const { full_name, email, phone, city, state, date_of_birth, perfilPicture } =
-            response.data;
-            this.full_name = full_name;
-            this.email = email;
-            this.phone = phone;
-            this.city = city;
-            this.state = state;
-            this.date_of_birth = date_of_birth;
-            if (perfilPicture) {
-            this.perfilPicture = perfilPicture;
+        fetchUserProfile() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Token não encontrado. Por favor, faça login novamente.");
+                return;
             }
-        })
-        .catch((error) => {
-            console.error("Erro ao buscar usuário:", error);
-        });
-    },
-    triggerFileInput() {
-        this.$refs.fileInput.click();
-    },
-    onImageChange(event) {
-        const file = event.target.files[0];
-        if (file) {
-        this.perfilPicture = URL.createObjectURL(file);
-        }
-    },
-    salvarPerfil(){
-        const token = localStorage.getItem("token");
-        if(!token){
-            alert("Token não encontrado. Por favor, faça login novamente.");
-            return;
-        }
-        const updatedProfile = {
-            full_name: this.full_name,
-            email: this.email,
-            phone: this.phone,
-            city: this.city,
-            state: this.state,
-            date_of_birth: this.date_of_birth,
-        };
-        const headers ={
-            Authorization: `Bearer ${token}`,
-        };
 
-        saveProfile(updatedProfile, headers)
-        .then(()=>{
-            alert ("Perfil salvo com sucesso!");
-        })
-        .catch((error)=>{
-            console.error("Erro ao salvar o perfil: ", error);
-            alert("Não foi possível salvar o perfil. Tente novamente.");
-        });
-    },
+            axios
+                .get("http://localhost:8000/api/user/pullAuth", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((response) => {
+                    const { full_name, email, phone, city, state, date_of_birth, perfilPicture } =
+                        response.data;
+                    this.full_name = full_name;
+                    this.email = email;
+                    this.phone = phone;
+                    this.city = city;
+                    this.state = state;
+                    this.date_of_birth = date_of_birth;
+                    if (perfilPicture) {
+                        this.perfilPicture = perfilPicture;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar usuário:", error);
+                });
+        },
+        triggerFileInput() {
+            this.$refs.fileInput.click();
+        },
+        onImageChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.perfilPicture = URL.createObjectURL(file);
+            }
+        },
+        salvarPerfil() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Token não encontrado. Por favor, faça login novamente.");
+                return;
+            }
+            const updatedProfile = {
+                full_name: this.full_name,
+                email: this.email,
+                phone: this.phone,
+                city: this.city,
+                state: this.state,
+                date_of_birth: this.date_of_birth,
+            };
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+
+            saveProfile(updatedProfile, headers)
+                .then(() => {
+                    alert("Perfil salvo com sucesso!");
+                })
+                .catch((error) => {
+                    console.error("Erro ao salvar o perfil: ", error);
+                    alert("Não foi possível salvar o perfil. Tente novamente.");
+                });
+
+        },
+        convertToUpperCase() {
+            this.full_name = this.full_name.toUpperCase();
+        }
     },
 };
 </script>
@@ -381,7 +290,7 @@ export default {
     background: #4ea1db;
     box-shadow: none;
     border: none;
-    margin:10px;
+    margin: 10px;
 }
 
 .profile-button:hover {
@@ -404,7 +313,7 @@ export default {
     border-radius: 5px;
     padding: 10px;
     font-size: 14px;
-    margin-bottom: 25px;    
+    margin-bottom: 25px;
 }
 
 .add-experience:hover {

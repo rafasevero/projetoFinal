@@ -15,7 +15,7 @@
                 <div class="name-cpf-container">
                     <div class="name-container">
                         <label>Seu Nome Completo</label>
-                        <input type="text" v-model="full_name" id="nome" required />
+                        <input type="text" v-model="full_name" id="nome" required @input="convertToUpperCase" />
                         <label>CPF</label>
                         <input type="text" maxlength="14" v-model="cpf" @input="formatCPF" @blur="fetchAddress" placeholder="XXX.XXX.XXX-XX" required />
                     </div>
@@ -189,6 +189,9 @@ export default {
             }
 
         },
+        convertToUpperCase() {
+            this.full_name = this.full_name.toUpperCase();
+        }
     }
 }
 </script>
