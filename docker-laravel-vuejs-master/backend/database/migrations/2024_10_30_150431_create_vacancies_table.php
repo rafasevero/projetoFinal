@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('work_modality');
             $table->date('creation_date');
             $table->string('company');
-            $table->string('salary');  
-            $table->string('company_logo');
+            $table->string('salary');
+            $table->string('company_logo')->nullable();
             $table->timestamps();
 
             $table->foreign('recruiter_id')->references('id')->on('recruiters')->onDelete('cascade');

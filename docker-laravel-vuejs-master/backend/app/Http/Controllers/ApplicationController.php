@@ -35,6 +35,18 @@ class ApplicationController extends Controller
             ],400);
         }
 
+        $applications = Application::create([
+            'vacancy_id' => $validated['vacancy_id'],
+            'user_id' => $user->id,
+            'application_date' => now(),
+            'status' => $validated['status'],
+        ]);
+
+        return response()->json([
+            'message' => 'Candidatura realizada com sucesso!',
+            'application' => $applications
+        ]);
+
 
 
 
