@@ -251,8 +251,7 @@ export default {
                 return;
             }
 
-            axios
-                .get("http://localhost:8000/api/user/pullAuth", {
+            axios.get("http://localhost:8000/api/user/pullAuth", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

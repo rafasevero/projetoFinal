@@ -155,12 +155,12 @@ export default {
             const cleanedPhone = this.phone.replace(/\D/g, '')
             const cleanedCep = this.cep.replace(/\D/g, '')
 
-            const dateInput = document.getElementById('data');
-            const today = new Date();
-            const minDate = new Date (today.getFulYear()-18, today.getMonth(), today.getDate());
-            const maxDate = new Date (today.getFullYear()-100, today.getMonth(), today.getDate());
-            dateInput.max = maxDate.toISOString().split('T')[0];
-            dateInput.min = minDate.toISOString().split('T')[0];
+            // const dateInput = document.getElementById('data');
+            // const today = new Date();
+            // const minDate = new Date (today.getFulYear()-18, today.getMonth(), today.getDate());
+            // const maxDate = new Date (today.getFullYear()-100, today.getMonth(), today.getDate());
+            // dateInput.max = maxDate.toISOString().split('T')[0];
+            // dateInput.min = minDate.toISOString().split('T')[0];
             
             const dataToSend = {
                 full_name: this.full_name,
