@@ -41,6 +41,7 @@
                                     class="form-control" 
                                     placeholder="Nome completo" 
                                     v-model="company_name"
+                                    @input="convertToUpperCase"
                                 />
                             </div>
                             <div class="col-md-6">
@@ -116,6 +117,7 @@
                                                 class="form-control" 
                                                 placeholder="Nome completo" 
                                                 v-model="company_name"
+                                                @input="convertToUpperCase"
                                             />
                                         </div>
                                         <div class="col-md-6">
@@ -251,18 +253,21 @@ export default {
                 return;
             }
 
-            axios
-                .get("http://localhost:8000/api/user/pullAuth", {
+
+            axios.get("http://localhost:8000/api/user/pullAuth", {
+
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((response) => {
-                    const { company_name, email, phone, city, state, date_of_birth, perfilPicture, address } =
+                    const { company_name, email, neighborhood,street, phone, city, state, date_of_birth, perfilPicture, address } =
                         response.data;
                     this.company_name = company_name;
                     this.email = email;
                     this.phone = phone;
+                    this.street = street;
+                    this.neighborhood = neighborhood;
                     this.city = city;
                     this.state = state;
                     this.date_of_birth = date_of_birth;
@@ -294,6 +299,8 @@ export default {
                 company_name: this.company_name,
                 email: this.email,
                 phone: this.phone,
+                street: this.street,
+                neighborhood: this.neighborhood,
                 city: this.city,
                 state: this.state,
                 date_of_birth: this.date_of_birth,
@@ -313,6 +320,9 @@ export default {
                     alert("Não foi possível salvar o perfil. Tente novamente.");
                 });
         },
+        convertToUpperCase() {
+            this.company_name = this.company_name.toUpperCase();
+        }
     },
 };
 </script>

@@ -54,7 +54,8 @@ export default {
   computed: {
     filteredVagas() {
       return this.vacanciesData.filter(vaga =>
-        vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
   },

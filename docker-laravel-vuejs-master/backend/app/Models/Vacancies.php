@@ -25,6 +25,7 @@ class Vacancies extends Authenticatable
         'salary',
         'company_logo',
         'recruiter_id',
+        'min_age'
     ];
 
     protected $casts = [
@@ -38,6 +39,7 @@ class Vacancies extends Authenticatable
         'salary' => 'string',
         'company_logo' => 'string',
         'recruiter_id' => 'integer',
+        'min_age' => 'integer'
 
     ];
 

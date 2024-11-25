@@ -47,7 +47,7 @@ export default {
   methods: {
     async fetchVagas() {
       try {
-        const response = await axios.get('http://localhost:8000/api/vagas');
+        const response = await axios.get('http://localhost:8000/api/index_vacancies');
         this.vagas = response.data;
       } catch (error) {
         console.error('Erro ao buscar vagas:', error);

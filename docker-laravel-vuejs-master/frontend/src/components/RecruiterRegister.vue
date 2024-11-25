@@ -14,11 +14,11 @@
                 <div class="name-cpf-container">
                     <div class="name-container">
                         <label>Nome da empresa</label>
-                        <input type="text" v-model="company_name" id="nome" required />
+                        <input type="text" v-model="company_name" id="nome" required @input="convertToUpperCase"/>
                     </div>
                     <div class="cnpj-container">
                         <label>CNPJ</label>
-                        <input type="text" v-model="cnpj" @input="formatCNPJ" placeholder="XX.XXX.XXX/XXXX-XX" required />
+                        <input type="text" v-model="cnpj" @input="formatCNPJ" placeholder="XX.XXX.XXX/XXXX-XX" maxlength="18" required />
                     </div>
                     <div class="social-name-container">
                         <label>Razão Social</label>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="tel-container">
                     <label>Telefone</label>
-                    <input type="text" name="phone" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" required />
+                    <input type="text" name="phone" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" maxlength="15" required />
                 </div>
                 <div class="email-password-container">
                     <div class="email-container">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="CEP-container">
                     <label>CEP</label>
-                    <input type="text" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" required />
+                    <input type="text" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" maxlength="9" required /> 
                 </div>
                 <div class="address-container">
                     <div class="street-container">
@@ -173,6 +173,9 @@ export default {
             }catch(error){
                 console.error('Erro ao cadastrar o usuário:', error);
             }
+        },
+        convertToUpperCase() {
+        this.company_name = this.company_name.toUpperCase();
         },
     },
 }

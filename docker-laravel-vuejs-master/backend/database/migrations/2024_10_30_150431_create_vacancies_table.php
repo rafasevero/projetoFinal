@@ -22,7 +22,8 @@ return new class extends Migration
             $table->date('creation_date');
             $table->string('company');
             $table->string('salary');
-            $table->string('company_logo')->nullable();
+            $table->string('company_logo');
+            $table->integer('min_age');
             $table->timestamps();
 
             $table->foreign('recruiter_id')->references('id')->on('recruiters')->onDelete('cascade');
