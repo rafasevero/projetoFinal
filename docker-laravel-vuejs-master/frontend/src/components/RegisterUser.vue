@@ -21,9 +21,10 @@
                     </div>
                     <div class="tel-container">
                         <label>Telefone</label>
-                        <input type="text" maxlength="15" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" required />
+                        <input type="text" maxlength="15" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" :maxlength="15" required />
                         <label>Data De Nascimento</label>
-                        <input type="date" maxlength="10" v-model="date_of_birth" id="data" required />
+                        <input type="date" maxlength="10" v-model="date_of_birth" id="data" 
+                        required />
                     </div>
                 </div>
                 <div class="email-password-container">
@@ -44,7 +45,7 @@
                 </div>
                 <div class="CEP-container">
                     <label>CEP</label>
-                    <input type="text" maxlength="9" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" required />
+                    <input type="text" maxlength="9" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" :maxlength="9"equired />
                 </div>
                 <div class="address-container">
                     <div class="street-container">
@@ -147,11 +148,19 @@ export default {
                 this.cep = this.cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
             }
         },
+        
         async submitForm(){
             this.loading = true
             const cleanedCPF = this.cpf.replace(/\D/g, '')
             const cleanedPhone = this.phone.replace(/\D/g, '')
             const cleanedCep = this.cep.replace(/\D/g, '')
+
+            const dateInput = document.getElementById('data');
+            const today = new Date();
+            const minDate = new Date (today.getFulYear()-18, today.getMonth(), today.getDate());
+            const maxDate = new Date (today.getFullYear()-100, today.getMonth(), today.getDate());
+            dateInput.max = maxDate.toISOString().split('T')[0];
+            dateInput.min = minDate.toISOString().split('T')[0];
             
             const dataToSend = {
                 full_name: this.full_name,
