@@ -11,6 +11,7 @@ class HardSkillController extends Controller
     public function storeHardSkill(Request $request){
 
         $user = auth()->user();
+        
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado.'], 401);
         }
@@ -81,5 +82,5 @@ class HardSkillController extends Controller
         return response()->json(['message' => 'Formação acadêmica excluída com sucesso!'], 200);
     }
 
-    
+
 }

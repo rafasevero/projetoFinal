@@ -14,7 +14,7 @@ class RecruiterController extends Controller
     public function registerRecruiter(Request $request){
         $array =  $request->validate([
             'company_name' => 'required|string|max:100',
-            'cnpj' => 'required|string|max:14',
+            'cnpj' => 'required|string|max:14|unique:recruiters',
             'social_name' => 'required|string|max:100',
             'cep' => 'required|string|max:8',
             'city' => 'required|string|max:100',
