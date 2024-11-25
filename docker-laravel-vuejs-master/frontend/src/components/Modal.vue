@@ -1,7 +1,7 @@
 <template>
     <div v-if="show" class="modal-overlay">
         <div class="modal-container">
-            <button class="modal-close-button" @click="$emit('close')">X</button>
+            <button class="close-button" @click="$emit('close')">X</button>
             <slot></slot>
         </div>
     </div>
