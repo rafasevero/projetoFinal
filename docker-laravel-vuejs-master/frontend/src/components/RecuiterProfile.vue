@@ -252,7 +252,7 @@ export default {
             }
 
             axios
-                .get("http://localhost:8000/api/user/pullAuth", {
+                .get("http://127.0.0.1:8000/api/user/pullAuth", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
