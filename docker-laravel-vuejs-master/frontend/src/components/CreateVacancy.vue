@@ -166,6 +166,7 @@ button {
     color: white;
     padding: 10px 20px;
     border: 1px solid #4ea1db;
+    border-radius: 5px;
     cursor: pointer;
     margin: 0 auto;
 }
