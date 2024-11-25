@@ -258,11 +258,13 @@ export default {
                     },
                 })
                 .then((response) => {
-                    const { company_name, email, phone, city, state, date_of_birth, perfilPicture, address } =
+                    const { company_name, email, neighborhood,street, phone, city, state, date_of_birth, perfilPicture, address } =
                         response.data;
                     this.company_name = company_name;
                     this.email = email;
                     this.phone = phone;
+                    this.street = street;
+                    this.neighborhood = neighborhood;
                     this.city = city;
                     this.state = state;
                     this.date_of_birth = date_of_birth;
@@ -294,6 +296,8 @@ export default {
                 company_name: this.company_name,
                 email: this.email,
                 phone: this.phone,
+                street: this.street,
+                neighborhood: this.neighborhood,
                 city: this.city,
                 state: this.state,
                 date_of_birth: this.date_of_birth,
