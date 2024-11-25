@@ -138,11 +138,11 @@ export default {
             }
         },
 
-        // checkAge() {
-        //     if (this.min_age <16)
-        //         this.min_age = 16;
-        //     }
-        // }
+        checkAge() {
+            if (this.min_age <16)
+                this.min_age = 16;
+            }
+        }
     };
 </script>
 
