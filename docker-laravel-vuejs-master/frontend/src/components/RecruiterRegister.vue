@@ -14,7 +14,7 @@
                 <div class="name-cpf-container">
                     <div class="name-container">
                         <label>Nome da empresa</label>
-                        <input type="text" v-model="company_name" id="nome" required />
+                        <input type="text" v-model="company_name" id="nome" required @input="convertToUpperCase"/>
                     </div>
                     <div class="cnpj-container">
                         <label>CNPJ</label>
@@ -173,6 +173,9 @@ export default {
             }catch(error){
                 console.error('Erro ao cadastrar o usuário:', error);
             }
+        },
+        convertToUpperCase() {
+        this.company_name = this.company_name.toUpperCase();
         },
     },
 }

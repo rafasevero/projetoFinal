@@ -12,9 +12,9 @@
             </div>
 
             <div class="col-md-4">
-                <label for="vacancy_name" class="form-label" id="vacancy_name">Nome da vaga</label>
-                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name" placeholder="Exemplo"
-                    required />
+                <label for="vacancy_name" class="form-label" id="vacancy_name">Título da vaga</label>
+                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name" placeholder="Aux. administrativo"
+                    required @input="convertToUpperCase"/>
             </div>
 
             <div class="mb-3">
@@ -142,7 +142,11 @@ export default {
             if (this.min_age <16)
                 this.min_age = 16;
             }
-        }
+        },
+        convertToUpperCase() {
+        this.company_name = this.company_name.toUpperCase();
+        this.vacancy_name = this.vacancy_name.toUpperCase();
+        },
     };
 </script>
 
