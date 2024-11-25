@@ -198,65 +198,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="p-3 py-5">
-                        <div class="d-flex justify-content-between align-items-center experience">
-                            <span>Editar experiência</span>
-                        </div><br>
-                        <div class="col-md-12">
-                            <label class="labels">Experiência</label>
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                placeholder="Experiência" 
-                            />
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Formação</label>
-                            <select class="select">
-                                <option value="">Selecione</option>
-                                <option value="complete_fundamental">Ensino fundamental completo</option>
-                                <option value="incomplete_fundamental">Ensino fundamental incompleto</option>
-                                <option value="complete_school">Ensino médio completo</option>
-                                <option value="incomplete_school">Ensino médio incompleto</option>
-                                <option value="complete_college">Ensino superior completo</option>
-                                <option value="incomplete_college">Ensino superior incompleto</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Instituição de ensino</label>
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                placeholder="Instituição de ensino" 
-                            />
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Curso</label>
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                placeholder="Curso" 
-                            />
-                        </div>  
-                        <div class="col-md-12">
-                            <label class="labels">Data de início</label>
-                            <input type="date" class="form-control" id="date" required>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Data de término</label>
-                            <input type="date" class="form-control" id="date" required>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Anexar Currículo</label>
-                            <input 
-                                type="file" 
-                                class="form-control-file" 
-                                @change="handleFileUpload" 
-                            />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -281,8 +222,12 @@ export default {
             company_name: "",
             email: "",
             phone: "",
-            city: "",
-            state: "",
+            address: {
+                street: '',
+                neighborhood: '',
+                city: '',
+                state: '',
+            },
             date_of_birth: "",
             perfilPicture:
                 "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
@@ -383,6 +328,7 @@ export default {
     background: #4ea1db;
     box-shadow: none;
     border: none;
+    margin: 10px;
 }
 
 .profile-button:hover {

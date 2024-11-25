@@ -103,6 +103,7 @@
                                 Salvar Perfil
                             </button>
                             <button class="btn btn-primary profile-button" type="button" @click="editProfile = true">Editar Perfil</button>
+                            
                             <Modal :show="editProfile" @close="editProfile = false">
                                 <form>
                                     <h2>Editar Perfil</h2>
@@ -285,8 +286,12 @@ export default {
         full_name: "",
         email: "",
         phone: "",
-        city: "",
-        state: "",
+        address: {
+                street: '',
+                neighborhood: '',
+                city: '',
+                state: '',
+            },
         date_of_birth: "",
         perfilPicture:
         "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
