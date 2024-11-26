@@ -173,7 +173,6 @@ export default {
         this.vacancy_name = this.vacancy_name.toUpperCase();
         },
 
-       
     };
         // formatSalary() {
         //     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
@@ -185,8 +184,6 @@ export default {
         //     this.cleanedSalary = this.salary.replace(/D\./g, '').replace(',', '.');
         // }
 
-    }
-};
 
 
 </script>
