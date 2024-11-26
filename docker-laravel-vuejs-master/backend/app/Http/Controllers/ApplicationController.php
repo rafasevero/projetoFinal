@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Application as ModelsApplication;
 use App\Models\Application;
 use App\Models\Vacancies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ApplicationController extends Controller
 {
@@ -47,13 +47,22 @@ class ApplicationController extends Controller
         'vacancy_id' => $vacancy->id,
         'user_id' => $user->id,
         'recruiter_id' => $vacancy->recruiter_id, // Agora acessamos corretamente
-        'application_date' => $validated['application_date'],
+        'application_date' => now(),
         'status' => $validated['status'],
         'application_name' => $validated['application_name']
     ]);
 
+    // Inserir na tabela intermediária user_application
+    DB::table('user_application')->insert([
+        'user_id' => $user->id,
+        'application_id' => $application->id,
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+
     return response()->json([
         'message' => 'Candidatura realizada com sucesso!',
+
         'application' => $application
     ]);
 }
