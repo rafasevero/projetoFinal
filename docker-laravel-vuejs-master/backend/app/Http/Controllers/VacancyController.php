@@ -25,7 +25,7 @@ class VacancyController extends Controller
             'location' => 'required|string|max:100',
             'work_modality' => 'required|string|max:50',
             'salary' => 'required|string|max:50',
-            'company_logo' => 'string',//'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'company_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'min_age' => 'integer'
         ]);
 
@@ -34,6 +34,7 @@ class VacancyController extends Controller
         $array['company'] = $recruiter->company_name;
 
         $array['creation_date'] = now(); // Usando o helper 'now' para obter a data atual
+
 
 
         $vacancy = Vacancies::create($array);

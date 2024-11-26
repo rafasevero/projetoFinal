@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <form @submit.prevent="createVacancy" class="row g-3 form-container">
-            <div id="form-group" class="col-md-4 text-center">
+            <!-- <div id="form-group" class="col-md-4 text-center">
                 <img :src="perfilPicture" alt="logo da empresa" id="company_logo" class="img-fluid" />
-            </div>
+            </div> -->
 
             <div class="col-md-4">
                 <label for="company_name" class="form-label" id="company">Nome da empresa</label>
@@ -14,8 +14,8 @@
 
             <div class="col-md-4">
                 <label for="vacancy_name" class="form-label" id="vacancy_name">Título da vaga</label>
-                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name" placeholder="Aux. administrativo"
-                    required @input="convertToUpperCase"/>
+                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name"
+                    placeholder="Aux. administrativo" required @input="convertToUpperCase" />
             </div>
 
             <div class="mb-3">
@@ -33,7 +33,7 @@
             <div class="col-md-4">
                 <label for="local" class="form-label" id="local">Local</label>
 
-                <input type="text" class="form-control" id="local" v-model="city" required />
+                <input type="text" class="form-control" id="local" v-model="city" required readonly />
 
             </div>
 
@@ -41,57 +41,49 @@
                 <label for="work_modality" class="form-label" id="work_modality">Modalidade de Trabalho</label>
                 <select class="form-select" id="work_modality" v-model="work_modality" required>
                     <option value="">Selecione</option>
-                    <option value="present">Presencial</option>
-                    <option value="home_office">Home Office</option>
-                    <option value="hybrid">Híbrido</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="Home Office">Home Office</option>
+                    <option value="Híbrido">Híbrido</option>
                 </select>
             </div>
 
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
 
-                <input type="number" class="form-control" id="salary" v-model="salary" placeholder="1.234,00"
-                    required />
+                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00" required />
             </div>
 
             <div class="col-md-4">
                 <label for="min_age" class="form-label" id="min_age">Idade mínima</label>
                 <input type="number" class="form-control" id="min_age" v-model="min_age" placeholder="18" required
                     @blur="checkAge" :class="{ 'is-invalid': min_age < 16 && min_age !== '' }" />
+
                 <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou mais.</div>
-
             </div>
-
-                <div class="mb-3">
-                    <label for="date" class="form-label">Data de criação da vaga</label>
-                    <input type="date" class="form-control" id="date" v-model="date" required />
-                </div>
-
                 <div class="col-md-12 text-center">
                     <button type="submit">Criar Vaga</button>
                 </div>
+
         </form>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import { createVacancy } from '../services/CreateVacancies';
 
 export default {
     name: 'CreateVacancy',
     data() {
         return {
             company_name: '',
-            perfilPicture: '',
             vacancy_name: '',
             description: '',
             requirements: '',
             location: '',
             work_modality: '',
             salary: '',
-
-            creation_date: '',
-
+            min_age: '',
         };
     },
 
@@ -108,74 +100,65 @@ export default {
                 return;
             }
 
-
             axios.get("http://localhost:8000/api/user/pullAuth", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
                 .then((response) => {
-                    const { company_name, perfilPicture,city } =
-                        response.data;
+                    const { company_name, city } = response.data;
                     this.company_name = company_name;
-                    this.perfilPicture = perfilPicture;
                     this.city = city;
                 })
                 .catch((error) => {
                     console.error("Erro ao buscar usuário:", error);
-                })
-
+                });
         },
 
         async createVacancy() {
             const token = localStorage.getItem("token");
-
             if (!token) {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
 
-            const vacancyData = {
-                company: this.company_name,
+            const data = {
+                company_name: this.company_name,
                 vacancy_name: this.vacancy_name,
                 description: this.description,
                 requirements: this.requirements,
                 location: this.city,
                 work_modality: this.work_modality,
                 salary: this.salary,
-
-                creation_date: this.creation_date,
+                min_age: this.min_age,
             };
 
             try {
-                await axios.post('http://localhost:8000/api/recruiter/vacancy_register', vacancyData, {
-
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                this.$router.push('/index_vacancies');
+                const response = await createVacancy(data, token);
+                console.log("Vaga criada com sucesso:", response);
+                this.$router.push('/vacanciesRecruiter');
             } catch (error) {
                 console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
                 alert("Erro ao criar a vaga.");
             }
         },
 
-        // formatSalary() {
-        //     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
-        //     value = (parseInt(value, 10) / 100).toFixed(2); // Converte para número com 2 casas decimais
-        //     value = value.replace('.', ','); // Substitui o ponto por vírgula
-        //     this.salary = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos como separadores de milhar
-        // },
-        // cleanSalary(){
-        //     this.cleanedSalary = this.salary.replace(/D\./g, '').replace(',', '.');
-        // }
+        checkAge() {
+            if (this.min_age < 16) {
+                this.min_age = 16;
+            }
+        },
 
-    }
+        convertToUpperCase() {
+            this.company_name = this.company_name.toUpperCase();
+            this.vacancy_name = this.vacancy_name.toUpperCase();
+        },
+    },
 };
-
 </script>
+
+
+
 
 <style scoped>
 .container {
