@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::prefix('user')->group(function () {
     Route::get('/pullAuth', function(Request $request){
         return $request->user();
@@ -48,7 +49,6 @@ Route::prefix('user')->group(function () {
     Route::middleware('auth:sanctum')->put('/updateCurriculum/{id}',[CurriculumController::class, 'updateCurriculum']);//testar
     Route::middleware('auth:sanctum')->post('/deleteCurriculum/{id}',[CurriculumController::class, 'destroyCurriculum']);//testar
 
-
 });
 
 
@@ -59,11 +59,12 @@ Route::prefix('recruiter')->group(function () {
     Route::middleware('auth:sanctum')->put('/updateVacancy/{id}',[VacancyController::class, 'updateVacancy']);
     Route::middleware('auth:sanctum')->get('/profile', [RecruiterController::class, 'getRecruiterProfile']);
     Route::middleware('auth:sanctum')->put('/update/{id}',[RecruiterController::class, 'update']);
-
+    Route::middleware('auth:sanctum')->get('/getVacancies', [RecruiterController::class, 'getRecruiterVacancies']);
+    Route::middleware('auth:sanctum')->get('/getUsersForVacancies/{ApplyId}',[ApplicationController::class, 'getUsersForVacancies']);
 });
 
+Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 
 
 Route::get('/vacancies',[VacancyController::class,'vacancies'])->name('vacancies');
 Route::get('index_vacancies',[VacancyController::class,'index_vacancies'])->name('vacancies.index');
-Route::get('/recruiters/{recruiterId}/vacancies', [RecruiterController::class, 'getRecruiterVacancies']);
