@@ -14,8 +14,8 @@
 
             <div class="col-md-4">
                 <label for="vacancy_name" class="form-label" id="vacancy_name">Título da vaga</label>
-                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name" placeholder="Aux. administrativo"
-                    required @input="convertToUpperCase"/>
+                <input type="text" class="form-control" id="vacancy_name" v-model="vacancy_name"
+                    placeholder="Aux. administrativo" required @input="convertToUpperCase" />
             </div>
 
             <div class="mb-3">
@@ -50,26 +50,26 @@
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
 
-                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00"
-                    required />
+                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00" required />
             </div>
 
             <div class="col-md-4">
                 <label for="min_age" class="form-label" id="min_age">Idade mínima</label>
                 <input type="number" class="form-control" id="min_age" v-model="min_age" placeholder="18" required
                     @blur="checkAge" :class="{ 'is-invalid': min_age < 16 && min_age !== '' }" />
-                <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou mais.</div>
+                <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou
+                    mais.</div>
 
             </div>
 
-                <div class="mb-3">
-                    <label for="date" class="form-label">Data de criação da vaga</label>
-                    <input type="date" class="form-control" id="date" v-model="creation_date" required />
-                </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Data de criação da vaga</label>
+                <input type="date" class="form-control" id="date" v-model="creation_date" required />
+            </div>
 
-                <div class="col-md-12 text-center">
-                    <button type="submit">Criar Vaga</button>
-                </div>
+            <div class="col-md-12 text-center">
+                <button type="submit">Criar Vaga</button>
+            </div>
         </form>
     </div>
 </template>
@@ -92,7 +92,7 @@ export default {
             salary: '',
 
             creation_date: '',
-            
+
         };
     },
 
@@ -111,12 +111,12 @@ export default {
 
 
             axios.get("http://localhost:8000/api/user/pullAuth", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
                 .then((response) => {
-                    const { company_name, perfilPicture,city } =
+                    const { company_name, perfilPicture, city } =
                         response.data;
                     this.company_name = company_name;
                     this.perfilPicture = perfilPicture;
@@ -129,53 +129,51 @@ export default {
         },
 
         async createVacancy() {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            alert("Token não encontrado. Por favor, faça login novamente.");
-            return;
-        }
-        const data ={
-            company_name: this.company_name,
-            vacancy_name: this.vacancy_name,
-            description: this.description,
-            requirements: this.requirements,
-            location: this.city,
-            work_modality: this.work_modality,
-            salary: this.salary,
-            creation_date: this.creation_date,
-        };
-        try {
-            const response = await createVacancy(data, token);
-            console.log("Vaga criada com sucesso:", response);
-            this.$router.push('/index_vacancies');
-        }catch(error){
-            console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
-            alert("Erro ao criar a vaga.");
-        }
-        }
-
-
-
-        checkAge() {
-            if (this.min_age <16)
-                this.min_age = 16;
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Token não encontrado. Por favor, faça login novamente.");
+                return;
+            }
+            const data = {
+                company_name: this.company_name,
+                vacancy_name: this.vacancy_name,
+                description: this.description,
+                requirements: this.requirements,
+                location: this.city,
+                work_modality: this.work_modality,
+                salary: this.salary,
+                creation_date: this.creation_date,
+            };
+            try {
+                const response = await createVacancy(data, token);
+                console.log("Vaga criada com sucesso:", response);
+                this.$router.push('/index_vacancies');
+            } catch (error) {
+                console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
+                alert("Erro ao criar a vaga.");
             }
         },
-        convertToUpperCase() {
+
+        checkAge() {
+            if (this.min_age < 16)
+                this.min_age = 16;
+        }
+    },
+    convertToUpperCase() {
         this.company_name = this.company_name.toUpperCase();
         this.vacancy_name = this.vacancy_name.toUpperCase();
-        },
+    },
 
-    };
-        // formatSalary() {
-        //     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
-        //     value = (parseInt(value, 10) / 100).toFixed(2); // Converte para número com 2 casas decimais
-        //     value = value.replace('.', ','); // Substitui o ponto por vírgula
-        //     this.salary = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos como separadores de milhar
-        // },
-        // cleanSalary(){
-        //     this.cleanedSalary = this.salary.replace(/D\./g, '').replace(',', '.');
-        // }
+};
+// formatSalary() {
+//     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
+//     value = (parseInt(value, 10) / 100).toFixed(2); // Converte para número com 2 casas decimais
+//     value = value.replace('.', ','); // Substitui o ponto por vírgula
+//     this.salary = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos como separadores de milhar
+// },
+// cleanSalary(){
+//     this.cleanedSalary = this.salary.replace(/D\./g, '').replace(',', '.');
+// }
 
 
 
