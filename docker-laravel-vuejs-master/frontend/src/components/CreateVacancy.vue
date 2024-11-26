@@ -7,8 +7,9 @@
 
             <div class="col-md-4">
                 <label for="company_name" class="form-label" id="company">Nome da empresa</label>
-                <input type="text" class="form-control" id="company_name" v-model="company_name" placeholder="Exemplo"
-                    equired />
+
+                <input type="text" class="form-control" id="company_name" v-model="company_name" required readonly />
+
             </div>
 
             <div class="col-md-4">
@@ -31,7 +32,9 @@
 
             <div class="col-md-4">
                 <label for="local" class="form-label" id="local">Local</label>
-                <input type="text" class="form-control" id="local" v-model="local" placeholder="Brasília" required />
+
+                <input type="text" class="form-control" id="local" v-model="city" required />
+
             </div>
 
             <div class="mb-3">
@@ -46,6 +49,7 @@
 
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
+
                 <input type="number" class="form-control" id="salary" v-model="salary" placeholder="1.234,00"
                     required />
             </div>
@@ -55,6 +59,7 @@
                 <input type="number" class="form-control" id="min_age" v-model="min_age" placeholder="18" required
                     @blur="checkAge" :class="{ 'is-invalid': min_age < 16 && min_age !== '' }" />
                 <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou mais.</div>
+
             </div>
 
                 <div class="mb-3">
@@ -81,11 +86,12 @@ export default {
             vacancy_name: '',
             description: '',
             requirements: '',
-            local: '',
+            location: '',
             work_modality: '',
             salary: '',
-            min_age: '',
-            date: ''
+
+            creation_date: '',
+
         };
     },
 
@@ -102,6 +108,23 @@ export default {
                 return;
             }
 
+
+            axios.get("http://localhost:8000/api/user/pullAuth", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((response) => {
+                    const { company_name, perfilPicture,city } =
+                        response.data;
+                    this.company_name = company_name;
+                    this.perfilPicture = perfilPicture;
+                    this.city = city;
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar usuário:", error);
+                })
+
         },
 
         async createVacancy() {
@@ -117,15 +140,16 @@ export default {
                 vacancy_name: this.vacancy_name,
                 description: this.description,
                 requirements: this.requirements,
-                local: this.local,
+                location: this.city,
                 work_modality: this.work_modality,
                 salary: this.salary,
-                min_age: this.min_age,
-                date: this.date
+
+                creation_date: this.creation_date,
             };
 
             try {
-                await axios.post('http://127.0.0.1:8000/api/index_vacancies', vacancyData, {
+                await axios.post('http://localhost:8000/api/recruiter/vacancy_register', vacancyData, {
+
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -138,6 +162,7 @@ export default {
             }
         },
 
+
         checkAge() {
             if (this.min_age <16)
                 this.min_age = 16;
@@ -148,8 +173,22 @@ export default {
         this.vacancy_name = this.vacancy_name.toUpperCase();
         },
 
-        
+       
     };
+        // formatSalary() {
+        //     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
+        //     value = (parseInt(value, 10) / 100).toFixed(2); // Converte para número com 2 casas decimais
+        //     value = value.replace('.', ','); // Substitui o ponto por vírgula
+        //     this.salary = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos como separadores de milhar
+        // },
+        // cleanSalary(){
+        //     this.cleanedSalary = this.salary.replace(/D\./g, '').replace(',', '.');
+        // }
+
+    }
+};
+
+
 </script>
 
 <style scoped>

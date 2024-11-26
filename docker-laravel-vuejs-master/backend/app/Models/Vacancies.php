@@ -25,6 +25,7 @@ class Vacancies extends Authenticatable
         'salary',
         'company_logo',
         'recruiter_id',
+        'min_age'
     ];
 
     protected $casts = [
