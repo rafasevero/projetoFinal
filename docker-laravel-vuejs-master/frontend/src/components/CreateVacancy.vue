@@ -33,7 +33,7 @@
             <div class="col-md-4">
                 <label for="local" class="form-label" id="local">Local</label>
 
-                <input type="text" class="form-control" id="local" v-model="city" required />
+                <input type="text" class="form-control" id="local" v-model="city" required readonly />
 
             </div>
 
@@ -50,7 +50,7 @@
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
 
-                <input type="number" class="form-control" id="salary" v-model="salary" placeholder="1.234,00"
+                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00"
                     required />
             </div>
 
@@ -64,7 +64,7 @@
 
                 <div class="mb-3">
                     <label for="date" class="form-label">Data de criação da vaga</label>
-                    <input type="date" class="form-control" id="date" v-model="date" required />
+                    <input type="date" class="form-control" id="date" v-model="creation_date" required />
                 </div>
 
                 <div class="col-md-12 text-center">
@@ -76,6 +76,7 @@
 
 <script>
 import axios from "axios";
+import { createVacancy } from '../services/CreateVacancies';
 
 export default {
     name: 'CreateVacancy',
@@ -91,7 +92,7 @@ export default {
             salary: '',
 
             creation_date: '',
-
+            
         };
     },
 
@@ -128,39 +129,31 @@ export default {
         },
 
         async createVacancy() {
-            const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Token não encontrado. Por favor, faça login novamente.");
+            return;
+        }
+        const data ={
+            company_name: this.company_name,
+            vacancy_name: this.vacancy_name,
+            description: this.description,
+            requirements: this.requirements,
+            location: this.city,
+            work_modality: this.work_modality,
+            salary: this.salary,
+            creation_date: this.creation_date,
+        };
+        try {
+            const response = await createVacancy(data, token);
+            console.log("Vaga criada com sucesso:", response);
+            this.$router.push('/index_vacancies');
+        }catch(error){
+            console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
+            alert("Erro ao criar a vaga.");
+        }
+        }
 
-            if (!token) {
-                alert("Token não encontrado. Por favor, faça login novamente.");
-                return;
-            }
-
-            const vacancyData = {
-                company: this.company_name,
-                vacancy_name: this.vacancy_name,
-                description: this.description,
-                requirements: this.requirements,
-                location: this.city,
-                work_modality: this.work_modality,
-                salary: this.salary,
-
-                creation_date: this.creation_date,
-            };
-
-            try {
-                await axios.post('http://localhost:8000/api/recruiter/vacancy_register', vacancyData, {
-
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                this.$router.push('/index_vacancies');
-            } catch (error) {
-                console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
-                alert("Erro ao criar a vaga.");
-            }
-        },
 
         // formatSalary() {
         //     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
