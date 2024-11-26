@@ -71,10 +71,17 @@ class UserController extends Controller
                 'token' => $token,
                 'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
 
+<<<<<<< HEAD
             ], 200);
         } else{
             return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
         }
+=======
+        ], 200);
+    } else{
+        return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
+    }
+>>>>>>> 8fa31b8 (listagem de candidatos por vaga para recrutador feita)
     }
 
     public function getUserProfile(){
@@ -136,6 +143,7 @@ class UserController extends Controller
         $user->save();
     }
 
+<<<<<<< HEAD
     public function getVacanciesForUser()
     {
         // Obter o usuário autenticado
@@ -161,6 +169,8 @@ class UserController extends Controller
     }
 
 
+=======
+>>>>>>> 8fa31b8 (listagem de candidatos por vaga para recrutador feita)
 
 
     public function logout(){

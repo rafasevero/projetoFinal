@@ -48,7 +48,10 @@ Route::prefix('user')->group(function () {
     Route::middleware('auth:sanctum')->post('/deleteSoftSkill/{id}',[SoftskillController::class, 'destroySoftSkill']);//testar
     Route::middleware('auth:sanctum')->put('/updateCurriculum/{id}',[CurriculumController::class, 'updateCurriculum']);//testar
     Route::middleware('auth:sanctum')->post('/deleteCurriculum/{id}',[CurriculumController::class, 'destroyCurriculum']);//testar
+<<<<<<< HEAD
     Route::middleware('auth:sanctum')->get('/getVacanciesForUser',[UserController::class, 'getVacanciesForUser']);
+=======
+>>>>>>> 8fa31b8 (listagem de candidatos por vaga para recrutador feita)
 
 });
 
