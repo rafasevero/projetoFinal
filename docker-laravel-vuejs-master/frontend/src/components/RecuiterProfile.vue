@@ -23,12 +23,8 @@
                         <div class="row mt-2">
                             <div class="col-md-6">
                                 <label class="labels">Nome da empresa</label>
-                                <input type="text" class="form-control" placeholder="Nome completo"
+                                <input type="text" class="form-control" placeholder="Nome da empresa"
                                     v-model="company_name" @input="convertToUpperCase" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="labels">Data de Nascimento</label>
-                                <input type="date" class="form-control" v-model="date_of_birth" />
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -72,16 +68,16 @@
                         <div class="mt-5 text-center">
                             <button class="btn btn-primary profile-button" type="button"
                                 @click="editProfile = true">Editar Perfil</button>
+
                             <Modal :show="editProfile" @close="editProfile = false">
                                 <form>
                                     <h2>Editar Perfil</h2>
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h4 class="text-right">Configurações do Perfil</h4>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label class="labels">Nome da empresa</label>
-                                            <input type="text" class="form-control" placeholder="Nome completo"
+                                            <input type="text" class="form-control" placeholder="Nome da empresa"
                                                 v-model="company_name" @input="convertToUpperCase" />
                                         </div>
                                     </div>
@@ -252,10 +248,10 @@ export default {
             };
 
             axios
-                .put("http://localhost:8000/api/recruiter/update/{recruiterId}}", updatedProfile, { headers })
+                .put("http://localhost:8000/api/recruiter/update/${this.recruiterId}", updatedProfile, { headers })
                 .then(() => {
                     alert("Perfil atualizado com sucesso!");
-                    this.editProfile = true;
+                    this.editProfile = false;
                 })
                 .catch((error) => {
                     console.error("Erro ao atualizar perfil: ", error);
@@ -292,8 +288,5 @@ export default {
     font-size: 11px;
 }
 
-.save-profile {
-    background-color: #ffffff;
-    color: #000000
-}
+
 </style>

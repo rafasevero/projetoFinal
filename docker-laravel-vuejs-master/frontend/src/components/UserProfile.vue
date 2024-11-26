@@ -19,7 +19,6 @@
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Configurações do Perfil</h4>
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-6">
@@ -347,67 +346,6 @@ export default {
     background-color: #124366;
 }
 
-.save-profile {
-    background-color: #ffffff;
-    color: #000000
-}
-.custom-modal {
-    background-color: rgba(0, 0, 0, 0.5); /* Darken the background */
-    padding: 50px;
-}
 
-.modal-form {
-    background-color: white;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.modal-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.modal-header h4 {
-    font-size: 18px;
-    margin-bottom: 20px;
-}
-
-.labels {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-}
-
-.form-control {
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 15px;
-}
-
-.btn-primary {
-    background-color: #4ea1db;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    background-color: #ffffff;
-    color: #4ea1db;
-    border: 1px solid #4ea1db;
-    transition: 0.3s;
-}
-
-.save-profile {
-    width: 200px;
-}
-
-.text-center {
-    margin-top: 20px;
-}
 
 </style>
