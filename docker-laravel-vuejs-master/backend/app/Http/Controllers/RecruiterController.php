@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Recruiter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use PharIo\Manifest\Author;
 class RecruiterController extends Controller
 {
     public function registerRecruiter(Request $request){
+
         $array =  $request->validate([
             'company_name' => 'required|string|max:100',
             'cnpj' => 'required|string|max:14|unique:recruiters',
@@ -44,20 +46,22 @@ class RecruiterController extends Controller
     }
 
 
-    public function getRecruiterVacancies($recruiterId)
+    public function getRecruiterVacancies()
     {
-        $recruiter = Recruiter::findOrFail($recruiterId);
+        $recruiter = Auth::user();
+
+        if (!$recruiter) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
+        }
+
         return response()->json([
             'message' => 'Vagas encontradas com sucesso!',
             'vacancies' => $recruiter->vacancies,
         ]);
     }
 
+ 
 
-    public function destroy(){
-        auth()->guard('recruiter')->logout();
-        return response()->json(['message' => 'Logout efetuado com sucesso!']);
-    }
 
 
     public function update(Request $request, $id){

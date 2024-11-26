@@ -33,7 +33,8 @@ class VacancyController extends Controller
 
         $array['company'] = $recruiter->company_name;
 
-        $array['creation_date'] = now();
+        $array['creation_date'] = now(); // Usando o helper 'now' para obter a data atual
+
 
 
         $vacancy = Vacancies::create($array);
