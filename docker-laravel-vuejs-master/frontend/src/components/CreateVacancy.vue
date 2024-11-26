@@ -155,18 +155,6 @@ export default {
         }
 
 
-
-        checkAge() {
-            if (this.min_age <16)
-                this.min_age = 16;
-            }
-        },
-        convertToUpperCase() {
-        this.company_name = this.company_name.toUpperCase();
-        this.vacancy_name = this.vacancy_name.toUpperCase();
-        },
-
-    };
         // formatSalary() {
         //     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
         //     value = (parseInt(value, 10) / 100).toFixed(2); // Converte para número com 2 casas decimais
@@ -177,7 +165,8 @@ export default {
         //     this.cleanedSalary = this.salary.replace(/D\./g, '').replace(',', '.');
         // }
 
-
+    }
+};
 
 </script>
 

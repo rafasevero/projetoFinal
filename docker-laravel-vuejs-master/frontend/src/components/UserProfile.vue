@@ -24,8 +24,8 @@
                         <div class="row mt-2">
                             <div class="col-md-6">
                                 <label class="labels">Nome completo</label>
-                                <input type="text" class="form-control" placeholder="Nome completo" v-model="full_name"
-                                    @input="convertToUpperCase" />
+                                <input type="text" class="form-control" placeholder="Nome completo"
+                                    v-model="full_name" @input="convertToUpperCase" />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Data de Nascimento</label>
@@ -53,8 +53,11 @@
                                 <input type="text" class="form-control" placeholder="Estado" v-model="state" />
                             </div>
                         </div>
-
+                        <!-- Botão de salvar -->
                         <div class="mt-5 text-center">
+                            <button class="btn btn-primary profile-button" type="button" @click="salvarPerfil">
+                                Salvar Perfil
+                            </button>
                             <button class="btn btn-primary profile-button" type="button"
                                 @click="editProfile = true">Editar Perfil</button>
 
@@ -115,9 +118,6 @@
                                                 v-model="address.state" />
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary profile-button save-profile" type="button" @click="salvarPerfil">
-                                        Salvar Perfil
-                                    </button>
                                 </form>
                             </Modal>
                         </div>
@@ -344,10 +344,5 @@ export default {
 
 .form-control-file::file-selector-button:hover {
     background-color: #124366;
-}
-
-.save-profile {
-    background-color: #ffffff;
-    color: #000000
 }
 </style>
