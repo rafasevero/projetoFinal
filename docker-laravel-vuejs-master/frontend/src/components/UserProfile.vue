@@ -57,66 +57,67 @@
                             <button class="btn btn-primary profile-button" type="button"
                                 @click="editProfile = true">Editar Perfil</button>
 
-                            <Modal :show="editProfile" @close="editProfile = false">
-                                <form>
-                                    <h2>Editar Perfil</h2>
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                            <Modal :show="editProfile" @close="editProfile = false" class="custom-modal">
+                                <form class="modal-form">
+                                    <h2 class="modal-title">Editar Perfil</h2>
+                                    <div class="modal-header">
                                         <h4 class="text-right">Configurações do Perfil</h4>
                                     </div>
-                                    <div class="row mt-2">
+
+                                    <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels">Nome completo</label>
-                                            <input type="text" class="form-control" placeholder="Nome completo"
-                                                v-model="full_name" @input="convertToUpperCase" />
+                                            <input type="text" class="form-control" placeholder="Nome completo" v-model="full_name" @input="convertToUpperCase" />
                                         </div>
                                         <div class="col-md-6">
                                             <label class="labels">Data de Nascimento</label>
                                             <input type="date" class="form-control" v-model="date_of_birth" />
                                         </div>
                                     </div>
+
                                     <div class="row mt-3">
                                         <div class="col-md-12">
                                             <label class="labels">Celular</label>
-                                            <input type="text" class="form-control" placeholder="Número de telefone"
-                                                v-model="phone" />
+                                            <input type="text" class="form-control" placeholder="Número de telefone" v-model="phone" />
                                         </div>
                                         <div class="col-md-12">
-                                            <label class="labels">Email </label>
-                                            <input type="text" class="form-control" placeholder="Email"
-                                                v-model="email" />
+                                            <label class="labels">Email</label>
+                                            <input type="text" class="form-control" placeholder="Email" v-model="email" />
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">CEP</label>
-                                        <input type="text" class="form-control" placeholder="CEP" v-model="cep" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">Rua</label>
-                                        <input type="text" class="form-control" placeholder="Rua"
-                                            v-model="address.street" />
-                                    </div>
-                                    <div class="col-md-6">
 
-                                        <label class="labels">Bairro</label>
-                                        <input type="text" class="form-control" placeholder="Bairro"
-                                            v-model="address.neighborhood">
-
-                                    </div>
                                     <div class="row mt-3">
                                         <div class="col-md-6">
-                                            <label class="labels">Cidade</label>
-                                            <input type="text" class="form-control" placeholder="Cidade"
-                                                v-model="address.city" />
+                                            <label class="labels">CEP</label>
+                                            <input type="text" class="form-control" placeholder="CEP" v-model="cep" />
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="labels">Estado</label>
-                                            <input type="text" class="form-control" placeholder="Estado"
-                                                v-model="address.state" />
+                                            <label class="labels">Rua</label>
+                                            <input type="text" class="form-control" placeholder="Rua" v-model="address.street" />
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary profile-button save-profile" type="button" @click="salvarPerfil">
-                                        Salvar Perfil
-                                    </button>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label class="labels">Bairro</label>
+                                            <input type="text" class="form-control" placeholder="Bairro" v-model="address.neighborhood" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="labels">Cidade</label>
+                                            <input type="text" class="form-control" placeholder="Cidade" v-model="address.city" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label class="labels">Estado</label>
+                                            <input type="text" class="form-control" placeholder="Estado" v-model="address.state" />
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <button class="btn btn-primary save-profile" type="button" @click="salvarPerfil">Salvar Perfil</button>
+                                    </div>
                                 </form>
                             </Modal>
                         </div>
@@ -344,6 +345,7 @@ export default {
 .form-control-file::file-selector-button:hover {
     background-color: #124366;
 }
+
 
 
 </style>
