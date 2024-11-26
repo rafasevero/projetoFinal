@@ -1,7 +1,7 @@
 <template>
     <div v-if="show" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
-            <slot></slot> <!-- Aqui você coloca o conteúdo do modal -->
+            <slot></slot>
             <button @click="closeModal" class="close-btn">X</button>
         </div>
     </div>
@@ -31,14 +31,12 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Cor de fundo semi-transparente */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
 }
 
-/* Estilo do conteúdo do modal */
 .modal-content {
     background-color: white;
     padding: 20px;
