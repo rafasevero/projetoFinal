@@ -12,6 +12,7 @@ class VacancyController extends Controller
     public function registerVacancy(Request $request){
 
         $recruiter = Auth::user();
+
         if (!$recruiter) {
             return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
         }
@@ -24,13 +25,15 @@ class VacancyController extends Controller
             'location' => 'required|string|max:100',
             'work_modality' => 'required|string|max:50',
             'creation_date' => 'required|date',
-            'company' => 'required|string|max:100',
             'salary' => 'required|string|max:50',
             'company_logo' => 'string',//'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
             'min_age' => 'integer'
         ]);
 
         $array['recruiter_id'] = $recruiter->id;
+
+        $array['company'] = $recruiter->company_name;
+
 
         $vacancy = Vacancies::create($array);
 

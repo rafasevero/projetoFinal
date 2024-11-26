@@ -11,10 +11,12 @@ class Application extends Model
 {
     use HasFactory;
 
-    public function users(): BelongsToMany
+    public function users()
     {
-        return $this->belongsToMany(User::class)->using(User_application::class,'user_id','application_id');
+        return $this->belongsToMany(User::class, 'user_application', 'application_id', 'user_id')
+                    ->withTimestamps();
     }
+
 
     public function vacancy(): BelongsTo
     {
@@ -22,13 +24,16 @@ class Application extends Model
     }
 
     protected $fillable = [
-      'application_date',
-      'status',
+        'vacancy_id',
+        'user_id',
+        'recruiter_id',
+        'application_date',
+        'status',
+        'application_name',
     ];
 
     protected $casts = [
       'application_date' => 'string',
       'status' => 'string'
-
     ];
 }
