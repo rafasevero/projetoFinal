@@ -19,7 +19,6 @@
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Configurações do Perfil</h4>
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-6">
@@ -346,8 +345,5 @@ export default {
     background-color: #124366;
 }
 
-.save-profile {
-    background-color: #ffffff;
-    color: #000000
-}
+
 </style>
