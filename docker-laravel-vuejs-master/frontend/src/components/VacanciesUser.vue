@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { ShowVagas } from '@/services/RegisterVacancies';
+import { ShowVagas } from '@/services/ShowVacancies';
 
 export default {
   name: 'VacanciesUser',
@@ -135,6 +135,70 @@ ul li{
   width: 80%;
   max-width: 600px;
 }
+.modal-body {
+  padding: 25px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-y: auto;
+  max-height: 400px; /* Definindo uma altura máxima para a área */
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body p {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #1f78b8;
+  margin-bottom: 15px;
+}
+
+.modal-body ul {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.modal-body ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-body .highlight {
+  background-color: #e7f7ff;
+  padding: 5px;
+  border-radius: 5px;
+  color: #1f78b8;
+}
+
+.modal-body .notice {
+  padding: 10px;
+  background-color: #ffefdb;
+  border-left: 5px solid #ffb84d;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #b36b00;
+  border-radius: 5px;
+}
+
+.modal-body a {
+  color: #1f78b8;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.modal-body a:hover {
+  color: #4ea1db;
+}
 .close {
   position: absolute;
   top: 10px;
@@ -142,20 +206,34 @@ ul li{
   cursor: pointer;
 }
 .btn-candidatar {
-  color:#fff;
+  color: #fff;
   background-color: #4ea1db;
   border: 2px solid #1f78b8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: .2s;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out; /* Melhorando a transição para suavizar o efeito */
+  text-transform: uppercase;
+  text-align: center;
 }
+
 .btn-candidatar:hover {
-  transition: .2s;
-  color:#4ea1db;
+  color: #4ea1db;
   background-color: #fff;
-  border:2px solid #1f78b8;
+  border: 2px solid #1f78b8;
+  transform: scale(1.05); /* Efeito de leve aumento no botão */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicionando sombra suave */
 }
+
+.btn-candidatar:active {
+  transform: scale(1); /* Efeito de pressionar, volta ao tamanho original */
+}
+
 .btn-more {
   color: #fff;
   background-color: #4ea1db;
