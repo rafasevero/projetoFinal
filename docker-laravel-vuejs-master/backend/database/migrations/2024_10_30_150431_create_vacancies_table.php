@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('creation_date')->default(DB::raw('CURRENT_DATE')); // Define o valor padrão como o dia atual
             $table->string('company');
             $table->string('salary');
-            $table->string('company_logo');
+            $table->string('company_logo')->nullable();
             $table->integer('min_age');
             $table->timestamps();
 

@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <form @submit.prevent="createVacancy" class="row g-3 form-container">
-            <div id="form-group" class="col-md-4 text-center">
+            <!-- <div id="form-group" class="col-md-4 text-center">
                 <img :src="perfilPicture" alt="logo da empresa" id="company_logo" class="img-fluid" />
-            </div>
+            </div> -->
 
             <div class="col-md-4">
                 <label for="company_name" class="form-label" id="company">Nome da empresa</label>
@@ -41,9 +41,9 @@
                 <label for="work_modality" class="form-label" id="work_modality">Modalidade de Trabalho</label>
                 <select class="form-select" id="work_modality" v-model="work_modality" required>
                     <option value="">Selecione</option>
-                    <option value="present">Presencial</option>
-                    <option value="home_office">Home Office</option>
-                    <option value="hybrid">Híbrido</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="Home Office">Home Office</option>
+                    <option value="Híbrido">Híbrido</option>
                 </select>
             </div>
 
@@ -57,19 +57,13 @@
                 <label for="min_age" class="form-label" id="min_age">Idade mínima</label>
                 <input type="number" class="form-control" id="min_age" v-model="min_age" placeholder="18" required
                     @blur="checkAge" :class="{ 'is-invalid': min_age < 16 && min_age !== '' }" />
-                <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou
-                    mais.</div>
 
+                <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou mais.</div>
             </div>
+                <div class="col-md-12 text-center">
+                    <button type="submit">Criar Vaga</button>
+                </div>
 
-            <div class="mb-3">
-                <label for="date" class="form-label">Data de criação da vaga</label>
-                <input type="date" class="form-control" id="date" v-model="creation_date" required />
-            </div>
-
-            <div class="col-md-12 text-center">
-                <button type="submit">Criar Vaga</button>
-            </div>
         </form>
     </div>
 </template>
@@ -83,7 +77,7 @@ export default {
     data() {
         return {
             company_name: '',
-            perfilPicture: '',
+            // perfilPicture: '',
             vacancy_name: '',
             description: '',
             requirements: '',
@@ -91,7 +85,8 @@ export default {
             work_modality: '',
             salary: '',
 
-            creation_date: '',
+            min_age: '',
+            
 
         };
     },
@@ -116,10 +111,12 @@ export default {
                 },
             })
                 .then((response) => {
-                    const { company_name, perfilPicture, city } =
+
+                    const { company_name, /*perfilPicture*/city } =
+
                         response.data;
                     this.company_name = company_name;
-                    this.perfilPicture = perfilPicture;
+                    // this.perfilPicture = perfilPicture;
                     this.city = city;
                 })
                 .catch((error) => {
@@ -129,34 +126,36 @@ export default {
         },
 
         async createVacancy() {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("Token não encontrado. Por favor, faça login novamente.");
-                return;
-            }
-            const data = {
-                company_name: this.company_name,
-                vacancy_name: this.vacancy_name,
-                description: this.description,
-                requirements: this.requirements,
-                location: this.city,
-                work_modality: this.work_modality,
-                salary: this.salary,
-                creation_date: this.creation_date,
-            };
-            try {
-                const response = await createVacancy(data, token);
-                console.log("Vaga criada com sucesso:", response);
-                this.$router.push('/index_vacancies');
-            } catch (error) {
-                console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
-                alert("Erro ao criar a vaga.");
-            }
-        },
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Token não encontrado. Por favor, faça login novamente.");
+            return;
+        }
+        const data ={
+            company_name: this.company_name,
+            vacancy_name: this.vacancy_name,
+            description: this.description,
+            requirements: this.requirements,
+            location: this.city,
+            work_modality: this.work_modality,
+            salary: this.salary,
+            min_age: this.min_age,
+        };
+        try {
+            const response = await createVacancy(data, token);
+            console.log("Vaga criada com sucesso:", response);
+            this.$router.push('/vacanciesRecruiter');
+        }catch(error){
+            console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
+            alert("Erro ao criar a vaga.");
+        }
+
 
         checkAge() {
             if (this.min_age < 16)
                 this.min_age = 16;
+
         }
     },
     convertToUpperCase() {
