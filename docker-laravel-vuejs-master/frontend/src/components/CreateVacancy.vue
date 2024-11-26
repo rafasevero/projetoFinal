@@ -77,17 +77,13 @@ export default {
     data() {
         return {
             company_name: '',
-            // perfilPicture: '',
             vacancy_name: '',
             description: '',
             requirements: '',
             location: '',
             work_modality: '',
             salary: '',
-
             min_age: '',
-            
-
         };
     },
 
@@ -104,79 +100,65 @@ export default {
                 return;
             }
 
-
             axios.get("http://localhost:8000/api/user/pullAuth", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             })
                 .then((response) => {
-
-                    const { company_name, /*perfilPicture*/city } =
-
-                        response.data;
+                    const { company_name, city } = response.data;
                     this.company_name = company_name;
-                    // this.perfilPicture = perfilPicture;
                     this.city = city;
                 })
                 .catch((error) => {
                     console.error("Erro ao buscar usuário:", error);
-                })
-
+                });
         },
 
         async createVacancy() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Token não encontrado. Por favor, faça login novamente.");
+                return;
+            }
 
-        const token = localStorage.getItem("token");
-        if (!token) {
-            alert("Token não encontrado. Por favor, faça login novamente.");
-            return;
-        }
-        const data ={
-            company_name: this.company_name,
-            vacancy_name: this.vacancy_name,
-            description: this.description,
-            requirements: this.requirements,
-            location: this.city,
-            work_modality: this.work_modality,
-            salary: this.salary,
-            min_age: this.min_age,
-        };
-        try {
-            const response = await createVacancy(data, token);
-            console.log("Vaga criada com sucesso:", response);
-            this.$router.push('/vacanciesRecruiter');
-        }catch(error){
-            console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
-            alert("Erro ao criar a vaga.");
-        }
+            const data = {
+                company_name: this.company_name,
+                vacancy_name: this.vacancy_name,
+                description: this.description,
+                requirements: this.requirements,
+                location: this.city,
+                work_modality: this.work_modality,
+                salary: this.salary,
+                min_age: this.min_age,
+            };
 
+            try {
+                const response = await createVacancy(data, token);
+                console.log("Vaga criada com sucesso:", response);
+                this.$router.push('/vacanciesRecruiter');
+            } catch (error) {
+                console.error('Erro ao criar vaga:', error.response ? error.response.data : error.message);
+                alert("Erro ao criar a vaga.");
+            }
+        },
 
         checkAge() {
-            if (this.min_age < 16)
+            if (this.min_age < 16) {
                 this.min_age = 16;
+            }
+        },
 
-        }
+        convertToUpperCase() {
+            this.company_name = this.company_name.toUpperCase();
+            this.vacancy_name = this.vacancy_name.toUpperCase();
+        },
     },
-    convertToUpperCase() {
-        this.company_name = this.company_name.toUpperCase();
-        this.vacancy_name = this.vacancy_name.toUpperCase();
-    },
-
 };
-// formatSalary() {
-//     let value = this.salary.replace(/\D/g, ''); // Remove tudo que não é número
-//     value = (parseInt(value, 10) / 100).toFixed(2); // Converte para número com 2 casas decimais
-//     value = value.replace('.', ','); // Substitui o ponto por vírgula
-//     this.salary = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos como separadores de milhar
-// },
-// cleanSalary(){
-//     this.cleanedSalary = this.salary.replace(/D\./g, '').replace(',', '.');
-// }
-
-
-
 </script>
+
+
+
 
 <style scoped>
 .container {
