@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recruiter;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,11 @@ class UserController extends Controller
             'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',// Garantindo e-mails únicos
             'password' => 'required|string|min:8|max:100',
-            'date_of_birth' => 'required|date',
+            'date_of_birth' => ['required', 'date', function ($attribute, $value, $fail) {
+            if (Carbon::parse($value)->age < 16) {
+                $fail('Você deve ter pelo menos 16 anos.');
+            }
+            }],
             'cpf' => 'required|string|max:11|unique:users',
             'cep' => 'required|string|max:8',
             'city' => 'required|string|max:100',
@@ -70,11 +74,6 @@ class UserController extends Controller
     } else{
         return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
     }
-    }
-
-    public function destroy(){
-        auth()->guard('user')->logout();
-        return response()->json(['message' => 'Logout efetuado com sucesso!']);
     }
 
     public function getUserProfile(){
@@ -135,6 +134,20 @@ class UserController extends Controller
 
         $user->save();
     }
+
+
+
+    public function logout(){
+
+        $user = Auth::user();
+
+        if ($user) {
+            $user->tokens()->delete();
+            return response()->json(['message' => 'Logout realizado com sucesso!']);
+        }
+
+        return response()->json(['message' => 'Usuário não autenticado.'], 401);
+       }
     //preciso fazer a requisição para verificar se um usuário já está cadastrado
 
 }

@@ -10,7 +10,8 @@ class Curriculum extends Model
     use HasFactory;
 
     protected $fillable = [
-        'file'
+        'file',
+        'user_id'
     ];
 
     protected $casts = [
@@ -20,6 +21,5 @@ class Curriculum extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-
     }
 }
