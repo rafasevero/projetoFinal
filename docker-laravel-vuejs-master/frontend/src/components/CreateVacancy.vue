@@ -147,6 +147,8 @@ export default {
         this.company_name = this.company_name.toUpperCase();
         this.vacancy_name = this.vacancy_name.toUpperCase();
         },
+
+        
     };
 </script>
 
