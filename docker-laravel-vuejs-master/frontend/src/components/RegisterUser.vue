@@ -164,7 +164,7 @@ export default {
             
             const dataToSend = {
                 full_name: this.full_name,
-                cpf: cleanedCPF,
+                cpf: cleanedCPF, 
                 phone: cleanedPhone,
                 date_of_birth: this.date_of_birth,
                 email: this.email,
