@@ -24,44 +24,32 @@
                             <div class="col-md-6">
                                 <label class="labels">Nome da empresa</label>
                                 <input type="text" class="form-control" placeholder="Nome da empresa"
-                                    v-model="company_name" @input="convertToUpperCase" />
+                                    v-model="company_name" @input="convertToUpperCase" readonly/>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <label class="labels">Celular</label>
                                 <input type="text" class="form-control" placeholder="Número de telefone"
-                                    v-model="phone" />
+                                    v-model="phone" readonly/>
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">Email </label>
-                                <input type="text" class="form-control" placeholder="Email" v-model="email" />
+                                <input type="text" class="form-control" placeholder="Email" v-model="email" readonly/>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label class="labels">Cidade</label>
-                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" />
+                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" readonly/>
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Estado</label>
-                                <input type="text" class="form-control" placeholder="Estado" v-model="state" />
+                                <input type="text" class="form-control" placeholder="Estado" v-model="state" readonly/>
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">CEP</label>
-                                <input type="text" class="form-control" placeholder="85000-000" v-model="cep" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="labels">Rua</label>
-                                <input type="text" class="form-control" placeholder="Rua" v-model="street" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="labels">Número</label>
-                                <input type="text" class="form-control" placeholder="123" v-model="number" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="labels">Bairro</label>
-                                <input type="text" class="form-control" placeholder="Bairro" v-model="neighborhood" />
+                                <input type="text" class="form-control" placeholder="85000-000" v-model="cep" readonly/>
                             </div>
                         </div>
 
@@ -96,17 +84,6 @@
                                     <div class="col-md-6">
                                         <label class="labels">CEP</label>
                                         <input type="text" class="form-control" placeholder="CEP" v-model="cep" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">Rua</label>
-                                        <input type="text" class="form-control" placeholder="Rua" v-model="street" />
-                                    </div>
-                                    <div class="col-md-6">
-
-                                        <label class="labels">Bairro</label>
-                                        <input type="text" class="form-control" placeholder="Bairro"
-                                            v-model="neighborhood">
-
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-md-6">
@@ -177,37 +154,22 @@ export default {
                 return;
             }
 
-
-            axios.get("http://localhost:8000/api/user/pullAuth", {
-
+            axios
+                .get("http://localhost:8000/api/user/pullAuth", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((response) => {
-                    const { id, company_name, email, neighborhood, street, phone, city, state, perfilPicture, address } =
+                    const { company_name,cep, email, phone, city, state,  perfilPicture } =
                         response.data;
-                    this.recruiterId = id
                     this.company_name = company_name;
                     this.email = email;
                     this.phone = phone;
-                    this.street = street;
-                    this.neighborhood = neighborhood;
+                    this.cep = cep;
                     this.city = city;
                     this.state = state;
-                    this.address = address || { street: '', neighborhood: '', city: '', state: '' };
-
-                    if (address) {
-                        this.address = address;  // Atribui o valor de address se existir
-                    } else {
-                        this.address = {           // Caso contrário, inicializa um objeto vazio
-                            street: '',
-                            neighborhood: '',
-                            city: '',
-                            state: ''
-                        };
-                    }
-
+                    this.cep = cep;
                     if (perfilPicture) {
                         this.perfilPicture = perfilPicture;
                     }
