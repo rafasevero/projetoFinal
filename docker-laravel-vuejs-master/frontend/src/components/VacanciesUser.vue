@@ -38,6 +38,7 @@
 
 <script>
 import { ShowVagas } from '@/services/ShowVacancies';
+import { applyVacancie } from '@/services/ApplyVacancie';
 
 export default {
   name: 'VacanciesUser',
@@ -49,6 +50,7 @@ export default {
       showModal: false,
       loading: false,
       error: false,
+      vacancy_id: null,
     };
   },
   computed: {
@@ -85,9 +87,33 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    async applyForm() {
-      console.log("Candidatando-se à vaga:", this.selectedVaga.id);
+    async applyForm(vacancy_id) {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Token não encontrado. Por favor, faça login novamente.");
+        return;
+      }
+
+      const data = {
+        full_name: this.full_name,
+        phone: this.phone,
+        email: this.email,
+        curriculum: this.curriculum,
+      };
+
+      try {
+        // Passando vacancy_id diretamente, não precisa de this.$route
+        const response = await applyVacancie(data, token, vacancy_id);
+        console.log("Vaga candidatada com sucesso:", response);
+        alert("Vaga candidatada com sucesso!");
+      } catch (error) {
+        console.error("Erro ao candidatar a vaga:", error.response ? error.response.data : error.message);
+        alert("Erro ao candidatar a vaga.");
+      }
     }
+
+
   },
   mounted() {
     this.fetchVagas();

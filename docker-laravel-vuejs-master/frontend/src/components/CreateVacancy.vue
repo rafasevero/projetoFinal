@@ -50,7 +50,8 @@
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
 
-                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00" required />
+                <input type="text" class="form-control" id="salary"v-model="salary" placeholder="0.000,00" @input="formatSalary" required />
+
             </div>
 
             <div class="col-md-4">
@@ -117,6 +118,10 @@ export default {
 
         async createVacancy() {
             const token = localStorage.getItem("token");
+            
+            // Garante que o salário seja numérico antes de enviar
+            const salaryString = this.salary;
+            
             if (!token) {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
@@ -129,7 +134,7 @@ export default {
                 requirements: this.requirements,
                 location: this.city,
                 work_modality: this.work_modality,
-                salary: this.salary,
+                salary: salaryString, // Salário numérico formatado
                 min_age: this.min_age,
             };
 
@@ -153,6 +158,24 @@ export default {
             this.company_name = this.company_name.toUpperCase();
             this.vacancy_name = this.vacancy_name.toUpperCase();
         },
+
+        formatSalary() {
+            // Remove tudo que não for número
+            let valor = this.salary.replace(/[^\d]/g, "");
+
+            // Adiciona vírgula como separador decimal (2 últimas casas)
+            if (valor.length > 2) {
+                valor = valor.slice(0, -2) + "," + valor.slice(-2);
+            }
+
+            // Adiciona pontos como separadores de milhar
+            valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+            // Atualiza o campo formatado como string
+            this.salary = valor;
+        },
+
+
     },
 };
 </script>
