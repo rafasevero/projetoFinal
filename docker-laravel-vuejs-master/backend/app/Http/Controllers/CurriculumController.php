@@ -11,12 +11,13 @@ class CurriculumController extends Controller
     public function storeCurriculum(Request $request){
 
         $user = auth()->user();
+
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado.'], 401);
         }
 
         $validated = $request->validate([
-            'file' => 'required|file|mimes:pdf|max:10240'
+            'file' => 'string'//'required|file|mimes:pdf|max:10240'
         ]);
 
         $validated['user_id'] = $user->id;
