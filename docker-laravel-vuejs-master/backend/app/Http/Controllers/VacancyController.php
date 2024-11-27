@@ -36,7 +36,6 @@ class VacancyController extends Controller
         $array['creation_date'] = now(); // Usando o helper 'now' para obter a data atual
 
 
-
         $vacancy = Vacancies::create($array);
 
         return response()->json([

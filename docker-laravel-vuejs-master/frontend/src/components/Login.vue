@@ -80,39 +80,24 @@ export default {
         },
         async formLogin() {
             try {
-            const user = await login(this.email, this.password);
-                console.log(user);
-            if (user.role === "user") {
-                
-                this.notificationMessage = 'Login efetuado com sucesso!';
-                this.showNotification = true;
-                setTimeout(() => {
-                    this.$router.push('/vacanciesUser');
-                },2000);
+                const user = await login(this.email, this.password);
 
-                
-            } else if (user.role === "recruiter") {
-                
+                localStorage.setItem('authToken', user.token); //guarda o token
+
                 this.notificationMessage = 'Login efetuado com sucesso!';
                 this.showNotification = true;
-                setTimeout(() => {
+
+                if (user.role === "user") {
+                    this.$router.push('/vacanciesUser');
+                } else if (user.role === "recruiter") {
                     this.$router.push('/vacanciesRecruiter');
-                },2000);
-            }
+                }
             } catch (error) {
                 alert('Email e/ou Senha inválidos!');
             }
-
-        },
-
-
-        goToRegister() {
-            window.location.href = 'registerUser'; // Redireciona para a página de registro
         }
     }
 }
-
-
 </script>
 
 <style scoped>
@@ -154,7 +139,6 @@ export default {
     padding: 15px;
 }
 
-
 .caixa {
     display: flex;
     flex-direction: column;
@@ -167,7 +151,6 @@ export default {
     max-width: 400px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
 
 form {
     width: 100%;
@@ -186,7 +169,6 @@ input {
     color: black;
 }
 
-
 button {
     padding: 10px 130px;
     margin-top: 10px;
@@ -204,7 +186,6 @@ button:hover {
     border: 2px solid white;
 }
 
-
 p {
     text-align: center;
 }
@@ -218,7 +199,6 @@ p {
         font-size: 0.9em;
     }
 }
-
 
 @media (max-width: 480px) {
     h1 {

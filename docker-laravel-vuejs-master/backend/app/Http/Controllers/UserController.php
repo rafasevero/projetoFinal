@@ -72,9 +72,10 @@ class UserController extends Controller
                 'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
 
             ], 200);
-        } else{
-            return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
-        }
+    } else{
+        return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
+    }
+      
     }
 
     public function getUserProfile(){
@@ -159,6 +160,7 @@ class UserController extends Controller
         // Retornar as candidaturas e as informações da vaga associada
         return response()->json(['applications' => $applications], 200);
     }
+
 
     public function logout(){
 
