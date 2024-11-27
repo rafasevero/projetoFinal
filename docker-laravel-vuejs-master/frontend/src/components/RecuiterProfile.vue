@@ -24,32 +24,33 @@
                             <div class="col-md-6">
                                 <label class="labels">Nome da empresa</label>
                                 <input type="text" class="form-control" placeholder="Nome da empresa"
-                                    v-model="company_name" @input="convertToUpperCase" readonly/>
+                                    v-model="company_name" @input="convertToUpperCase" readonly />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <label class="labels">Celular</label>
-                                <input type="text" class="form-control" placeholder="Número de telefone"
-                                    v-model="phone" readonly/>
+                                <input type="text" class="form-control" placeholder="Número de telefone" v-model="phone"
+                                    readonly />
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">Email </label>
-                                <input type="text" class="form-control" placeholder="Email" v-model="email" readonly/>
+                                <input type="text" class="form-control" placeholder="Email" v-model="email" readonly />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label class="labels">Cidade</label>
-                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" readonly/>
+                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Estado</label>
-                                <input type="text" class="form-control" placeholder="Estado" v-model="state" readonly/>
+                                <input type="text" class="form-control" placeholder="Estado" v-model="state" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">CEP</label>
-                                <input type="text" class="form-control" placeholder="85000-000" v-model="cep" readonly/>
+                                <input type="text" class="form-control" placeholder="85000-000" v-model="cep"
+                                    readonly />
                             </div>
                         </div>
 
@@ -132,12 +133,12 @@ export default {
             company_name: "",
             email: "",
             phone: "",
-            address: {
-                street: '',
-                neighborhood: '',
-                city: '',
-                state: '',
-            },
+            // address: {
+            //     street: '',
+            //     neighborhood: '',
+            //     city: '',
+            //     state: '',
+            // },
             perfilPicture:
                 "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
             cep: "",
@@ -155,14 +156,15 @@ export default {
             }
 
             axios
-                .get("http://localhost:8000/api/user/pullAuth", {
+                .get("http://127.0.0.1:8000/api/user/pullAuth", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((response) => {
-                    const { company_name,cep, email, phone, city, state,  perfilPicture } =
+                    const { id, company_name, cep, email, phone, city, state, perfilPicture } =
                         response.data;
+                    this.id = id;
                     this.company_name = company_name;
                     this.email = email;
                     this.phone = phone;
@@ -193,16 +195,22 @@ export default {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
+
+            if (!this.company_name || !this.email || !this.phone || !this.city || !this.state || !this.cep) {
+                alert("Todos os campos obrigatórios devem ser preenchidos.");
+                return;
+            }
+
             const updatedProfile = {
+                id: this.id,
                 company_name: this.company_name,
                 email: this.email,
                 phone: this.phone,
-                street: this.street,
-                neighborhood: this.neighborhood,
+                // street: this.street,
+                // neighborhood: this.neighborhood,
                 city: this.city,
                 state: this.state,
-                date_of_birth: this.date_of_birth,
-                address: this.address,
+                // address: this.address,
                 cep: this.cep,
             };
             const headers = {
@@ -210,14 +218,14 @@ export default {
             };
 
             axios
-                .put("http://localhost:8000/api/recruiter/update/${this.recruiterId}", updatedProfile, { headers })
+                .put(`http://127.0.0.1:8000/api/recruiter/update/${this.id}`, updatedProfile, { headers })
                 .then(() => {
                     alert("Perfil atualizado com sucesso!");
                     this.editProfile = false;
                 })
                 .catch((error) => {
-                    console.error("Erro ao atualizar perfil: ", error);
-                    alert("Não foi possível atualizar o perfil. Tente novamente mais tarde")
+                    console.error("Erro ao atualizar perfil: ", error.response);
+                    alert("Não foi possível atualizar o perfil. Tente novamente mais tarde");
                 });
         },
         convertToUpperCase() {
@@ -249,6 +257,4 @@ export default {
 .labels {
     font-size: 11px;
 }
-
-
 </style>

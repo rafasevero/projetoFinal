@@ -260,6 +260,9 @@ export default {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
+
+            const userId = this.userId;
+
             const updatedProfile = {
                 full_name: this.full_name,
                 email: this.email,
@@ -272,7 +275,7 @@ export default {
                 Authorization: `Bearer ${token}`,
             };
 
-            saveProfile(updatedProfile, headers)
+            saveProfile(updatedProfile, userId, headers)
                 .then(() => {
                     alert("Perfil salvo com sucesso!");
                 })
