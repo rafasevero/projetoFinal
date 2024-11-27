@@ -4,12 +4,6 @@
             <div class="logo-navbar">
                 <img src="../assets/img/RRM LOGO(1).jpg" alt="logo">
             </div>
-            <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
-    <ul>
-        <li v-for="vaga in filteredVagas" :key="vaga.id">
-            {{ vaga.titulo }}
-        </li>
-    </ul>
             <div class="links-navbar">
                 <router-link to="/availableVacancies">Vagas</router-link>
                 <router-link to="/recruiterProfile">Meu Perfil</router-link>
