@@ -27,9 +27,10 @@
           <p>Descrição: {{ selectedVaga.description }}</p>
           <p>Requisitos: {{ selectedVaga.requirements }}</p>
           <p>Local: {{ selectedVaga.location }}</p>
+          <p>Idade mínima: {{ selectedVaga.min_age }}</p>
           <p>Tipo: {{ selectedVaga.work_modality }}</p>
           <p>Valor: {{ selectedVaga.salary }}</p>
-          <button class="btn-candidatar" @click="applyForm">Candidate-se</button>
+          <button class="btn-candidatar" @click="applyForm(selectedVaga.id)">Candidate-se</button>
         </div>
       </div>
     </div>
@@ -39,6 +40,8 @@
 <script>
 import { ShowVagas } from '@/services/ShowVacancies';
 import { applyVacancie } from '@/services/ApplyVacancie';
+import { mapActions } from 'vuex';
+
 
 export default {
   name: 'VacanciesUser',
@@ -96,22 +99,27 @@ export default {
       }
 
       const data = {
-        full_name: this.full_name,
-        phone: this.phone,
-        email: this.email,
-        curriculum: this.curriculum,
+        vacancy_id: this.vacancy_id,
+        user_id: this.user_id,
+        recruiter_id: this.recruiter_id,
+        
       };
 
       try {
-        // Passando vacancy_id diretamente, não precisa de this.$route
+        // Agora passando o vacancy_id como parâmetro
         const response = await applyVacancie(data, token, vacancy_id);
         console.log("Vaga candidatada com sucesso:", response);
         alert("Vaga candidatada com sucesso!");
+
+        let applications = JSON.parse(localStorage.getItem('candidaturas'))||[];
+        applications.push(this.selectedVaga);
+        localStorage.setItem('candidaturas', JSON.stringify(applications));
       } catch (error) {
         console.error("Erro ao candidatar a vaga:", error.response ? error.response.data : error.message);
         alert("Erro ao candidatar a vaga.");
       }
     }
+
 
 
   },
