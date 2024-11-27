@@ -170,7 +170,5 @@ class UserController extends Controller
         }
 
         return response()->json(['message' => 'Usuário não autenticado.'], 401);
-       }
-    //preciso fazer a requisição para verificar se um usuário já está cadastrado
-
+    }
 }
