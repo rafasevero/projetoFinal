@@ -97,7 +97,7 @@ class ApplicationController extends Controller
         }
 
         $userApplications = Application::where('vacancy_id', $vacancy_id)//obtem todas as candidaturas para a vaga
-            ->with('users:id,full_name,email')  // carrega os candidatos associados à candidatura
+            ->with('users:id,full_name,email,phone')  // carrega os candidatos associados à candidatura
             ->get();
 
         if ($userApplications->isEmpty()) {
