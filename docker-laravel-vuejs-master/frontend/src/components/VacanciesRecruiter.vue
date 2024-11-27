@@ -1,11 +1,10 @@
 <template>
   <div class="container">
-    <div class="search-bar">
-      <h1>Vagas Disponíveis</h1>
-      <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
+    <div class="conteiner">
+      <h1>Minhas Vagas</h1>
+      <button @click="goToCreateVacancy">Cadastrar nova vaga</button>
     </div>
-
-    <ul>
+      <ul>
       <li v-for="vaga in filteredVagas" :key="vaga.id">
         <div class="card-vagas">
           <img :src="vaga.company_logo" :alt="vaga.company_name" />
@@ -59,6 +58,18 @@ export default {
     }
   },
   methods: {
+    goToCreateVacancy() {
+          this.$router.push('/createVacancy');
+      },
+      async fetchVagas() {
+          try {
+              const response = await axios.get('http://localhost:8000/api/vagas');
+              this.vagas = response.data;
+          } catch (error) {
+              console.error('Erro ao buscar vagas:', error);
+          }
+      },
+  
     async fetchVagas() {
       try {
         const response = await ShowVagas();
@@ -95,9 +106,44 @@ export default {
 </script>
 
 <style scoped>
+.container {
+max-width: 800px;
+margin: 0 auto;
+padding: 50px;
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+}
+
 ul li{
   list-style: none
 }
+h1 {
+font-size: 24px;
+margin-bottom: 25px;
+text-align: center;
+}
+
+button {
+background-color: #4ea1db;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+border: 1px solid #4ea1db;
+cursor: pointer;
+margin: 0 auto;
+}
+
+button:hover {
+background-color: #ffffff;
+color: #4ea1db;
+border: 1px solid #4ea1db;
+transition: 0.5s;
+}
+
+
+
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -254,5 +300,9 @@ ul li{
   align-items: center;
   margin-bottom: 20px;
 }
-
+@media (max-width: 768px) {
+h1 {
+  font-size: 20px;
+}
+}
 </style>
