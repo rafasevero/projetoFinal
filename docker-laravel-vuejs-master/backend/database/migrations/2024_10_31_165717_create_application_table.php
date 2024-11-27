@@ -17,8 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('recruiter_id');
             $table->date('application_date');
-            $table->string('status');
-            $table->string('application_name');
             $table->timestamps();
 
             $table->foreign('recruiter_id')->references('id')->on('recruiters')->onDelete('cascade');

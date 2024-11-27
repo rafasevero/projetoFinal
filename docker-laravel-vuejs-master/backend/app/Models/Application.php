@@ -28,12 +28,9 @@ class Application extends Model
         'user_id',
         'recruiter_id',
         'application_date',
-        'status',
-        'application_name',
+
     ];
 
     protected $casts = [
-      'application_date' => 'string',
-      'status' => 'string'
     ];
 }

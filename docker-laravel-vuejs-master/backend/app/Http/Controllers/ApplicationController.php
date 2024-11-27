@@ -19,8 +19,7 @@ class ApplicationController extends Controller
         }
 
         $validated = $request->validate([
-            'status' => 'required|string|max:100',
-            'application_name' => 'required|string|max:100',
+
         ]);
 
         $validated['application_date'] = now();
@@ -60,13 +59,11 @@ class ApplicationController extends Controller
         $application = Application::create([//cria a candidatura
             'vacancy_id' => $vacancy->id,
             'user_id' => $user->id,
-            'recruiter_id' => $vacancy->recruiter_id, 
+            'recruiter_id' => $vacancy->recruiter_id,
             'application_date' => now(),
-            'status' => $validated['status'],
-            'application_name' => $validated['application_name']
         ]);
 
-        
+
         DB::table('user_application')->insert([ // insere na tabela intermediária user_application
             'user_id' => $user->id,
             'application_id' => $application->id,
@@ -119,96 +116,6 @@ class ApplicationController extends Controller
             'candidates' => $users,
         ], 200);
     }
-
-
-public function getUsersForVacancies($vacancy_id)
-{
-    $recruiter = Auth::user();
-
-    // Verificar se o recrutador está autenticado
-    if (!$recruiter) {
-        return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
-    }
-
-    // Verificar se a vaga pertence ao recrutador
-    $vacancy = Vacancies::where('id', $vacancy_id)
-        ->where('recruiter_id', $recruiter->id)
-        ->first();
-
-    if (!$vacancy) {
-        return response()->json([
-            'message' => 'Vaga não encontrada ou você não tem permissão para visualizá-la.',
-        ], 404);
-    }
-
-    // Obter todas as candidaturas para a vaga
-    $userApplications = Application::where('vacancy_id', $vacancy_id)
-        ->with('users:id,full_name,email')  // Carregar os usuários (candidatos) associados à candidatura
-        ->get();
-
-    // Verificar se há candidaturas
-    if ($userApplications->isEmpty()) {
-        return response()->json([
-            'message' => 'Não há candidaturas cadastradas para esta vaga.',
-        ], 404);
-    }
-
-    // Acessar diretamente os usuários de cada candidatura
-    $users = $userApplications->flatMap(function ($application) {
-        return $application->users; // Retorna todos os usuários associados à candidatura
-    });
-
-    // Retornar os usuários encontrados
-    return response()->json([
-        'message' => 'Candidatos encontrados com sucesso!',
-        'candidates' => $users,
-    ], 200);
-}
-
-public function getUsersForVacancies($vacancy_id)
-{
-    $recruiter = Auth::user();
-
-    // Verificar se o recrutador está autenticado
-    if (!$recruiter) {
-        return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
-    }
-
-    // Verificar se a vaga pertence ao recrutador
-    $vacancy = Vacancies::where('id', $vacancy_id)
-        ->where('recruiter_id', $recruiter->id)
-        ->first();
-
-    if (!$vacancy) {
-        return response()->json([
-            'message' => 'Vaga não encontrada ou você não tem permissão para visualizá-la.',
-        ], 404);
-    }
-
-    // Obter todas as candidaturas para a vaga
-    $userApplications = Application::where('vacancy_id', $vacancy_id)
-        ->with('users:id,full_name,email')  // Carregar os usuários (candidatos) associados à candidatura
-        ->get();
-
-    // Verificar se há candidaturas
-    if ($userApplications->isEmpty()) {
-        return response()->json([
-            'message' => 'Não há candidaturas cadastradas para esta vaga.',
-        ], 404);
-    }
-
-    // Acessar diretamente os usuários de cada candidatura
-    $users = $userApplications->flatMap(function ($application) {
-        return $application->users; // Retorna todos os usuários associados à candidatura
-    });
-
-    // Retornar os usuários encontrados
-    return response()->json([
-        'message' => 'Candidatos encontrados com sucesso!',
-        'candidates' => $users,
-    ], 200);
-}
-
 
 }
 
