@@ -59,44 +59,48 @@ export default {
         };
     },
     methods: {
-        validateForm() {
-            this.errors.email = "";
-            this.errors.password = "";
+    validateForm() {
+        this.errors.email = "";
+        this.errors.password = "";
 
-            if (!this.email) {
-                this.errors.email = "Por favor, insira um e-mail válido";
-            } else if (!this.validEmail(this.email)) {
-                this.errors.email = "E-mail no formato inválido";
-            }
-            if (!this.password) {
-                this.errors.password = "Por favor, insira uma senha válida";
-            }
+        if (!this.email) {
+            this.errors.email = "Por favor, insira um e-mail válido";
+        } else if (!this.validEmail(this.email)) {
+            this.errors.email = "E-mail no formato inválido";
+        }
+        if (!this.password) {
+            this.errors.password = "Por favor, insira uma senha válida";
+        }
 
-            return !this.errors.email && !this.errors.password;
-        },
-        validEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        },
-        async formLogin() {
-            try {
-                const user = await login(this.email, this.password);
+        return !this.errors.email && !this.errors.password;
+    },
+    validEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    },
+    async formLogin() {
+        try {
+            const user = await login(this.email, this.password);
 
-                localStorage.setItem('authToken', user.token); //guarda o token
+            localStorage.setItem('authToken', user.token); // Guarda o token
 
-                this.notificationMessage = 'Login efetuado com sucesso!';
-                this.showNotification = true;
+            this.notificationMessage = 'Login efetuado com sucesso!';
+            this.showNotification = true;
 
+            setTimeout(() => {
                 if (user.role === "user") {
                     this.$router.push('/vacanciesUser');
                 } else if (user.role === "recruiter") {
                     this.$router.push('/vacanciesRecruiter');
                 }
-            } catch (error) {
-                alert('Email e/ou Senha inválidos!');
-            }
+            }, 2000); 
+
+        } catch (error) {
+            alert('Email e/ou Senha inválidos!');
         }
     }
+}
+
 }
 </script>
 
