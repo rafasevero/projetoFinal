@@ -8,7 +8,7 @@
                 <router-link to="/availableVacancies">Vagas</router-link>
                 <router-link to="/recruiterProfile">Meu Perfil</router-link>
                 <router-link to="/vacanciesRecruiter">Minhas Vagas</router-link>
-                <router-link to ="/">Sair</router-link>
+                <router-link to="/" @click.prevent="logout">Sair</router-link>
             </div>
         </nav>
     </div>
@@ -16,7 +16,16 @@
 
 <script>
 export default {
-    name: 'NavbarRecruiter'
+    name: 'NavbarRecruiter',
+    
+    methods: {
+        logout() {
+            
+            localStorage.removeItem('authToken');
+            this.$router.push('/');
+            alert('Você foi desconectado com sucesso!');
+        }
+    }
 }
 </script>
 

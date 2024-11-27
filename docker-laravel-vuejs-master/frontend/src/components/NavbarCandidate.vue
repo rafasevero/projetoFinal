@@ -8,7 +8,7 @@
                 <router-link to="/vacanciesUser">Vagas</router-link>
                 <router-link to="/userProfile">Meu Perfil</router-link>
                 <router-link to="/application">Minhas Candidaturas</router-link>
-                <router-link to ="/">Sair</router-link>
+                <router-link to="/" @click.prevent="logout">Sair</router-link>
             </div>
         </nav>
     </div>
@@ -16,22 +16,28 @@
 
 <script>
 export default {
-    name: 'NavbarCandidate'
+    name: 'NavbarCandidate',
+
+    methods: {
+        logout() {
+            
+            localStorage.removeItem('authToken');
+            this.$router.push('/');
+            alert('Você foi desconectado com sucesso!');
+        }
+    }
 }
 </script>
 
 <style >
 :root {
-    /*colors*/
     --background-color: #faf0f0;
     --primary-color: #4ea1db;
     --secondary-color: #31312f;
     --text-color: #ffffff;
 
-    /*font*/
     --font-family: 'Roboto', sans-serif;
 
-    /*margins*/
     --borders: 25px
 }
 

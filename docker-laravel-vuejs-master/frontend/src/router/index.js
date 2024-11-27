@@ -1,9 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import Login from '@/views/LoginView.vue';
 import Register from '@/views/RegisterView.vue';
 import RegisterUser from '@/components/RegisterUser.vue';
-import HomeView from '../views/HomeView.vue'
-import App from '@/App.vue';
+import HomeView from '../views/HomeView.vue';
 import UserProfileView from '@/views/UserProfileView.vue';
 import RecruiterRegisterView from '@/views/RecruiterRegisterView.vue';
 import ApplicationView from '@/views/ApplicationView.vue';
@@ -24,7 +23,6 @@ const router = createRouter({
         title: 'Home'
       }
     },
-
     {
       path: '/login',
       name: 'login',
@@ -62,7 +60,8 @@ const router = createRouter({
       name: 'VacanciesUser',
       component: VacanciesUserView,
       meta: {
-        title: 'Vagas'
+        title: 'Vagas',
+        requiresAuth: true
       }
     },
     {
@@ -70,7 +69,8 @@ const router = createRouter({
       name: 'userProfile',
       component: UserProfileView,
       meta: {
-        title: 'Perfil do Usuário'
+        title: 'Perfil do Usuário',
+        requiresAuth: true
       }
     },
     {
@@ -78,7 +78,8 @@ const router = createRouter({
       name: 'recruiterProfile',
       component: RecruiterProfileView,
       meta: {
-        title: 'Perfil da Empresa'
+        title: 'Perfil da Empresa',
+        requiresAuth: true
       }
     },
     {
@@ -86,7 +87,8 @@ const router = createRouter({
       name: 'application',
       component: ApplicationView,
       meta: {
-        title: 'Minhas Candidaturas'
+        title: 'Minhas Candidaturas',
+        requiresAuth: true
       }
     },
     {
@@ -94,7 +96,8 @@ const router = createRouter({
       name: 'vacanciesRecruiter',
       component: VacanciesRecruiterView,
       meta: {
-        title: 'Minhas vagas'
+        title: 'Minhas vagas',
+        requiresAuth: true
       }
     },
     {
@@ -102,7 +105,8 @@ const router = createRouter({
       name: 'availableVacancies',
       component: AvailableVacanciesView,
       meta: {
-        title: 'Minhas vagas'
+        title: 'Minhas vagas',
+        requiresAuth: true
       }
     },
     {
@@ -110,15 +114,34 @@ const router = createRouter({
       name: 'createVacancy',
       component: CreateVacancyView,
       meta: {
-        title: 'Criar vaga'
+        title: 'Criar vaga',
+        requiresAuth: true
       }
     },
   ]
-})
-
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
-  next();
 });
 
-export default router
+
+//proteção de rota
+router.beforeEach((to, from, next) => {
+
+  //muda o titulo
+  document.title = to.meta.title;
+
+  //autenticação
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // ve se tem o token de autenticação no localstorage
+    const token = localStorage.getItem('authToken');
+    
+    
+    if (!token) {
+      next('/login');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
