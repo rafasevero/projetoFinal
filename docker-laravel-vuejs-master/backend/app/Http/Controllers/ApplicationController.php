@@ -19,8 +19,7 @@ class ApplicationController extends Controller
         }
 
         $validated = $request->validate([
-            'status' => 'required|string|max:100',
-            'application_name' => 'required|string|max:100',
+
         ]);
 
         $validated['application_date'] = now();
@@ -60,13 +59,11 @@ class ApplicationController extends Controller
         $application = Application::create([//cria a candidatura
             'vacancy_id' => $vacancy->id,
             'user_id' => $user->id,
-            'recruiter_id' => $vacancy->recruiter_id, 
+            'recruiter_id' => $vacancy->recruiter_id,
             'application_date' => now(),
-            'status' => $validated['status'],
-            'application_name' => $validated['application_name']
         ]);
 
-        
+
         DB::table('user_application')->insert([ // insere na tabela intermediária user_application
             'user_id' => $user->id,
             'application_id' => $application->id,

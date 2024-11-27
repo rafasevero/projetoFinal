@@ -160,9 +160,6 @@ class UserController extends Controller
         return response()->json(['applications' => $applications], 200);
     }
 
-
-
-
     public function logout(){
 
         $user = Auth::user();
