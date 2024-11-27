@@ -11,6 +11,7 @@ class AcademicBackgroundController extends Controller
     public function storeAcademic(Request $request){
 
         $user = auth()->user();
+
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado.'], 401);
         }
@@ -31,6 +32,7 @@ class AcademicBackgroundController extends Controller
     }
 
     public function updateAcademic(Request $request, $id){
+        
         $guard = Auth::getDefaultDriver();//identifica o guard autenticado
 
         $user = Auth::guard($guard)->user(); //pega o usuário autenticado no guard

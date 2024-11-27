@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use App\Models\Application; // Adicione isso para importar o modelo Application
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,34 +47,34 @@ class UserController extends Controller
 
     public function login(Request $request):JsonResponse
     {
-    $credentials = $request->validate([
-        'email' => 'required|string|email|max:255',
-        'password' => 'required|string|min:8|max:100',
-    ]);
+        $credentials = $request->validate([
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8|max:100',
+        ]);
 
-    if (Auth::guard('user')->attempt($credentials)) {
-        $user = Auth::guard('user')->user();
-        $token = $user->createToken('userToken')->plainTextToken;
+        if (Auth::guard('user')->attempt($credentials)) {
+            $user = Auth::guard('user')->user();
+            $token = $user->createToken('userToken')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Candidato autenticado com sucesso!',
-            'token' => $token,
-            'role' => $user->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
+            return response()->json([
+                'message' => 'Candidato autenticado com sucesso!',
+                'token' => $token,
+                'role' => $user->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
 
-        ], 200);
-    } elseif (Auth::guard('recruiter')->attempt($credentials)) {
-        $recruiter = Auth::guard('recruiter')->user();
-        $token = $recruiter->createToken('recruiterToken')->plainTextToken;
+            ], 200);
+        } elseif (Auth::guard('recruiter')->attempt($credentials)) {
+            $recruiter = Auth::guard('recruiter')->user();
+            $token = $recruiter->createToken('recruiterToken')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Recrutador autenticado com sucesso!',
-            'token' => $token,
-            'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
+            return response()->json([
+                'message' => 'Recrutador autenticado com sucesso!',
+                'token' => $token,
+                'role' => $recruiter->is_recruiter ? 'recruiter' : 'user', // Adiciona o tipo de usuário
 
-        ], 200);
-    } else{
-        return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
-    }
+            ], 200);
+        } else{
+            return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
+        }
     }
 
     public function getUserProfile(){
@@ -103,7 +104,7 @@ class UserController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'Você não é autenticado para atualizar seu perfil.',
+                'message' => 'Você não é autenticado para atualizar este perfil.',
             ], 404);
         }
 
@@ -134,6 +135,31 @@ class UserController extends Controller
 
         $user->save();
     }
+
+    public function getVacanciesForUser()
+    {
+        // Obter o usuário autenticado
+        $user = auth()->user();
+
+        // Verificar se o usuário está autenticado
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não autenticado!'], 401);
+        }
+
+        // Buscar todas as candidaturas feitas pelo usuário e carregar a vaga associada
+        $applications = Application::where('user_id', $user->id)
+            ->with('vacancy') // Carregar o relacionamento 'vacancy' junto com as candidaturas
+            ->get();
+
+        // Verificar se o usuário não tem candidaturas
+        if ($applications->isEmpty()) {
+            return response()->json(['message' => 'Você ainda não se candidatou a nenhuma vaga.'], 404);
+        }
+
+        // Retornar as candidaturas e as informações da vaga associada
+        return response()->json(['applications' => $applications], 200);
+    }
+
 
 
 

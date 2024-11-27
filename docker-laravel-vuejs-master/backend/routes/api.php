@@ -41,13 +41,14 @@ Route::prefix('user')->group(function () {
     Route::middleware('auth:sanctum')->post('/storeHardSkill',[HardSkillController::class,'storeHardSkill']);
     Route::middleware('auth:sanctum')->put('/updateAcademic/{id}',[AcademicBackgroundController::class,'updateAcademic']);
     Route::middleware('auth:sanctum')->post('/deleteAcademic/{id}',[AcademicBackgroundController::class, 'destroyAcademic']);
-    Route::middleware('auth:sanctum')->post('/applyForJob/{vacancy_id}',[ApplicationController::class, 'applyForJob']);
+    Route::middleware('auth:sanctum')->post('/applyForVacancy/{vacancy_id}',[ApplicationController::class, 'applyForJob']);
     Route::middleware('auth:sanctum')->put('/updateHardSkill/{id}',[HardSkillController::class, 'updateHardSkill']);//testar
     Route::middleware('auth:sanctum')->post('/deleteHardSkill/{id}',[HardSkillController::class, 'destroyHardSkill']);//testar
     Route::middleware('auth:sanctum')->put('/updateSoftSkill/{id}',[SoftskillController::class, 'updateSoftSkill']);//testar
     Route::middleware('auth:sanctum')->post('/deleteSoftSkill/{id}',[SoftskillController::class, 'destroySoftSkill']);//testar
     Route::middleware('auth:sanctum')->put('/updateCurriculum/{id}',[CurriculumController::class, 'updateCurriculum']);//testar
     Route::middleware('auth:sanctum')->post('/deleteCurriculum/{id}',[CurriculumController::class, 'destroyCurriculum']);//testar
+    Route::middleware('auth:sanctum')->get('/getVacanciesForUser',[UserController::class, 'getVacanciesForUser']);
 
 });
 

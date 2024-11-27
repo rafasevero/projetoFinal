@@ -112,5 +112,6 @@ public function getUsersForVacancies($vacancy_id)
 }
 
 
+
 }
 
