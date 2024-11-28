@@ -130,7 +130,7 @@ class VacancyController extends Controller
 
         return response()->json([
             'message' => 'Vaga excluída com sucesso!',
-        ]);
+        ], 200);
     }
 
 }
