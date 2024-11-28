@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Recruiter;
 use App\Models\Vacancies;
 use Illuminate\Http\Request;
@@ -25,13 +26,19 @@ class VacancyController extends Controller
             'location' => 'required|string|max:100',
             'work_modality' => 'required|string|max:50',
             'salary' => 'required|string|max:50',
-            'company_logo' => 'string',//'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'min_age' => 'integer'
         ]);
 
         $array['recruiter_id'] = $recruiter->id;
 
         $array['company'] = $recruiter->company_name;
+
+        if ($request->hasFile('company_logo')) {
+            // Armazena o arquivo no disco "public" na pasta "company_logos"
+            $path = $request->file('company_logo')->store('company_logos', 'public');
+            $array['company_logo'] = $path;
+        }
 
         $array['creation_date'] = now(); // Usando o helper 'now' para obter a data atual
 
@@ -81,9 +88,19 @@ class VacancyController extends Controller
             'creation_date' => 'nullable|date',
             'company' => 'nullable|string|max:100',
             'salary' => 'nullable|string|max:50',
-            'company_logo' => 'string',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'min_age' => 'integer'
         ]);
+
+        if ($request->hasFile('company_logo')) {
+            // Excluir a imagem anterior, se existir
+            if ($vacancies->company_logo) {
+                Storage::delete('public/' . $vacancies->company_logo);
+            }
+
+            $path = $request->file('company_logo')->store('company_logos', 'public');
+            $array['company_logo'] = $path;
+        }
 
 
         $vacancies->update($array);
