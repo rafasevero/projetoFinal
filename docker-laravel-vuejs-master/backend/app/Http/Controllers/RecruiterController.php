@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Application;
 use App\Models\Recruiter;
 use Illuminate\Http\JsonResponse;
@@ -31,7 +32,7 @@ class RecruiterController extends Controller
         $array['password'] = Hash::make($array['password']);
 
         if ($request->hasFile('perfilPicture')) {
-            $path = $request->file('perfilPicture')->store('photos', 'public');
+            $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
             $array['perfilPicture'] = $path;
         }
 
@@ -44,7 +45,6 @@ class RecruiterController extends Controller
             'recruiter'=>$recruiter,
             ]);
     }
-
 
     public function getRecruiterVacancies()
     {
@@ -85,12 +85,21 @@ class RecruiterController extends Controller
             'state' => 'nullable|string|max:2',
             'is_recruiter' => 'nullable|boolean',
             'email' => 'nullable|string|email|max:100',
-            'perfilPicture' => 'string',
+            'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'phone' => 'nullable|string|max:11',
         ]);
 
-        $recruiter = Recruiter::find($id);
+        if ($request->hasFile('perfilPicture')) {
+            // Exclui a imagem antiga, se existir
+            if ($recruiter->perfilPicture) {
+                Storage::delete('public/' . $recruiter->perfilPicture);
+            }
+            // Faz o upload da nova imagem
+            $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
+            $array['perfilPicture'] = $path;
+        }
 
+        $recruiter = Recruiter::find($id);
 
         $recruiter->update($array);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +31,7 @@ class UserController extends Controller
             'state' => 'required|string|max:2',
             'phone' => 'required|string|max:11',
             'is_recruiter' => 'required|boolean',
-            'perfilPicture' => 'string',//lembrar de colocar o tipo de arquivo para img
+            'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $array['password'] = Hash::make($array['password']);
@@ -119,10 +120,22 @@ class UserController extends Controller
             'state' => 'nullable|string|max:2',
             'phone' => 'nullable|string|max:11',
             'is_recruiter' => 'nullable|boolean',
-            'perfilPicture' => 'string',
+            'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        if ($request->hasFile('perfilPicture')) {
+            // Exclui a imagem antiga, se existir
+            if ($user->perfilPicture) {
+                Storage::delete('public/' . $user->perfilPicture);
+            }
+
+            // Faz o upload da nova imagem
+            $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
+            $array['perfilPicture'] = $path;
+        }
+
         $user = User::find($id);
+      
         $user->update($array);
 
         return response()->json([
