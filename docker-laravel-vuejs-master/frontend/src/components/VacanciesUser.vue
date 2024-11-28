@@ -27,9 +27,10 @@
           <p>Descrição: {{ selectedVaga.description }}</p>
           <p>Requisitos: {{ selectedVaga.requirements }}</p>
           <p>Local: {{ selectedVaga.location }}</p>
+          <p>Idade mínima: {{ selectedVaga.min_age }}</p>
           <p>Tipo: {{ selectedVaga.work_modality }}</p>
           <p>Valor: {{ selectedVaga.salary }}</p>
-          <button class="btn-candidatar" @click="applyForm">Candidate-se</button>
+          <button class="btn-candidatar" @click="applyForm(selectedVaga.id)">Candidate-se</button>
         </div>
       </div>
     </div>
@@ -37,7 +38,10 @@
 </template>
 
 <script>
-import { ShowVagas } from '@/services/RegisterVacancies';
+import { ShowVagas } from '@/services/ShowVacancies';
+import { applyVacancie } from '@/services/ApplyVacancie';
+import { mapActions } from 'vuex';
+
 
 export default {
   name: 'VacanciesUser',
@@ -49,12 +53,14 @@ export default {
       showModal: false,
       loading: false,
       error: false,
+      vacancy_id: null,
     };
   },
   computed: {
     filteredVagas() {
       return this.vacanciesData.filter(vaga =>
-        vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
   },
@@ -84,9 +90,38 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    async applyForm() {
-      console.log("Candidatando-se à vaga:", this.selectedVaga.id);
+    async applyForm(vacancy_id) {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Token não encontrado. Por favor, faça login novamente.");
+        return;
+      }
+
+      const data = {
+        vacancy_id: this.vacancy_id,
+        user_id: this.user_id,
+        recruiter_id: this.recruiter_id,
+        
+      };
+
+      try {
+        // Agora passando o vacancy_id como parâmetro
+        const response = await applyVacancie(data, token, vacancy_id);
+        console.log("Vaga candidatada com sucesso:", response);
+        alert("Vaga candidatada com sucesso!");
+
+        let applications = JSON.parse(localStorage.getItem('candidaturas'))||[];
+        applications.push(this.selectedVaga);
+        localStorage.setItem('candidaturas', JSON.stringify(applications));
+      } catch (error) {
+        console.error("Erro ao candidatar a vaga:", error.response ? error.response.data : error.message);
+        alert("Erro ao candidatar a vaga.");
+      }
     }
+
+
+
   },
   mounted() {
     this.fetchVagas();
@@ -134,6 +169,70 @@ ul li{
   width: 80%;
   max-width: 600px;
 }
+.modal-body {
+  padding: 25px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-y: auto;
+  max-height: 400px; /* Definindo uma altura máxima para a área */
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body p {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #1f78b8;
+  margin-bottom: 15px;
+}
+
+.modal-body ul {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.modal-body ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-body .highlight {
+  background-color: #e7f7ff;
+  padding: 5px;
+  border-radius: 5px;
+  color: #1f78b8;
+}
+
+.modal-body .notice {
+  padding: 10px;
+  background-color: #ffefdb;
+  border-left: 5px solid #ffb84d;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #b36b00;
+  border-radius: 5px;
+}
+
+.modal-body a {
+  color: #1f78b8;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.modal-body a:hover {
+  color: #4ea1db;
+}
 .close {
   position: absolute;
   top: 10px;
@@ -141,20 +240,34 @@ ul li{
   cursor: pointer;
 }
 .btn-candidatar {
-  color:#fff;
+  color: #fff;
   background-color: #4ea1db;
   border: 2px solid #1f78b8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: .2s;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out; /* Melhorando a transição para suavizar o efeito */
+  text-transform: uppercase;
+  text-align: center;
 }
+
 .btn-candidatar:hover {
-  transition: .2s;
-  color:#4ea1db;
+  color: #4ea1db;
   background-color: #fff;
-  border:2px solid #1f78b8;
+  border: 2px solid #1f78b8;
+  transform: scale(1.05); /* Efeito de leve aumento no botão */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicionando sombra suave */
 }
+
+.btn-candidatar:active {
+  transform: scale(1); /* Efeito de pressionar, volta ao tamanho original */
+}
+
 .btn-more {
   color: #fff;
   background-color: #4ea1db;

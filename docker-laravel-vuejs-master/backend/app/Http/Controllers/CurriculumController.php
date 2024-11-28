@@ -11,12 +11,13 @@ class CurriculumController extends Controller
     public function storeCurriculum(Request $request){
 
         $user = auth()->user();
+
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado.'], 401);
         }
 
         $validated = $request->validate([
-            'file' => 'required|file|mimes:pdf|max:10240'
+            'file' => 'string'//'required|file|mimes:pdf|max:10240'
         ]);
 
         $validated['user_id'] = $user->id;
@@ -27,39 +28,39 @@ class CurriculumController extends Controller
     }
 
     public function updateCurriculum(Request $request, $id){
-        $guard = Auth::getDefaultDriver();//identifica o guard autenticado
 
-        $user = Auth::guard($guard)->user(); //pega o usuário autenticado no guard
+        $user = Auth::user();
 
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado.'], 401);
         }
 
-        $user_id = $user->id;
+        $curriculum = Curriculum::where('id', $id)->where('user_id', $user->id)->first();
 
-
-        $curriculum = Curriculum::where('id', $id)
-        ->where('user_id', $user_id)
-        ->first(); //busca a formação acadêmica pelo id do usuário autenticado
 
         if (!$curriculum) {
-            return response()->json(['message' => 'Registro acadêmico não encontrado ou não pertence ao usuário.'], 404);
+            return response()->json([
+                'message' => 'Curriculo não encontrada ou você não tem permissão para editá-la.',
+            ], 404);
         }
 
         $validated = $request->validate([
-            'file' => 'sometimes|required|file|mimes:pdf|max:10240',
+            'file' => 'sometimes|required|string',
         ]);
 
-        $curriculum->update($validated);
+        $user->update($validated);
 
         return response()->json([
-            'message' => 'Formação acadêmica atualizada com sucesso!',
-            'curriculum' => $curriculum
+            'message' => 'Currículo atualizado com sucesso!',
+            'curriculum' => $validated,
+            'user'=> $user
         ]);
     }
 
     public function destroyCurriculum($id){
+
         $guard = Auth::getDefaultDriver();//identifica o guard autenticado
+
         $user = auth()->guard($guard)->user();
 
         if(!$user){

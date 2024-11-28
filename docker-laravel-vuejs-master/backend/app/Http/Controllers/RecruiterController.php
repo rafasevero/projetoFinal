@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+use App\Models\Application;
 use App\Models\Recruiter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,9 +14,10 @@ use PharIo\Manifest\Author;
 class RecruiterController extends Controller
 {
     public function registerRecruiter(Request $request){
+
         $array =  $request->validate([
             'company_name' => 'required|string|max:100',
-            'cnpj' => 'required|string|max:14',
+            'cnpj' => 'required|string|max:14|unique:recruiters',
             'social_name' => 'required|string|max:100',
             'cep' => 'required|string|max:8',
             'city' => 'required|string|max:100',
@@ -29,7 +32,7 @@ class RecruiterController extends Controller
         $array['password'] = Hash::make($array['password']);
 
         if ($request->hasFile('perfilPicture')) {
-            $path = $request->file('perfilPicture')->store('photos', 'public');
+            $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
             $array['perfilPicture'] = $path;
         }
 
@@ -43,22 +46,19 @@ class RecruiterController extends Controller
             ]);
     }
 
-
-    public function getRecruiterVacancies($recruiterId)
+    public function getRecruiterVacancies()
     {
-        $recruiter = Recruiter::findOrFail($recruiterId);
+        $recruiter = Auth::user();
+
+        if (!$recruiter) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
+        }
+
         return response()->json([
             'message' => 'Vagas encontradas com sucesso!',
             'vacancies' => $recruiter->vacancies,
         ]);
     }
-
-
-    public function destroy(){
-        auth()->guard('recruiter')->logout();
-        return response()->json(['message' => 'Logout efetuado com sucesso!']);
-    }
-
 
     public function update(Request $request, $id){
 
@@ -84,15 +84,22 @@ class RecruiterController extends Controller
             'city' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:2',
             'is_recruiter' => 'nullable|boolean',
-            'password' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:100',
-            'perfilPicture' => 'string',
+            'perfilPicture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'phone' => 'nullable|string|max:11',
         ]);
 
-        $recruiter = Recruiter::find($id);
+        if ($request->hasFile('perfilPicture')) {
+            // Exclui a imagem antiga, se existir
+            if ($recruiter->perfilPicture) {
+                Storage::delete('public/' . $recruiter->perfilPicture);
+            }
+            // Faz o upload da nova imagem
+            $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
+            $array['perfilPicture'] = $path;
+        }
 
-        $array['password'] = Hash::make($array['password']);
+        $recruiter = Recruiter::find($id);
 
         $recruiter->update($array);
 

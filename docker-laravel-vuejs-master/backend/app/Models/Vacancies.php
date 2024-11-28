@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -25,6 +26,7 @@ class Vacancies extends Authenticatable
         'salary',
         'company_logo',
         'recruiter_id',
+        'min_age'
     ];
 
     protected $casts = [
@@ -38,6 +40,7 @@ class Vacancies extends Authenticatable
         'salary' => 'string',
         'company_logo' => 'string',
         'recruiter_id' => 'integer',
+        'min_age' => 'integer'
 
     ];
 
@@ -46,8 +49,11 @@ class Vacancies extends Authenticatable
         return $this->belongsTo(Recruiter::class);
     }
 
-    public function applications(): HasMany
+
+    public function applications()
     {
-        return $this->hasMany(Application::class, 'vacancy_id');
+        return $this->hasMany(Application::class);
     }
+
+
 }

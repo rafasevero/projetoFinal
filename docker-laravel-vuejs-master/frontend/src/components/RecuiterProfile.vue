@@ -4,25 +4,13 @@
             <div class="row">
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                        <img
-                            class="rounded-circle mt-5" 
-                            width="150px"
-                            :src="profileImage"
-                            alt="Imagem de perfil"
-                        >
-                        <input 
-                            type="file" 
-                            @change="onImageChange" 
-                            style="display: none;" 
-                            ref="fileInput"
-                        />
-                        <button 
-                            class="btn btn-primary mt-3" 
-                            @click="triggerFileInput"
-                        >
+                        <img class="rounded-circle mt-5" width="150px" :src="perfilPicture" alt="Imagem de Perfil">
+
+                        <input type="file" @change="onImageChange" style="display: none;" ref="fileInput" />
+                        <button class="btn btn-primary mt-3" @click="triggerFileInput">
                             Alterar Imagem
                         </button>
-                        
+
                         <span class="font-weight-bold">{{ company_name }}</span>
                         <span class="text-black-50">{{ email }}</span>
                     </div>
@@ -34,90 +22,89 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-6">
-                                <label class="labels">Nome da Empresa</label>
-                                <input 
-                                    type="text"
-                                    class="form-control" 
-                                    placeholder="Nome da Empresa"
-                                    v-model="company_name"
-                                >
-                            </div>
-                            <div class="col-md-6">
-                                <label class="labels">Razão social</label>
-                                <input 
-                                    type="text"
-                                    class="form-control" 
-                                    placeholder="Razão Social"
-                                    v-model="social_name"
-                                >
+                                <label class="labels">Nome da empresa</label>
+                                <input type="text" class="form-control" placeholder="Nome da empresa"
+                                    v-model="company_name" @input="convertToUpperCase" readonly />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <label class="labels">Celular</label>
-                                <input 
-                                    type="text"
-                                    class="form-control" 
-                                    placeholder="Telefone"
-                                    v-model="phone"
-                                >
+                                <input type="text" class="form-control" placeholder="Número de telefone" v-model="phone"
+                                    readonly />
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">Email</label>
-                                <input 
-                                    type="text"
-                                    class="form-control" 
-                                    placeholder="Email"
-                                    v-model="email"
-                                >
-                            </div>
-                            <div class="col-md-12">
-                                <label class="labels">CEP</label>
-                                <input 
-                                    type="text"
-                                    class="form-control" 
-                                    placeholder="Endereço"
-                                    v-model="cep"
-                                >
+                                <label class="labels">Email </label>
+                                <input type="text" class="form-control" placeholder="Email" v-model="email" readonly />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label class="labels">Cidade</label>
-                                <input 
-                                    type="text"
-                                    class="form-control" 
-                                    placeholder="Cidade"
-                                    v-model="city"
-                                >
+                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" readonly />
                             </div>
                             <div class="col-md-6">
-                                <label class="labels">Estado/Região</label>
-                                <input 
-                                    type="text"
-                                    class="form-control" 
-                                    placeholder="Estado"
-                                    v-model="state"
-                                >
+                                <label class="labels">Estado</label>
+                                <input type="text" class="form-control" placeholder="Estado" v-model="state" readonly />
                             </div>
                             <div class="col-md-6">
-                                <label class="labels">CNPJ</label>
-                                <input
-                                type="text"
-                                class="form-control"
-                                placeholder="CNPJ"
-                                v-model="cnpj"
-                                >
+                                <label class="labels">CEP</label>
+                                <input type="text" class="form-control" placeholder="85000-000" v-model="cep"
+                                    readonly />
                             </div>
                         </div>
+
                         <div class="mt-5 text-center">
-                            <button 
-                                class="btn btn-primary profile-button" 
-                                type="button" 
-                                @click="salvarPerfil"
-                            >
-                                Salvar Perfil
-                            </button>
+                            <button class="btn btn-primary profile-button" type="button"
+                                @click="editProfile = true">Editar Perfil</button>
+
+                            <Modal :show="editProfile" @close="editProfile = false">
+                                <form>
+                                    <h2>Editar Perfil</h2>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                    </div>
+                                    
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label class="labels">Nome da empresa</label>
+                                            <input type="text" class="form-control" placeholder="Nome da empresa"
+                                                v-model="company_name" @input="convertToUpperCase" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label class="labels">Celular</label>
+                                            <input type="text" class="form-control" placeholder="Número de telefone"
+                                                v-model="phone" />
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">Email </label>
+                                            <input type="text" class="form-control" placeholder="Email"
+                                                v-model="email" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">CEP</label>
+                                        <input type="text" class="form-control" placeholder="CEP" v-model="cep" />
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label class="labels">Cidade</label>
+                                            <input type="text" class="form-control" placeholder="Cidade"
+                                                v-model="city" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="labels">Estado</label>
+                                            <input type="text" class="form-control" placeholder="Estado"
+                                                v-model="state" />
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary profile-button save-profile" type="button"
+                                        @click="salvarPerfil">
+                                        Salvar Perfil
+                                    </button>
+                                </form>
+                            </Modal>
                         </div>
                     </div>
                 </div>
@@ -126,66 +113,63 @@
     </div>
 </template>
 
-<script>
 
-import axios from 'axios';
+<script>
+import axios from "axios";
+import NavbarCandidato from "./NavbarCandidate.vue";
+import Modal from './Modal.vue';
 
 export default {
-    name: 'RecruiterProfile',
+    name: "UserProfileRecrutador",
+    components: {
+        NavbarCandidato,
+        Modal,
+    },
     data() {
         return {
-            company_name:"",
-            social_name:"",
-            phone:"",
-            email:"",
-            cep:"",
-            city:"",
-            state:"",
-            cnpj:"",
-            profileImage:""
+            editProfile: false,
+            recruiterId: null,
+            company_name: "",
+            email: "",
+            phone: "",
+            perfilPicture: "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+            cep: "",
+            profileImageFile: null // Para armazenar o arquivo da imagem temporariamente
         };
     },
+    created() {
+        this.fetchUserProfile();
+    },
     methods: {
-        fetchRecruiterProfile() {
-            // Obtém o token do localStorage
+        fetchUserProfile() {
             const token = localStorage.getItem("token");
-            
-            // Verifica se o token existe
             if (!token) {
-                alert('Perfil não encontrado. Tente logar novamente.');
+                alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
 
-            // Requisição para buscar os dados do recrutador
-            axios.get('http://localhost:8000/api/user/pullAuth', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((response) => {
-                // Verifica se a resposta contém os dados esperados
-                const { company_name, social_name, phone, email, cep, city, state, cnpj, profileImage } = response.data;
-
-                // Atribui os valores ao data do Vue para atualizar o perfil
-                this.company_name = company_name || "";
-                this.social_name = social_name || "";
-                this.phone = phone || "";
-                this.email = email || "";
-                this.cep = cep || "";
-                this.city = city || "";
-                this.state = state || "";
-                this.cnpj = cnpj || "";
-                // Se houver uma imagem de perfil, atribui
-                if (profileImage) {
-                    this.profileImage = profileImage;
-                }
-            })
-            .catch((error) => {
-                console.error('Erro ao buscar perfil do recrutador:', error);
-            });
-        },
-        created() {
-            this.fetchRecruiterProfile();
+            axios
+                .get("http://127.0.0.1:8000/api/user/pullAuth", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((response) => {
+                    const { id, company_name, cep, email, phone, city, state, perfilPicture } = response.data;
+                    this.id = id;
+                    this.company_name = company_name;
+                    this.email = email;
+                    this.phone = phone;
+                    this.cep = cep;
+                    this.city = city;
+                    this.state = state;
+                    if (perfilPicture) {
+                        this.perfilPicture = perfilPicture;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar usuário:", error);
+                });
         },
         triggerFileInput() {
             this.$refs.fileInput.click();
@@ -193,26 +177,69 @@ export default {
         onImageChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.profileImage = URL.createObjectURL(file);
+                this.perfilPicture = URL.createObjectURL(file); // Atualiza a visualização da imagem
+                this.profileImageFile = file; // Armazena o arquivo para enviar ao backend
             }
         },
         salvarPerfil() {
-            alert(`Perfil salvo! Nome atualizado para: ${this.nome}`);
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Token não encontrado. Por favor, faça login novamente.");
+                return;
+            }
+
+            if (!this.company_name || !this.email || !this.phone || !this.city || !this.state || !this.cep) {
+                alert("Todos os campos obrigatórios devem ser preenchidos.");
+                return;
+            }
+
+            const updatedProfile = new FormData();
+            updatedProfile.append('id', this.id);
+            updatedProfile.append('company_name', this.company_name);
+            updatedProfile.append('email', this.email);
+            updatedProfile.append('phone', this.phone);
+            updatedProfile.append('city', this.city);
+            updatedProfile.append('state', this.state);
+            updatedProfile.append('cep', this.cep);
+
+            if (this.profileImageFile) {
+                updatedProfile.append('perfilPicture', this.profileImageFile);  // Envia a imagem
+            }
+
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+
+            axios
+                .put(`http://127.0.0.1:8000/api/recruiter/update/${this.id}`, updatedProfile, { headers })
+                .then(() => {
+                    alert("Perfil atualizado com sucesso!");
+                    this.editProfile = false;
+                })
+                .catch((error) => {
+                    console.error("Erro ao atualizar perfil:", error);
+                    alert("Ocorreu um erro ao atualizar o perfil.");
+                });
         },
+        convertToUpperCase() {
+            this.company_name = this.company_name.toUpperCase();
+        }
     },
-}
+};
 </script>
 
 <style scoped>
 .form-control:focus {
     box-shadow: none;
     border-color: #4ea1db;
+
 }
 
 .profile-button {
     background: #4ea1db;
     box-shadow: none;
     border: none;
+    margin: 10px;
 }
 
 .profile-button:hover {

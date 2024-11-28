@@ -7,14 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Applications extends Model
+class Application extends Model
 {
     use HasFactory;
 
-    public function users(): BelongsToMany
+    public function users()
     {
-        return $this->belongsToMany(User::class)->using(User_application::class,'user_id','application_id');
+        return $this->belongsToMany(User::class, 'user_application', 'application_id', 'user_id')
+                    ->withTimestamps();
     }
+
 
     public function vacancy(): BelongsTo
     {
@@ -22,13 +24,13 @@ class Applications extends Model
     }
 
     protected $fillable = [
-      'application_date',
-      'status',
+        'vacancy_id',
+        'user_id',
+        'recruiter_id',
+        'application_date',
+
     ];
 
     protected $casts = [
-      'application_date' => 'string',
-      'status' => 'string'
-
     ];
 }

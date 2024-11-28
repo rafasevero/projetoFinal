@@ -2,6 +2,7 @@
     <div>
         <NavbarRecruiter />
         <VacanciesRecruiter />
+        
         <Footer />
     </div>
 </template>

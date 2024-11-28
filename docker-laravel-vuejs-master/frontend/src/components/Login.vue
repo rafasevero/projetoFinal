@@ -59,60 +59,49 @@ export default {
         };
     },
     methods: {
-        validateForm() {
-            this.errors.email = "";
-            this.errors.password = "";
+    validateForm() {
+        this.errors.email = "";
+        this.errors.password = "";
 
-            if (!this.email) {
-                this.errors.email = "Por favor, insira um e-mail válido";
-            } else if (!this.validEmail(this.email)) {
-                this.errors.email = "E-mail no formato inválido";
-            }
-            if (!this.password) {
-                this.errors.password = "Por favor, insira uma senha válida";
-            }
+        if (!this.email) {
+            this.errors.email = "Por favor, insira um e-mail válido";
+        } else if (!this.validEmail(this.email)) {
+            this.errors.email = "E-mail no formato inválido";
+        }
+        if (!this.password) {
+            this.errors.password = "Por favor, insira uma senha válida";
+        }
 
-            return !this.errors.email && !this.errors.password;
-        },
-        validEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        },
-        async formLogin() {
-            try {
+        return !this.errors.email && !this.errors.password;
+    },
+    validEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    },
+    async formLogin() {
+        try {
             const user = await login(this.email, this.password);
-                console.log(user);
-            if (user.role === "user") {
-                
-                this.notificationMessage = 'Login efetuado com sucesso!';
-                this.showNotification = true;
-                setTimeout(() => {
+
+            localStorage.setItem('authToken', user.token); // Guarda o token
+
+            this.notificationMessage = 'Login efetuado com sucesso!';
+            this.showNotification = true;
+
+            setTimeout(() => {
+                if (user.role === "user") {
                     this.$router.push('/vacanciesUser');
-                },2000);
-
-                
-            } else if (user.role === "recruiter") {
-                
-                this.notificationMessage = 'Login efetuado com sucesso!';
-                this.showNotification = true;
-                setTimeout(() => {
+                } else if (user.role === "recruiter") {
                     this.$router.push('/vacanciesRecruiter');
-                },2000);
-            }
-            } catch (error) {
-                alert('Email e/ou Senha inválidos!');
-            }
+                }
+            }, 2000); 
 
-        },
-
-
-        goToRegister() {
-            window.location.href = 'registerUser'; // Redireciona para a página de registro
+        } catch (error) {
+            alert('Email e/ou Senha inválidos!');
         }
     }
 }
 
-
+}
 </script>
 
 <style scoped>
@@ -154,7 +143,6 @@ export default {
     padding: 15px;
 }
 
-
 .caixa {
     display: flex;
     flex-direction: column;
@@ -167,7 +155,6 @@ export default {
     max-width: 400px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
 
 form {
     width: 100%;
@@ -186,7 +173,6 @@ input {
     color: black;
 }
 
-
 button {
     padding: 10px 130px;
     margin-top: 10px;
@@ -204,7 +190,6 @@ button:hover {
     border: 2px solid white;
 }
 
-
 p {
     text-align: center;
 }
@@ -218,7 +203,6 @@ p {
         font-size: 0.9em;
     }
 }
-
 
 @media (max-width: 480px) {
     h1 {

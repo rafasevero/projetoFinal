@@ -14,7 +14,8 @@ class Professional_experiences extends Model
         'position',
         'description',
         'start_date',
-        'end_date'
+        'end_date',
+        'user_id',
     ];
 
     protected $casts = [
@@ -24,4 +25,8 @@ class Professional_experiences extends Model
         'start_date'=> 'date',
         'end_date' => 'date',
     ];
+
+    public function users (){
+        return $this->belongsTo(User::class);
+    }
 }

@@ -27,6 +27,34 @@ class User extends Authenticatable
         return $this->is_recruiter;
     }
 
+    public function softSkills()
+    {
+        return $this->hasOne(Softskill::class);
+    }
+
+    public function hardSkills()
+    {
+        return $this->hasOne(Hardskill::class);
+    }
+
+    public function curriculum()
+    {
+        return $this->hasOne(Curriculum::class);
+    }
+
+    public function experience(){
+        return $this->hasMany(Professional_experiences::class);
+    } 
+
+    public function academic_background(){
+        return $this->hasOne(Academic_background::class);
+    }
+
+
+
+
+
+
 
     /**
      * The attributes that are mass assignable.

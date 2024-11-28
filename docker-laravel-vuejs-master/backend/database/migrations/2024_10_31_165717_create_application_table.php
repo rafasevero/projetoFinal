@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('recruiter_id');
             $table->unsignedBigInteger('vacancy_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('recruiter_id');
             $table->date('application_date');
-            $table->string('status');
             $table->timestamps();
 
-            $table->foreign('recruiter_id')->references('id')->on('recruiters')->onDelete('cascade'); 
+            $table->foreign('recruiter_id')->references('id')->on('recruiters')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('vacancy_id')->references('id')->on('vacancies')->onDelete('cascade');
         });
     }
