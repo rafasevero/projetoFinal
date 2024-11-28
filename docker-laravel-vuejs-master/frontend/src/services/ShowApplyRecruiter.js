@@ -11,13 +11,13 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
-export const ShowApply = async () => {
+export const ShowVagas = async () => {
   try {
-    // Faz a requisição para buscar as candidaturas do usuário autenticado
-    const response = await axios.get('http://localhost:8000/api/user/getVacanciesForUser'); // Certifique-se de que o URL esteja correto
-    return response.data; // Retorna os dados da resposta
+    // Faz a requisição para buscar as vagas
+    const response = await axios.get('http://localhost:8000/api/getVacancies');
+    return response.data; // Retorna as vagas
   } catch (error) {
-    console.error("Erro ao buscar as candidaturas:", error);
+    console.error("Erro ao buscar as vagas:", error);
     throw error;
   }
 };

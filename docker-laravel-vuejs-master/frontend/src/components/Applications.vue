@@ -35,48 +35,78 @@
 </template>
 
 <script>
+import { ShowApply } from '../services/ShowApply';
+
 export default {
   name: 'Applications',
   data() {
     return {
       applications: [], // Lista de candidaturas
       searchQuery: '',  // Query de pesquisa
+      selectedVaga: null, // Vaga selecionada para exibição no modal
+      showModal: false,  // Controle do modal
     };
   },
   computed: {
     // Computed property para filtrar as candidaturas com base na pesquisa
     filteredVagas() {
-      return this.applications.filter(vaga =>
-        vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      console.log('Search Query:', this.searchQuery);  // Verifica a consulta de pesquisa
+
+      return this.applications.filter(vaga => {
+        // Verifica se 'vacancy' existe e acessa 'vacancy_name' e 'company' de 'vacancy'
+        const nomeVaga = vaga.vacancy && vaga.vacancy.vacancy_name ? vaga.vacancy.vacancy_name.toLowerCase() : '';
+        const nomeEmpresa = vaga.vacancy && vaga.vacancy.company ? vaga.vacancy.company.toLowerCase() : '';
+        const query = this.searchQuery.toLowerCase();
+
+        // Log para depuração
+        console.log('Vaga:', vaga, 'Nome da Vaga:', nomeVaga, 'Nome da Empresa:', nomeEmpresa);
+
+        return nomeVaga.includes(query) || nomeEmpresa.includes(query);
+      });
     }
-  },
-  methods:{
-    openModal(vagaId) {
-      // Localize a vaga pelo id e armazene-a em selectedVaga
-      this.selectedVaga = this.vacanciesData.find(vaga => vaga.id === vagaId);
-      if (this.selectedVaga) {
+
+
+},
+methods: {
+  openModal(vagaId) {
+    // Localize a vaga pelo id e armazene-a em selectedVaga
+    this.selectedVaga = this.applications.find(vaga => vaga.id === vagaId);
+    if (this.selectedVaga) {
         this.showModal = true;  // Abre o modal somente se a vaga for encontrada
       }
     },
     closeModalIfOutside(event) {
       // Verifica se o clique foi na sobreposição (não no conteúdo)
       if (event.target === event.currentTarget) {
-      this.closeModal(); // Fecha o modal
+        this.closeModal(); // Fecha o modal
       }
     },
     closeModal() {
       this.showModal = false;
     },
+    async loadApplications() {
+      try {
+        const response = await ShowApply();  // Chama o serviço ShowApply para obter as candidaturas
+        console.log('Resposta da API:', response);  // Verifique a resposta da API
+
+        // Verifique se a resposta contém o campo 'applications' ou algum outro nome
+        this.applications = response.applications || [];  // Armazena as candidaturas no data
+        console.log('Candidaturas carregadas:', this.applications);  // Verifique se as candidaturas foram atribuídas corretamente
+      } catch (error) {
+        console.error("Erro ao carregar candidaturas:", error);
+        this.applications = [];  // Em caso de erro, limpa a lista de candidaturas
+      }
+    }
+
   },
   mounted() {
-    // Carrega as candidaturas armazenadas no localStorage ao montar o componente
-    const applications = JSON.parse(localStorage.getItem('candidaturas')) || [];
-    this.applications = applications;
+    this.loadApplications();  // Carrega as candidaturas quando o componente for montado
+    console.log('Applications:', this.applications);
   }
 };
 </script>
+
+
 <style scoped>
 ul li{
   list-style: none
