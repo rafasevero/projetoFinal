@@ -58,7 +58,8 @@ export default {
         (vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase()))
       );
-    }
+    },
+    
   },
   methods: {
     goToCreateVacancy() {
@@ -76,23 +77,24 @@ export default {
     },
     // Função para extrair o ID do recrutador do token
     setRecruiterId() {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const parts = token.split('.');
-          if (parts.length === 3) {
-            const decodedToken = JSON.parse(atob(parts[1]));
-            this.recruiterId = decodedToken.recruiter_id;
+        try {
+          const token = localStorage.getItem('token');
+          if (token && token.includes('.')) {  // Verifica se o token contém os pontos
+            const parts = token.split('.');
+            if (parts.length === 3) {
+              const decodedToken = JSON.parse(atob(parts[1]));  // Decodifica o payload do token
+              this.recruiterId = decodedToken.recruiter_id;
+            } else {
+              console.error('Token JWT malformado:', token);
+            }
           } else {
-            console.error('Token JWT malformado:', token);
+            console.error('Token não encontrado ou está malformado no localStorage.');
           }
-        } else {
-          console.error('Token não encontrado no localStorage.');
+        } catch (error) {
+          console.error('Erro ao decodificar o token:', error);
         }
-      } catch (error) {
-        console.error('Erro ao decodificar o token:', error);
-      }
-    },
+      },
+
     openModal(vagaId) {
       // Localiza a vaga pelo ID e armazena em selectedVaga
       this.selectedVaga = this.vacanciesData.find(vaga => vaga.id === vagaId);
@@ -109,9 +111,16 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    async applyForm() {
-      console.log("Candidatando-se à vaga:", this.selectedVaga.id);
+    async applyForm(vagaId) {
+      try {
+        await axios.post('http://localhost:8000/api/apply', { vacancy_id: vagaId });
+        alert('Candidatura realizada com sucesso!');
+      } catch (error) {
+        console.error('Erro ao se candidatar:', error);
+        alert('Erro ao realizar candidatura.');
+      }
     }
+
   },
   mounted() {
     this.fetchVagas();  // Busca as vagas assim que o componente é montado
