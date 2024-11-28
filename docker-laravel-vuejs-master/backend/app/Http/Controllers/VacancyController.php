@@ -40,7 +40,7 @@ class VacancyController extends Controller
             $array['company_logo'] = $path;
         }
 
-        $array['creation_date'] = now(); // Usando o helper 'now' para obter a data atual
+        $array['creation_date'] = now(); 
 
 
         $vacancy = Vacancies::create($array);

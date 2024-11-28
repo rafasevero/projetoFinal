@@ -135,7 +135,7 @@ class UserController extends Controller
         }
 
         $user = User::find($id);
-      
+
         $user->update($array);
 
         return response()->json([
@@ -182,4 +182,5 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Usuário não autenticado.'], 401);
     }
+
 }

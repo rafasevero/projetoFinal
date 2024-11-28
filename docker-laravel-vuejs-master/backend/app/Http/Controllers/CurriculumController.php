@@ -51,14 +51,16 @@ class CurriculumController extends Controller
         $user->update($validated);
 
         return response()->json([
-            'message' => 'Hard skill atualizado com sucesso!',
-            'hard_skill' => $validated,
+            'message' => 'Currículo atualizado com sucesso!',
+            'curriculum' => $validated,
             'user'=> $user
         ]);
     }
 
     public function destroyCurriculum($id){
+
         $guard = Auth::getDefaultDriver();//identifica o guard autenticado
+
         $user = auth()->guard($guard)->user();
 
         if(!$user){
