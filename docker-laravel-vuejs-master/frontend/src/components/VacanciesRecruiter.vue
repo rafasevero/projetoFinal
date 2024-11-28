@@ -47,49 +47,63 @@ export default {
       showModal: false,
       loading: false,
       error: false,
+      recruiterId: null, // ID do recrutador logado
     };
   },
   computed: {
     filteredVagas() {
-      return this.vacanciesData.filter(vaga =>
-        vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase())
+      // Filtra as vagas para mostrar apenas as do recrutador logado
+      return this.vacanciesData.filter(vaga => 
+        vaga.recruiter_id === this.recruiterId &&  // Filtra vagas pela ID do recrutador
+        (vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase()))
       );
     }
   },
   methods: {
     goToCreateVacancy() {
-          this.$router.push('/createVacancy');
-      },
-      async fetchVagas() {
-          try {
-              const response = await axios.get('http://localhost:8000/api/vagas');
-              this.vagas = response.data;
-          } catch (error) {
-              console.error('Erro ao buscar vagas:', error);
-          }
-      },
-  
+      this.$router.push('/createVacancy');
+    },
     async fetchVagas() {
       try {
-        const response = await ShowVagas();
+        const response = await ShowVagas();  // Chama o serviço que retorna as vagas
         this.vacanciesData = Array.isArray(response.data.vacancies) ? response.data.vacancies : [];
+        this.setRecruiterId();  // Após buscar as vagas, define o ID do recrutador logado
       } catch (error) {
         console.error("Erro ao buscar vagas: ", error);
         this.error = true;
       }
     },
+    // Função para extrair o ID do recrutador do token
+    setRecruiterId() {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const parts = token.split('.');
+          if (parts.length === 3) {
+            const decodedToken = JSON.parse(atob(parts[1]));
+            this.recruiterId = decodedToken.recruiter_id;
+          } else {
+            console.error('Token JWT malformado:', token);
+          }
+        } else {
+          console.error('Token não encontrado no localStorage.');
+        }
+      } catch (error) {
+        console.error('Erro ao decodificar o token:', error);
+      }
+    },
     openModal(vagaId) {
-      // Localize a vaga pelo id e armazene-a em selectedVaga
+      // Localiza a vaga pelo ID e armazena em selectedVaga
       this.selectedVaga = this.vacanciesData.find(vaga => vaga.id === vagaId);
       if (this.selectedVaga) {
-        this.showModal = true;  // Abre o modal somente se a vaga for encontrada
+        this.showModal = true;  // Abre o modal se a vaga for encontrada
       }
     },
     closeModalIfOutside(event) {
       // Verifica se o clique foi na sobreposição (não no conteúdo)
       if (event.target === event.currentTarget) {
-      this.closeModal(); // Fecha o modal
+        this.closeModal(); // Fecha o modal
       }
     },
     closeModal() {
@@ -100,10 +114,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchVagas();
+    this.fetchVagas();  // Busca as vagas assim que o componente é montado
   }
 };
 </script>
+
 
 <style scoped>
 .container {

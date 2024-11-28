@@ -50,7 +50,7 @@
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
 
-                <input type="text" class="form-control" id="salary"v-model="salary" placeholder="0.000,00" @input="formatSalary" required />
+                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00" @input="formatSalary" required />
 
             </div>
 
