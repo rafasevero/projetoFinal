@@ -3,16 +3,18 @@
     <h1>Minhas Candidaturas</h1>
     <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
 
-    <ul>
+    <ul v-if="filteredVagas.length > 0">
       <li v-for="vaga in filteredVagas" :key="vaga.id">
         <div class="card-vagas">
-          <img :src="vaga.company_logo" :alt="vaga.company_name" />
+          <img :src="vaga.company_logo" :alt="vaga.company" />
           <h3>{{ vaga.company }}</h3>
           <p>{{ vaga.vacancy_name }}</p>
           <button class="btn-more" @click="openModal(vaga.id)">Ver mais</button>
         </div>
       </li>
     </ul>
+<p v-else>Nenhuma vaga encontrada.</p>
+
 
     <!-- Modal para exibir mais detalhes -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
@@ -43,7 +45,7 @@ export default {
     return {
       applications: [], // Lista de candidaturas
       searchQuery: '',  // Query de pesquisa
-      selectedVaga: null, // Vaga selecionada para exibição no modal
+      selectedVaga: {}, // Vaga selecionada para exibição no modal
       showModal: false,  // Controle do modal
     };
   },
@@ -69,12 +71,14 @@ export default {
 },
 methods: {
   openModal(vagaId) {
-    // Localize a vaga pelo id e armazene-a em selectedVaga
-    this.selectedVaga = this.applications.find(vaga => vaga.id === vagaId);
-    if (this.selectedVaga) {
-        this.showModal = true;  // Abre o modal somente se a vaga for encontrada
-      }
-    },
+  this.selectedVaga = this.applications.find(vaga => vaga.id === vagaId);
+  console.log('Vaga selecionada:', this.selectedVaga);
+  if (this.selectedVaga) {
+    this.showModal = true;  // Abre o modal somente se a vaga for encontrada
+  }
+},
+
+
     closeModalIfOutside(event) {
       // Verifica se o clique foi na sobreposição (não no conteúdo)
       if (event.target === event.currentTarget) {
@@ -86,21 +90,21 @@ methods: {
     },
     async loadApplications() {
       try {
-        const response = await ShowApply();  // Chama o serviço ShowApply para obter as candidaturas
-        console.log('Resposta da API:', response);  // Verifique a resposta da API
+        const response = await ShowApply();
+        console.log('Resposta da API:', response);  // Veja como os dados estão estruturados
 
-        // Verifique se a resposta contém o campo 'applications' ou algum outro nome
-        this.applications = response.applications || [];  // Armazena as candidaturas no data
-        console.log('Candidaturas carregadas:', this.applications);  // Verifique se as candidaturas foram atribuídas corretamente
+        this.applications = response.applications || []; 
+        console.log('Candidaturas carregadas:', this.applications);  
       } catch (error) {
         console.error("Erro ao carregar candidaturas:", error);
-        this.applications = [];  // Em caso de erro, limpa a lista de candidaturas
+        this.applications = [];  
       }
     }
 
+
   },
   mounted() {
-    this.loadApplications();  // Carrega as candidaturas quando o componente for montado
+    this.loadApplications();  
     console.log('Applications:', this.applications);
   }
 };
