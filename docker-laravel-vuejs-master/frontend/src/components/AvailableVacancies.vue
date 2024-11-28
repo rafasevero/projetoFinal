@@ -29,6 +29,7 @@
           <p>Local: {{ selectedVaga.location }}</p>
           <p>Tipo: {{ selectedVaga.work_modality }}</p>
           <p>Valor: {{ selectedVaga.salary }}</p>
+          <button class="btn-more" @click="closeVaga(selectedVaga.id)">Fechar vaga</button>
         </div>
       </div>
     </div>
@@ -86,8 +87,28 @@ export default {
     },
     async applyForm() {
       console.log("Candidatando-se à vaga:", this.selectedVaga.id);
-    }
+    },
+
+    async closeVaga(vagaId) {
+      try {
+        // Enviar requisição para excluir a vaga no backend
+        const response = await fetch(`http://127.0.0.1:8000/api/recruiter/index_vacancies${vagaId}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          // Caso a vaga seja excluída com sucesso, remova ela do estado local
+          this.vacanciesData = this.vacanciesData.filter(vaga => vaga.id !== vagaId);
+          this.closeModal();  // Fecha o modal após excluir
+        } else { 
+          console.error('Erro ao excluir vaga');
+        }
+      } catch (error) {
+        console.error("Erro ao excluir vaga: ", error);
+      }
+    },
   },
+
   mounted() {
     this.fetchVagas();
   }
