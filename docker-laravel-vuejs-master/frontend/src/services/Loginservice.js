@@ -8,7 +8,7 @@ export const login = async (email, password) => {
         });
         
         console.log(response);
-        localStorage.getItem("token", response.data.token);
+        localStorage.setItem("token", response.data.token);
         
         // Retorna o usuário
         return response.data;
