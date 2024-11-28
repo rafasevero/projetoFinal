@@ -75,7 +75,7 @@ class UserController extends Controller
     } else{
         return response()->json(['message' => 'Falha na autenticação do usuário'], 401);
     }
-      
+
     }
 
     public function getUserProfile(){
@@ -112,7 +112,6 @@ class UserController extends Controller
         $array = $request->validate([
             'full_name' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users,email',// Garantindo e-mails únicos
-            'password' => 'nullable|string|min:8|max:100',
             'date_of_birth' => 'nullable|date',
             'cpf' => 'nullable|string|max:11',
             'cep' => 'nullable|string|max:8',
@@ -124,9 +123,6 @@ class UserController extends Controller
         ]);
 
         $user = User::find($id);
-
-        $array['password'] = Hash::make($array['password']);
-
         $user->update($array);
 
         return response()->json([
