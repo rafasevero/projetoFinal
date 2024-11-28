@@ -223,10 +223,6 @@ export default {
                     alert("Perfil atualizado com sucesso!");
                     this.editProfile = false;
                 })
-                .catch((error) => {
-                    console.error("Erro ao atualizar perfil: ", error.response);
-                    alert("Não foi possível atualizar o perfil. Tente novamente mais tarde");
-                });
         },
         convertToUpperCase() {
             this.company_name = this.company_name.toUpperCase();

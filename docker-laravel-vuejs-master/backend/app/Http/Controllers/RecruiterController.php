@@ -84,7 +84,6 @@ class RecruiterController extends Controller
             'city' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:2',
             'is_recruiter' => 'nullable|boolean',
-            'password' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:100',
             'perfilPicture' => 'string',
             'phone' => 'nullable|string|max:11',
@@ -92,7 +91,6 @@ class RecruiterController extends Controller
 
         $recruiter = Recruiter::find($id);
 
-        $array['password'] = Hash::make($array['password']);
 
         $recruiter->update($array);
 
