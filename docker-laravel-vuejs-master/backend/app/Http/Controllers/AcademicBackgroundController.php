@@ -17,11 +17,7 @@ class AcademicBackgroundController extends Controller
         }
 
         $validated = $request->validate([
-            'institution' => 'required|string',
-            'course' => 'required|string',
-            'education_level' => 'required|string|in:fundamental incompleto,fundamental completo',
-            'start_date' => 'required|date',
-            'completion_date' => 'required|date'
+            'education_level' => 'required|string|in:Fundamental Incompleto,Fundamental Completo,Ensino Médio Incompleto,Ensino Médio Completo,Superior Incompleto,Superior Completo',                
         ]);
 
         $validated['user_id'] = $user->id;
@@ -48,11 +44,7 @@ class AcademicBackgroundController extends Controller
         }
 
         $validated = $request->validate([
-            'institution' => 'sometimes|required|string',
-            'course' => 'sometimes|required|string',
-            'education_level' => 'sometimes|required|string|in:fundamental incompleto,fundamental completo',
-            'start_date' => 'sometimes|required|date',
-            'completion_date' => 'sometimes|required|date',
+            'education_level' => 'required|string|in:Fundamental Incompleto,Fundamental Completo,Ensino Médio Incompleto,Ensino Médio Completo,Superior Incompleto,Superior Completo',                
         ]);
 
         $user->update($validated);

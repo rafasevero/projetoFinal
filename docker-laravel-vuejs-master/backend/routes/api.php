@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfessionalExperienceController;
 use App\Http\Controllers\AcademicBackgroundController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CurriculumController;
@@ -49,7 +50,8 @@ Route::prefix('user')->group(function () {
     Route::middleware('auth:sanctum')->put('/updateCurriculum/{id}',[CurriculumController::class, 'updateCurriculum']);//testar
     Route::middleware('auth:sanctum')->post('/deleteCurriculum/{id}',[CurriculumController::class, 'destroyCurriculum']);//testar
     Route::middleware('auth:sanctum')->get('/getVacanciesForUser',[UserController::class, 'getVacanciesForUser']);
-
+    Route::middleware('auth:sanctum')->post('storeExperience',[ProfessionalExperienceController::class, 'storeExperience']);
+    Route::middleware('auth:sanctum')->put('updateExperience/{id}',[ProfessionalExperienceController::class, 'updateExperience']);
 });
 
 

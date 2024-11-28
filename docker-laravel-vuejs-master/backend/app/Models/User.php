@@ -29,12 +29,12 @@ class User extends Authenticatable
 
     public function softSkills()
     {
-        return $this->hasMany(Softskill::class);
+        return $this->hasOne(Softskill::class);
     }
 
     public function hardSkills()
     {
-        return $this->hasMany(Hardskill::class);
+        return $this->hasOne(Hardskill::class);
     }
 
     public function curriculum()
@@ -44,6 +44,10 @@ class User extends Authenticatable
 
     public function experience(){
         return $this->hasMany(Professional_experiences::class);
+    } 
+
+    public function academic_background(){
+        return $this->hasOne(Academic_background::class);
     }
 
 

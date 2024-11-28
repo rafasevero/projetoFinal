@@ -96,9 +96,9 @@ class ApplicationController extends Controller
             ], 404);
         }
 
-        $userApplications = Application::where('vacancy_id', $vacancy_id)//obtem todas as candidaturas para a vaga
-            ->with('users:id,full_name,email,phone')  // carrega os candidatos associados à candidatura
-            ->get();
+        $userApplications = Application::where('vacancy_id', $vacancy_id)
+        ->with('users.softSkills', 'users.hardSkills', 'users.curriculum', 'users.experience', 'users.academic_background')
+        ->get();
 
         if ($userApplications->isEmpty()) {
             return response()->json([
@@ -106,16 +106,28 @@ class ApplicationController extends Controller
             ], 404);
         }
 
-        $users = $userApplications->flatMap(function ($application) { // acessa diretamente os usuários de cada candidatura
-
-            return $application->users; // retorna todos os usuários associados à candidatura
-        });
+        $users = $userApplications->flatMap(function ($application) { // O flatMap permite a modificação ou mudança da estrutura dos itens dentro de uma coleção
+            return $application->users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'full_name' => $user->full_name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'softSkills' => optional($user->softSkills)->pluck('descricao')->toArray(),
+                    'hardSkills' => optional($user->hardSkills)->pluck('descricao')->toArray(),
+                    'curriculum' => optional($user->curriculum)->pluck('file')->toArray(),
+                    'experience' => optional($user->experience)->pluck('company_name', 'position')->toArray(),
+                    'academic_background' => optional($user->academic_background)->pluck('education_level')->toArray(),
+                ];
+            });
+        });// pluck é usado para extrair um array dos valores de um campo específico das tabelas relacionadas
 
         return response()->json([
             'message' => 'Candidatos encontrados com sucesso!',
             'candidates' => $users,
         ], 200);
     }
+
 
 }
 
