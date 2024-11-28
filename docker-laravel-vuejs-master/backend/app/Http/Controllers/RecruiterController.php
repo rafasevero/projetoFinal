@@ -94,7 +94,6 @@ class RecruiterController extends Controller
             if ($recruiter->perfilPicture) {
                 Storage::delete('public/' . $recruiter->perfilPicture);
             }
-
             // Faz o upload da nova imagem
             $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
             $array['perfilPicture'] = $path;

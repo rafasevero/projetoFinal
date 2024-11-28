@@ -135,8 +135,7 @@ class UserController extends Controller
         }
 
         $user = User::find($id);
-
-
+      
         $user->update($array);
 
         return response()->json([
