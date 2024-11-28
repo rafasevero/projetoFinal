@@ -63,6 +63,7 @@
                                     <h2>Editar Perfil</h2>
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                     </div>
+                                    
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label class="labels">Nome da empresa</label>
@@ -117,7 +118,6 @@
 import axios from "axios";
 import NavbarCandidato from "./NavbarCandidate.vue";
 import Modal from './Modal.vue';
-import { saveProfile } from '../services/SaveProfileService';
 
 export default {
     name: "UserProfileRecrutador",
@@ -128,20 +128,13 @@ export default {
     data() {
         return {
             editProfile: false,
-            showModal: false,
             recruiterId: null,
             company_name: "",
             email: "",
             phone: "",
-            // address: {
-            //     street: '',
-            //     neighborhood: '',
-            //     city: '',
-            //     state: '',
-            // },
-            perfilPicture:
-                "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+            perfilPicture: "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
             cep: "",
+            profileImageFile: null // Para armazenar o arquivo da imagem temporariamente
         };
     },
     created() {
@@ -162,8 +155,7 @@ export default {
                     },
                 })
                 .then((response) => {
-                    const { id, company_name, cep, email, phone, city, state, perfilPicture } =
-                        response.data;
+                    const { id, company_name, cep, email, phone, city, state, perfilPicture } = response.data;
                     this.id = id;
                     this.company_name = company_name;
                     this.email = email;
@@ -171,7 +163,6 @@ export default {
                     this.cep = cep;
                     this.city = city;
                     this.state = state;
-                    this.cep = cep;
                     if (perfilPicture) {
                         this.perfilPicture = perfilPicture;
                     }
@@ -186,7 +177,8 @@ export default {
         onImageChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.perfilPicture = URL.createObjectURL(file);
+                this.perfilPicture = URL.createObjectURL(file); // Atualiza a visualização da imagem
+                this.profileImageFile = file; // Armazena o arquivo para enviar ao backend
             }
         },
         salvarPerfil() {
@@ -201,18 +193,19 @@ export default {
                 return;
             }
 
-            const updatedProfile = {
-                id: this.id,
-                company_name: this.company_name,
-                email: this.email,
-                phone: this.phone,
-                // street: this.street,
-                // neighborhood: this.neighborhood,
-                city: this.city,
-                state: this.state,
-                // address: this.address,
-                cep: this.cep,
-            };
+            const updatedProfile = new FormData();
+            updatedProfile.append('id', this.id);
+            updatedProfile.append('company_name', this.company_name);
+            updatedProfile.append('email', this.email);
+            updatedProfile.append('phone', this.phone);
+            updatedProfile.append('city', this.city);
+            updatedProfile.append('state', this.state);
+            updatedProfile.append('cep', this.cep);
+
+            if (this.profileImageFile) {
+                updatedProfile.append('perfilPicture', this.profileImageFile);  // Envia a imagem
+            }
+
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
@@ -223,6 +216,10 @@ export default {
                     alert("Perfil atualizado com sucesso!");
                     this.editProfile = false;
                 })
+                .catch((error) => {
+                    console.error("Erro ao atualizar perfil:", error);
+                    alert("Ocorreu um erro ao atualizar o perfil.");
+                });
         },
         convertToUpperCase() {
             this.company_name = this.company_name.toUpperCase();
@@ -230,7 +227,6 @@ export default {
     },
 };
 </script>
-
 
 <style scoped>
 .form-control:focus {
