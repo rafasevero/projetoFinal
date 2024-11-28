@@ -35,7 +35,6 @@ class VacancyController extends Controller
         $array['company'] = $recruiter->company_name;
 
         if ($request->hasFile('company_logo')) {
-            // Armazena o arquivo no disco "public" na pasta "company_logos"
             $path = $request->file('company_logo')->store('company_logos', 'public');
             $array['company_logo'] = $path;
         }
@@ -93,7 +92,7 @@ class VacancyController extends Controller
         ]);
 
         if ($request->hasFile('company_logo')) {
-            // Excluir a imagem anterior, se existir
+            // deleta a foto anterior
             if ($vacancies->company_logo) {
                 Storage::delete('public/' . $vacancies->company_logo);
             }
