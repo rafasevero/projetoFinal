@@ -112,21 +112,22 @@ class VacancyController extends Controller
 
     public function destroyVacancy($id){
 
-        $vacancy = Vacancies::find($id);
 
-        if (!$vacancy) {
+        $recruiter = Auth::user();
+
+        if (!$recruiter) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
+        }
+
+        $vacancies = Vacancies::where('id', $id)->where('recruiter_id', $recruiter->id)->first();
+
+        if (!$vacancies) {
             return response()->json([
-                'message' => 'Vaga não encontrada!',
+                'message' => 'Esta vaga não pertence à sua empresa.',
             ], 404);
         }
 
-        if ($vacancy->recruiter_id !== auth('recruiter')->id()) {
-            return response()->json([
-                'message' => 'Você não tem permissão para excluir esta vaga!',
-            ], 403);
-        }
-
-        $vacancy->delete();
+        $vacancies->delete();
 
         return response()->json([
             'message' => 'Vaga excluída com sucesso!',
