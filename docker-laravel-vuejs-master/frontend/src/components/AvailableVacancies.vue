@@ -16,7 +16,7 @@
       </li>
     </ul>
 
-    <!-- Modal -->
+    <!-- Modal para exibir mais detalhes -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
@@ -70,15 +70,16 @@ export default {
       }
     },
     openModal(vagaId) {
-
+      // Localize a vaga pelo id e armazene-a em selectedVaga
       this.selectedVaga = this.vacanciesData.find(vaga => vaga.id === vagaId);
       if (this.selectedVaga) {
-        this.showModal = true;  
+        this.showModal = true;  // Abre o modal somente se a vaga for encontrada
       }
     },
     closeModalIfOutside(event) {
+      // Verifica se o clique foi na sobreposição (não no conteúdo)
       if (event.target === event.currentTarget) {
-      this.closeModal(); 
+      this.closeModal(); // Fecha o modal
       }
     },
     closeModal() {
@@ -89,32 +90,23 @@ export default {
     },
 
     async closeVaga(vagaId) {
-      const token = localStorage.getItem('token');
-      console.log('Token de autenticação:', token);
-      console.log('ID da vaga a ser excluída:', vagaId);
-      
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/recruiter/vacancies/${vagaId}`, {
+        // Enviar requisição para excluir a vaga no backend
+        const response = await fetch(`http://127.0.0.1:8000/api/recruiter/index_vacancies${vagaId}`, {
           method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
         });
 
         if (response.ok) {
+          // Caso a vaga seja excluída com sucesso, remova ela do estado local
           this.vacanciesData = this.vacanciesData.filter(vaga => vaga.id !== vagaId);
-          this.closeModal();
-        } else {
-          const errorResponse = await response.json(); //pega a resposta JSON de erro
-          console.error('Erro ao excluir vaga', errorResponse.message);
+          this.closeModal();  // Fecha o modal após excluir
+        } else { 
+          console.error('Erro ao excluir vaga');
         }
       } catch (error) {
         console.error("Erro ao excluir vaga: ", error);
       }
-
-}
-
+    },
   },
 
   mounted() {
@@ -171,7 +163,7 @@ ul li{
   font-size: 1rem;
   line-height: 1.6;
   overflow-y: auto;
-  max-height: 400px; 
+  max-height: 400px; /* Definindo uma altura máxima para a área */
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -245,7 +237,7 @@ ul li{
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease-in-out; 
+  transition: all 0.3s ease-in-out; /* Melhorando a transição para suavizar o efeito */
   text-transform: uppercase;
   text-align: center;
 }
@@ -254,12 +246,12 @@ ul li{
   color: #4ea1db;
   background-color: #fff;
   border: 2px solid #1f78b8;
-  transform: scale(1.05); 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  transform: scale(1.05); /* Efeito de leve aumento no botão */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicionando sombra suave */
 }
 
 .btn-candidatar:active {
-  transform: scale(1); 
+  transform: scale(1); /* Efeito de pressionar, volta ao tamanho original */
 }
 
 .btn-more {
