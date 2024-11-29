@@ -233,6 +233,8 @@ ul li {
   color: #fff;
   background-color: #4ea1db;
   border: 2px solid #1f78b8;
+  border-radius: 10px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: center;

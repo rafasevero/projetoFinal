@@ -16,6 +16,22 @@
       </li>
     </ul>
 
+    <div class="pagination">
+      <button 
+        class="pagination-button" 
+        @click="changePage(currentPage - 1)" 
+        :disabled="currentPage === 1">
+        Anterior
+      </button>
+      <span> Página {{ currentPage }} de {{ totalPages }} </span>
+      <button 
+        class="pagination-button" 
+        @click="changePage(currentPage + 1)" 
+        :disabled="currentPage === totalPages">
+        Próxima
+      </button>
+    </div>
+
     <!-- Modal -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
       <div class="modal-content" @click.stop>
@@ -57,6 +73,9 @@ export default {
       selectedVaga: null,
       isApplying: false,
       user: null,
+      currentPage: 1,       
+      itemsPerPage: 5, 
+
     };
   },
   computed: {
@@ -65,6 +84,14 @@ export default {
       return this.vagas.filter(vaga =>
         vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
+    },
+    totalPages() {
+      return Math.ceil(this.filteredVagas.length / this.itemsPerPage);
+    },
+    paginatedVagas() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = this.currentPage * this.itemsPerPage;
+      return this.filteredVagas.slice(start, end);
     }
   },
   methods: {
@@ -114,8 +141,6 @@ export default {
         alert('Você já se candidatou nesta vaga.');
       }
     },
-
-
 
     async fetchUser() {
       const token = localStorage.getItem('token');
@@ -291,6 +316,8 @@ ul li {
   color: #fff;
   background-color: #4ea1db;
   border: 2px solid #1f78b8;
+  border-radius: 10px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -317,4 +344,36 @@ ul li {
   font-size: 1.2rem;
   color: #333;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  background-color: #4ea1db;
+  color: white;
+  border: 2px solid #1f78b8;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.pagination-button:disabled {
+  background-color: #ddd;
+  border: none;
+  cursor: not-allowed;
+}
+
+.pagination-button:hover {
+  background-color: #1f78b8;
+}
+
+.pagination span {
+  align-self: center;
+  font-size: 1.1rem;
+  color: #333;
+  }
 </style>

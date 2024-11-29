@@ -15,7 +15,6 @@
         </div>
       </li>
     </ul>
-
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
@@ -269,7 +268,6 @@ button:hover {
   line-height: 1.6;
   overflow-y: auto;
   max-height: 400px;
-  /* Definindo uma altura máxima para a área */
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -346,7 +344,6 @@ button:hover {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  /* Melhorando a transição para suavizar o efeito */
   text-transform: uppercase;
   text-align: center;
 }
@@ -356,14 +353,12 @@ button:hover {
   background-color: #fff;
   border: 2px solid #1f78b8;
   transform: scale(1.05);
-  /* Efeito de leve aumento no botão */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Adicionando sombra suave */
+
 }
 
 .btn-candidatar:active {
   transform: scale(1);
-  /* Efeito de pressionar, volta ao tamanho original */
 }
 
 .btn-more {
