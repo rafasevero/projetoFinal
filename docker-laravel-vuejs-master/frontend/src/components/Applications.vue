@@ -17,11 +17,6 @@
 
     <p v-else>Sem vagas para exibir</p>
 
-
-
-
-
-    <!-- Modal para exibir mais detalhes -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">

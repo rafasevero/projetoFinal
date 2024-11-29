@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $array =  $request->validate([
             'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',// Garantindo e-mails únicos
+            'email' => 'required|string|email|max:255|unique:users,email',//garantinde os e-mails únicos
             'password' => 'required|string|min:8|max:100',
             'date_of_birth' => ['required', 'date', function ($attribute, $value, $fail) {
             if (Carbon::parse($value)->age < 16) {
@@ -98,7 +98,6 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Verificar se o usuário está autenticado
         $user = Auth::user();
 
         if (!$user) {
@@ -114,7 +113,6 @@ class UserController extends Controller
             ], 404);
         }
 
-        // Validação dos dados de entrada
         $array = $request->validate([
             'full_name' => 'nullable|string|max:255',
             'email' => [
@@ -122,7 +120,7 @@ class UserController extends Controller
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($user->id), // Ignora a validação de email para o próprio usuário
+                Rule::unique('users')->ignore($user->id),
             ],
             'date_of_birth' => 'nullable|date',
             'cpf' => 'nullable|string|max:11',
@@ -134,19 +132,14 @@ class UserController extends Controller
             'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Se houver arquivo de imagem para o perfil
         if ($request->hasFile('perfilPicture')) {
-            // Excluir a imagem antiga, se existir
             if ($user->perfilPicture) {
                 Storage::delete('public/' . $user->perfilPicture);
             }
-
-            // Fazer o upload da nova imagem
             $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
             $array['perfilPicture'] = $path;
         }
 
-        // Atualizar os dados do usuário
         $user->update($array);
 
         return response()->json([
@@ -158,25 +151,20 @@ class UserController extends Controller
 
     public function getVacanciesForUser()
     {
-        // Obter o usuário autenticado
         $user = auth()->user();
 
-        // Verificar se o usuário está autenticado
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado!'], 401);
         }
 
-        // Buscar todas as candidaturas feitas pelo usuário e carregar a vaga associada
         $applications = Application::where('user_id', $user->id)
-            ->with('vacancy') // Carregar o relacionamento 'vacancy' junto com as candidaturas
+            ->with('vacancy')
             ->get();
 
-        // Verificar se o usuário não tem candidaturas
         if ($applications->isEmpty()) {
             return response()->json(['message' => 'Você ainda não se candidatou a nenhuma vaga.'], 404);
         }
 
-        // Retornar as candidaturas e as informações da vaga associada
         return response()->json(['applications' => $applications], 200);
     }
 

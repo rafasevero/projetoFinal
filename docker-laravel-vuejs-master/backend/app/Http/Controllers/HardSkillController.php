@@ -59,7 +59,9 @@ class HardSkillController extends Controller
 
 
     public function destroyHardSkill($id){
+
         $guard = Auth::getDefaultDriver();//identifica o guard autenticado
+        
         $user = auth()->guard($guard)->user();
 
         if(!$user){

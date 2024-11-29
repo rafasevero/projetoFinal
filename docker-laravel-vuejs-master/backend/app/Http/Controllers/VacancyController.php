@@ -19,7 +19,6 @@ class VacancyController extends Controller
             return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
         }
 
-
         $array = $request->validate([
             'vacancy_name' => 'required|string|max:100',
             'description' => 'required|string|max:255',

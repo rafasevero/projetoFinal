@@ -27,7 +27,6 @@
       </button>
     </div>
 
-    <!-- Modal -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">

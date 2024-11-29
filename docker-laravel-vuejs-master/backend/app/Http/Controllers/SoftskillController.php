@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SoftskillController extends Controller
 {
-    public function storeSoftSkill(Request $request){//fazer com o id do usuário 
+    public function storeSoftSkill(Request $request){
 
         $user = auth()->user();
 
