@@ -4,16 +4,18 @@
       <h1>Minhas Vagas</h1>
       <button @click="goToCreateVacancy">Cadastrar nova vaga</button>
     </div>
-      <ul>
-      <li v-for="vaga in filteredVagas" :key="vaga.id">
-        <div class="card-vagas">
-          <img :src="vaga.company_logo" :alt="vaga.company_name" />
-          <h3>{{ vaga.company }}</h3>
-          <p>{{ vaga.vacancy_name }}</p>
-          <button class="btn-more" @click="openModal(vaga.id)">Ver mais</button>
-        </div>
-      </li>
-    </ul>
+    <ul>
+  <li v-if="filteredVagas.length === 0">Nenhuma vaga disponível</li>
+  <li v-else v-for="vaga in filteredVagas" :key="vaga.id">
+    <div class="card-vagas">
+      <img :src="vaga.company_logo" :alt="vaga.company" />
+      <h3>{{ vaga.company }}</h3>
+      <p>{{ vaga.vacancy_name }}</p>
+      <button class="btn-more" @click="openModal(vaga.id)">Ver mais</button>
+    </div>
+  </li>
+</ul>
+
 
     <!-- Modal para exibir mais detalhes -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
@@ -32,86 +34,59 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
-import { ShowVagas } from '@/services/ShowVacancies';
+import { VagasCriadas } from "../services/VagasCriadas";
 
 export default {
-  name: 'VacanciesUser',
   data() {
     return {
-      searchQuery: '',
-      vacanciesData: [],
-      selectedVaga: {},
+      vagas: [],
+      filteredVagas: [],
+      selectedVaga: null,
       showModal: false,
-      loading: false,
-      error: false,
-      recruiterId: null, // ID do recrutador logado
+      empresaLogadaId:null
     };
   },
-  computed: {
-    filteredVagas() {
-      // Filtra as vagas para mostrar apenas as do recrutador logado
-      return this.vacanciesData.filter(vaga => 
-        vaga.recruiter_id === this.recruiterId &&  // Filtra vagas pela ID do recrutador
-        (vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      );
-    },
-    
-  },
   methods: {
-    goToCreateVacancy() {
-      this.$router.push('/createVacancy');
-    },
     async fetchVagas() {
       try {
-        const response = await ShowVagas();  // Chama o serviço que retorna as vagas
-        this.vacanciesData = Array.isArray(response.data.vacancies) ? response.data.vacancies : [];
-        this.setRecruiterId();  // Após buscar as vagas, define o ID do recrutador logado
-      } catch (error) {
-        console.error("Erro ao buscar vagas: ", error);
-        this.error = true;
-      }
-    },
-    // Função para extrair o ID do recrutador do token
-    setRecruiterId() {
-        try {
-          const token = localStorage.getItem('token');
-          if (token && token.includes('.')) {  // Verifica se o token contém os pontos
-            const parts = token.split('.');
-            if (parts.length === 3) {
-              const decodedToken = JSON.parse(atob(parts[1]));  // Decodifica o payload do token
-              this.recruiterId = decodedToken.recruiter_id;
-            } else {
-              console.error('Token JWT malformado:', token);
-            }
-          } else {
-            console.error('Token não encontrado ou está malformado no localStorage.');
-          }
-        } catch (error) {
-          console.error('Erro ao decodificar o token:', error);
-        }
-      },
+        const response = await VagasCriadas.getJobsCreated();
+        this.vagas = response.data.vacancies;
 
-    openModal(vagaId) {
-      // Localiza a vaga pelo ID e armazena em selectedVaga
-      this.selectedVaga = this.vacanciesData.find(vaga => vaga.id === vagaId);
-      if (this.selectedVaga) {
-        this.showModal = true;  // Abre o modal se a vaga for encontrada
+        // Obtém o ID da empresa logada do localStorage
+        const empresaLogadaId = this.getEmpresaLogadaId();
+        
+        // Verifique se o ID da empresa logada foi recuperado corretamente
+        console.log("Empresa Logada ID:", empresaLogadaId);
+
+        if (!empresaLogadaId) {
+          console.error("Não foi possível obter o ID da empresa logada.");
+        }
+
+        // Filtra apenas as vagas da empresa logada
+        // Caso a empresa não tenha criado nenhuma vaga, ele retorna uma lista vazia.
+        this.filteredVagas = this.vagas.filter(vaga => vaga.company_id === empresaLogadaId || !empresaLogadaId);
+        
+        // Caso não haja vagas para exibir, a lista ficará vazia
+        if (this.filteredVagas.length === 0) {
+          console.log("Nenhuma vaga encontrada para a empresa logada.");
+        }
+
+      } catch (error) {
+        console.error("Erro ao buscar vagas criadas:", error);
       }
     },
-    closeModalIfOutside(event) {
-      // Verifica se o clique foi na sobreposição (não no conteúdo)
-      if (event.target === event.currentTarget) {
-        this.closeModal(); // Fecha o modal
-      }
+
+
+   
+    getEmpresaLogadaId(){
+      return localStorage.getItem("empresaLogadaId");
     },
-    closeModal() {
-      this.showModal = false;
-    },
+
     async applyForm(vagaId) {
       try {
         await axios.post('http://localhost:8000/api/apply', { vacancy_id: vagaId });
@@ -148,13 +123,41 @@ export default {
       }
     },
 
+
+    openModal(vagaId) {
+    this.selectedVaga = this.vagas.find(vaga => vaga.id === vagaId);
+    if (this.selectedVaga) {
+      this.showModal = true;
+    } else {
+      console.error("Vaga não encontrada com o ID:", vagaId);
+    }
+  },
+
+
+  closeModal() {
+    this.showModal = false;
+    this.selectedVaga = null;
+  },
+
+  // Método para fechar o modal ao clicar fora
+  closeModalOnClickOutside(event) {
+    if (event.target === event.currentTarget) {
+      this.closeModal();
+    }
+  },
+    goToCreateVacancy() {
+      this.$router.push("/CreateVacancy");  
+    }
   },
   
   mounted() {
-    this.fetchVagas();  // Busca as vagas assim que o componente é montado
+    this.fetchVagas();
+    this.filteredVagas = this.vagas;
   }
 };
 </script>
+
+
 
 
 <style scoped>
