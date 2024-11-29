@@ -64,6 +64,7 @@ Route::prefix('recruiter')->group(function () {
     Route::middleware('auth:sanctum')->put('/update/{id}',[RecruiterController::class, 'update']);
     Route::middleware('auth:sanctum')->get('/getVacancies', [RecruiterController::class, 'getRecruiterVacancies']);
     Route::middleware('auth:sanctum')->get('/getUsersForVacancies/{ApplyId}',[ApplicationController::class, 'getUsersForVacancies']);
+    Route::delete('/vacancies/{vagaId}', [VacancyController::class, 'destroyVacancy']);
 });
 
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);

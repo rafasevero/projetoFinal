@@ -5,12 +5,10 @@
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <img class="rounded-circle mt-5" width="150px" :src="perfilPicture" alt="Imagem de Perfil">
-
                         <input type="file" @change="onImageChange" style="display: none;" ref="fileInput" />
                         <button class="btn btn-primary mt-3" @click="triggerFileInput">
                             Alterar Imagem
                         </button>
-
                         <span class="font-weight-bold">{{ company_name }}</span>
                         <span class="text-black-50">{{ email }}</span>
                     </div>
@@ -53,17 +51,14 @@
                                     readonly />
                             </div>
                         </div>
-
                         <div class="mt-5 text-center">
                             <button class="btn btn-primary profile-button" type="button"
                                 @click="editProfile = true">Editar Perfil</button>
-
                             <Modal :show="editProfile" @close="editProfile = false">
                                 <form>
                                     <h2>Editar Perfil</h2>
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                     </div>
-                                    
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label class="labels">Nome da empresa</label>
@@ -112,13 +107,11 @@
         </div>
     </div>
 </template>
-
-
 <script>
 import axios from "axios";
 import NavbarCandidato from "./NavbarCandidate.vue";
 import Modal from './Modal.vue';
-
+import { saveProfile } from '../services/SaveProfileService';
 export default {
     name: "UserProfileRecrutador",
     components: {
@@ -128,13 +121,20 @@ export default {
     data() {
         return {
             editProfile: false,
+            showModal: false,
             recruiterId: null,
             company_name: "",
             email: "",
             phone: "",
-            perfilPicture: "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+            // address: {
+            //     street: '',
+            //     neighborhood: '',
+            //     city: '',
+            //     state: '',
+            // },
+            perfilPicture:
+                "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
             cep: "",
-            profileImageFile: null // Para armazenar o arquivo da imagem temporariamente
         };
     },
     created() {
@@ -147,15 +147,15 @@ export default {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
-
             axios
-                .get("http://127.0.0.1:8000/api/user/pullAuth", {
+                .get("http://localhost:8000/api/user/pullAuth", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((response) => {
-                    const { id, company_name, cep, email, phone, city, state, perfilPicture } = response.data;
+                    const { id, company_name, cep, email, phone, city, state, perfilPicture } =
+                        response.data;
                     this.id = id;
                     this.company_name = company_name;
                     this.email = email;
@@ -163,6 +163,7 @@ export default {
                     this.cep = cep;
                     this.city = city;
                     this.state = state;
+                    this.cep = cep;
                     if (perfilPicture) {
                         this.perfilPicture = perfilPicture;
                     }
@@ -177,8 +178,7 @@ export default {
         onImageChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.perfilPicture = URL.createObjectURL(file); // Atualiza a visualização da imagem
-                this.profileImageFile = file; // Armazena o arquivo para enviar ao backend
+                this.perfilPicture = URL.createObjectURL(file);
             }
         },
         salvarPerfil() {
@@ -187,39 +187,31 @@ export default {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
-
             if (!this.company_name || !this.email || !this.phone || !this.city || !this.state || !this.cep) {
                 alert("Todos os campos obrigatórios devem ser preenchidos.");
                 return;
             }
-
-            const updatedProfile = new FormData();
-            updatedProfile.append('id', this.id);
-            updatedProfile.append('company_name', this.company_name);
-            updatedProfile.append('email', this.email);
-            updatedProfile.append('phone', this.phone);
-            updatedProfile.append('city', this.city);
-            updatedProfile.append('state', this.state);
-            updatedProfile.append('cep', this.cep);
-
-            if (this.profileImageFile) {
-                updatedProfile.append('perfilPicture', this.profileImageFile);  // Envia a imagem
-            }
-
+            const updatedProfile = {
+                id: this.id,
+                company_name: this.company_name,
+                email: this.email,
+                phone: this.phone,
+                // street: this.street,
+                // neighborhood: this.neighborhood,
+                city: this.city,
+                state: this.state,
+                // address: this.address,
+                cep: this.cep,
+            };
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
-
             axios
-                .put(`http://127.0.0.1:8000/api/recruiter/update/${this.id}`, updatedProfile, { headers })
+                .put(`http://localhost:8000/api/recruiter/update/${this.id}`, updatedProfile, { headers })
                 .then(() => {
                     alert("Perfil atualizado com sucesso!");
                     this.editProfile = false;
                 })
-                .catch((error) => {
-                    console.error("Erro ao atualizar perfil:", error);
-                    alert("Ocorreu um erro ao atualizar o perfil.");
-                });
         },
         convertToUpperCase() {
             this.company_name = this.company_name.toUpperCase();
@@ -227,25 +219,20 @@ export default {
     },
 };
 </script>
-
 <style scoped>
 .form-control:focus {
     box-shadow: none;
     border-color: #4ea1db;
-
 }
-
 .profile-button {
     background: #4ea1db;
     box-shadow: none;
     border: none;
     margin: 10px;
 }
-
 .profile-button:hover {
     background: #124366;
 }
-
 .labels {
     font-size: 11px;
 }
