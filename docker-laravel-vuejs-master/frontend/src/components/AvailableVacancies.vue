@@ -40,7 +40,6 @@
           <p>Local: {{ selectedVaga.location }}</p>
           <p>Tipo: {{ selectedVaga.work_modality }}</p>
           <p>Valor: {{ selectedVaga.salary }}</p>
-          <button class="btn-more" @click="closeVaga(selectedVaga.id)">Fechar vaga</button>
         </div>
       </div>
     </div>
@@ -106,28 +105,6 @@ export default {
     },
     async applyForm() {
       console.log("Candidatando-se à vaga:", this.selectedVaga.id);
-    },
-    async closeVaga(vagaId) {
-      const token = localStorage.getItem('token');
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/api/recruiter/vacancies/${vagaId}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        if (response.ok) {
-          this.vacanciesData = this.vacanciesData.filter(vaga => vaga.id !== vagaId);
-          this.closeModal();
-        } else {
-          const errorResponse = await response.json();
-          console.error('Erro ao excluir vaga', errorResponse.message);
-        }
-      } catch (error) {
-        console.error("Erro ao excluir vaga: ", error);
-      }
     },
     changePage(pageNumber) {
       if (pageNumber < 1 || pageNumber > this.totalPages) return;
