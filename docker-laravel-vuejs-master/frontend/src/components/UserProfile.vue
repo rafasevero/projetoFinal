@@ -121,11 +121,7 @@
                             <span>Editar experiência</span>
                         </div><br>
                         <div class="col-md-12">
-                            <label class="labels">Experiência</label>
-                            <input type="text" class="form-control" placeholder="Experiência" />
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Formação</label>
+                            <label class="labels">Formação Acadêmica</label>
                             <select class="select">
                                 <option value="">Selecione</option>
                                 <option value="complete_fundamental">Ensino fundamental completo</option>
@@ -137,11 +133,11 @@
                             </select>
                         </div>
                         <div class="col-md-12">
-                            <label class="labels">Instituição de ensino</label>
+                            <label class="labels">Empresa Que Trabalhou</label>
                             <input type="text" class="form-control" placeholder="Instituição de ensino" />
                         </div>
                         <div class="col-md-12">
-                            <label class="labels">Curso</label>
+                            <label class="labels">Cargo que Exerceu</label>
                             <input type="text" class="form-control" placeholder="Curso" />
                         </div>
                         <div class="col-md-12">
