@@ -97,7 +97,7 @@ class ApplicationController extends Controller
         }
 
         $userApplications = Application::where('vacancy_id', $vacancy_id)
-        ->with('users.softSkills', 'users.hardSkills', 'users.curriculum', 'users.experience', 'users.academic_background')
+        ->with('users.curriculum')
         ->get();
 
         if ($userApplications->isEmpty()) {
@@ -113,11 +113,11 @@ class ApplicationController extends Controller
                     'full_name' => $user->full_name,
                     'email' => $user->email,
                     'phone' => $user->phone,
-                    'softSkills' => optional($user->softSkills)->pluck('descricao')->toArray(),
-                    'hardSkills' => optional($user->hardSkills)->pluck('descricao')->toArray(),
-                    'curriculum' => optional($user->curriculum)->pluck('file')->toArray(),
-                    'experience' => optional($user->experience)->pluck('company_name', 'position')->toArray(),
-                    'academic_background' => optional($user->academic_background)->pluck('education_level')->toArray(),
+                    // 'curriculum' => optional($user->curriculum)->pluck('file')->toArray(),
+                    // 'softSkills' => optional($user->softSkills)->pluck('descricao')->toArray(),
+                    // 'hardSkills' => optional($user->hardSkills)->pluck('descricao')->toArray(),
+                    // 'experience' => optional($user->experience)->pluck('company_name', 'position')->toArray(),
+                    // 'academic_background' => optional($user->academic_background)->pluck('education_level')->toArray(),
                 ];
             });
         });// pluck é usado para extrair um array dos valores de um campo específico das tabelas relacionadas
