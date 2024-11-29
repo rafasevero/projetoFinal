@@ -51,7 +51,6 @@ class ProfessionalExperienceController extends Controller
         ], 404);
     }
 
-    // Validação dos dados recebidos na requisição
     $validated = $request->validate([
         'company_name' => 'required|string|max:100',
         'position' => 'required|string|max:100',
@@ -60,12 +59,11 @@ class ProfessionalExperienceController extends Controller
         'end_date' => 'required|date',
     ]);
 
-    // Atualiza os dados da experiência profissional
     $professionalExperience->update($validated);
 
     return response()->json([
         'message' => 'Experiência Profissional atualizada com sucesso!',
-        'professional_experience' => $professionalExperience, // Retorna a experiência atualizada
+        'professional_experience' => $professionalExperience, 
         'user' => $user
     ]);
 }

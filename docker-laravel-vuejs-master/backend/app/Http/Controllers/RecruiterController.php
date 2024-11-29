@@ -115,21 +115,16 @@ class RecruiterController extends Controller
 
     public function getRecruiterProfile(Request $request)
     {
-        // Verifica se o usuário está autenticado com o guard de recrutador
         $recruiter = auth()->user();
 
-        // Verifica se o recrutador está autenticado
         if (!$recruiter) {
             return response()->json([
                 'message' => 'Acesso negado. Usuário não autenticado.'
             ], 401);
         }
 
-        // Carrega todos os relacionamentos que você deseja retornar com os dados do recrutador
         $recruiter = Recruiter::with(['vacancies'])->find($recruiter->id);
 
-        // Retorna todos os dados do recrutador com relacionamentos
         return response()->json($recruiter, 200);
     }
 }
-// preciso fazer a requisição para verificar se a empresa está mexendo com as próprias vagas, não com as de outras empresas

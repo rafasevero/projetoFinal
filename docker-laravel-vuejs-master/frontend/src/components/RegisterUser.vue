@@ -105,7 +105,7 @@ export default {
             },
             showNotification: false,
             notificationMessage: '',
-            loading: false, // Adiciona o estado de carregamento
+            loading: false,
         };
     },
 
