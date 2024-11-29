@@ -1,6 +1,6 @@
 <template>
     <main>
-        <Navbar/>
+        <Navbar />
         <header>
             <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         </header>
@@ -17,14 +17,15 @@
                         <label>Seu Nome Completo</label>
                         <input type="text" v-model="full_name" id="nome" required @input="convertToUpperCase" />
                         <label>CPF</label>
-                        <input type="text" maxlength="14" v-model="cpf" @input="formatCPF" @blur="fetchAddress" placeholder="XXX.XXX.XXX-XX" required />
+                        <input type="text" maxlength="14" v-model="cpf" @input="formatCPF" @blur="fetchAddress"
+                            placeholder="XXX.XXX.XXX-XX" required />
                     </div>
                     <div class="tel-container">
                         <label>Telefone</label>
-                        <input type="text" maxlength="15" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" :maxlength="15" required />
+                        <input type="text" maxlength="15" v-model="phone" @input="formatPhone"
+                            placeholder="(XX) XXXXX-XXXX"  required />
                         <label>Data De Nascimento</label>
-                        <input type="date" maxlength="10" v-model="date_of_birth" id="data" 
-                        required />
+                        <input type="date" maxlength="10" v-model="date_of_birth" id="data" required />
                     </div>
                 </div>
                 <div class="email-password-container">
@@ -35,7 +36,8 @@
                     <div class="password-container">
                         <label>Senha</label>
                         <div class="password-input-container">
-                            <input :type="showPassword ? 'text' : 'password'" v-model="password" id="senha" placeholder="Digite sua senha" required />
+                            <input :type="showPassword ? 'text' : 'password'" v-model="password" id="senha"
+                                placeholder="Digite sua senha" required />
                             <label class="password-checkbox">
                                 Mostrar Senha
                                 <input type="checkbox" v-model="showPassword" />
@@ -45,7 +47,8 @@
                 </div>
                 <div class="CEP-container">
                     <label>CEP</label>
-                    <input type="text" maxlength="9" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" :maxlength="9"equired />
+                    <input type="text" maxlength="9" v-model="cep" @input="formatCEP" @blur="fetchAddress"
+                        placeholder="XXXXX-XXX"  required />
                 </div>
                 <div class="address-container">
                     <div class="street-container">
@@ -54,7 +57,7 @@
                     </div>
                     <div class="neighborhood-container">
                         <label>Bairro</label>
-                        <input type="text"  v-model="address.neighborhood" placeholder="Bairro" required />
+                        <input type="text" v-model="address.neighborhood" placeholder="Bairro" required />
                     </div>
                 </div>
                 <div class="city-state-container">
@@ -85,25 +88,27 @@ export default {
         Navbar
     },
     data() {
-        return {
-            full_name:'',
-            cpf: '',
-            phone: '',
-            date_of_birth:'',
-            email:'',
-            password: '',
-            showPassword: false,
-            cep: '',
-            address: {
-                street: '',
-                neighborhood: '',
-                city: '',
-                state: '',
-            },
-            showNotification: false,
-            notificationMessage: ''
-        };
-    },
+    return {
+        full_name: '',
+        cpf: '',
+        phone: '',
+        date_of_birth: '',
+        email: '',
+        password: '',
+        showPassword: false,
+        cep: '',
+        address: {
+            street: '',
+            neighborhood: '',
+            city: '',
+            state: '',
+        },
+        showNotification: false,
+        notificationMessage: '',
+        loading: false, // Adiciona o estado de carregamento
+    };
+},
+
     methods: {
         formatCPF() {
             this.cpf = this.cpf
@@ -127,6 +132,7 @@ export default {
             if (cleanedCep.length === 8) {
                 try {
                     const response = await axios.get(`https://viacep.com.br/ws/${cleanedCep}/json/`);
+
                     if (response.data && !response.data.erro) {
                         this.address.street = response.data.logradouro;
                         this.address.neighborhood = response.data.bairro;
@@ -148,8 +154,8 @@ export default {
                 this.cep = this.cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
             }
         },
-        
-        async submitForm(){
+
+        async submitForm() {
             this.loading = true
             const cleanedCPF = this.cpf.replace(/\D/g, '')
             const cleanedPhone = this.phone.replace(/\D/g, '')
@@ -161,10 +167,10 @@ export default {
             // const maxDate = new Date (today.getFullYear()-100, today.getMonth(), today.getDate());
             // dateInput.max = maxDate.toISOString().split('T')[0];
             // dateInput.min = minDate.toISOString().split('T')[0];
-            
+
             const dataToSend = {
                 full_name: this.full_name,
-                cpf: cleanedCPF, 
+                cpf: cleanedCPF,
                 phone: cleanedPhone,
                 date_of_birth: this.date_of_birth,
                 email: this.email,
@@ -174,15 +180,15 @@ export default {
                 state: this.address.state,
                 is_recruiter: false,
             }
-            try{
+            try {
                 await registerUser(dataToSend)
                 this.notificationMessage = 'Cadastro realizado com sucesso!';
                 this.showNotification = true;
                 setTimeout(() => {
                     this.$router.push('/login');
-                },2000);
+                }, 2000);
             }
-            catch(error){
+            catch (error) {
                 this.notificationMessage = 'Erro ao cadastrar o usuário! Tente novamente.';
                 this.showNotification = true;
                 console.error('Erro ao cadastrar o usuário:', error)
@@ -207,14 +213,17 @@ export default {
 
 .bx-arrow-back {
     font-size: 5vh;
-    color: #333; /* Cor um pouco mais suave */
+    color: #333;
+    /* Cor um pouco mais suave */
 }
 
 #logo {
     position: absolute;
     text-align: center;
-    top: 15%; /* Ajuste a posição do logo */
-    font-size: 6%; /* Aumentei o tamanho do logo */
+    top: 15%;
+    /* Ajuste a posição do logo */
+    font-size: 6%;
+    /* Aumentei o tamanho do logo */
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
@@ -226,63 +235,86 @@ export default {
     height: 120vh;
     object-fit: cover;
     z-index: -1;
-    
+
 }
 
 .candidato {
     position: relative;
-    background: rgba(255, 255, 255, 0.9); /* Aumentei a opacidade do fundo */
-    padding: 40px; /* Aumentei o padding */
-    border-radius: 15px; /* Aumentei o raio das bordas */
-    width: 90%; /* Ajustei a largura para não ocupar 100% */
-    max-width: 600px; /* Defini uma largura máxima */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Adicionei sombra */
-    margin: auto; /* Centralizei o container */
+    background: rgba(255, 255, 255, 0.9);
+    /* Aumentei a opacidade do fundo */
+    padding: 40px;
+    /* Aumentei o padding */
+    border-radius: 15px;
+    /* Aumentei o raio das bordas */
+    width: 90%;
+    /* Ajustei a largura para não ocupar 100% */
+    max-width: 600px;
+    /* Defini uma largura máxima */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Adicionei sombra */
+    margin: auto;
+    /* Centralizei o container */
 }
 
 form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Aumentei o espaçamento entre os elementos */
+    gap: 20px;
+    /* Aumentei o espaçamento entre os elementos */
     color: black;
 }
 
 input {
     width: 100%;
-    padding: 12px; /* Aumentei o padding */
-    border: 2px solid #ccc; /* Cor mais suave para a borda */
-    border-radius: 25px; /* Aumentei o raio das bordas */
+    padding: 12px;
+    /* Aumentei o padding */
+    border: 2px solid #ccc;
+    /* Cor mais suave para a borda */
+    border-radius: 25px;
+    /* Aumentei o raio das bordas */
     font-size: 1em;
-    transition: border-color 0.3s; /* Transição suave para a borda */
+    transition: border-color 0.3s;
+    /* Transição suave para a borda */
 }
 
 input:focus {
-    border-color: #007BFF; /* Cor da borda ao focar no input */
-    outline: none; /* Remover contorno padrão */
+    border-color: #007BFF;
+    /* Cor da borda ao focar no input */
+    outline: none;
+    /* Remover contorno padrão */
 }
 
 button {
-    padding: 12px; /* Aumentei o padding */
+    padding: 12px;
+    /* Aumentei o padding */
     margin-top: 10px;
-    border: 2px solid #007BFF; /* Cor da borda do botão */
-    border-radius: 25px; /* Aumentei o raio das bordas */
-    background-color: #007BFF; /* Cor de fundo do botão */
-    color: white; /* Cor do texto do botão */
-    transition: background-color 0.3s, border-color 0.3s; /* Transições suaves */
+    border: 2px solid #007BFF;
+    /* Cor da borda do botão */
+    border-radius: 25px;
+    /* Aumentei o raio das bordas */
+    background-color: #007BFF;
+    /* Cor de fundo do botão */
+    color: white;
+    /* Cor do texto do botão */
+    transition: background-color 0.3s, border-color 0.3s;
+    /* Transições suaves */
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3; /* Cor do botão ao passar o mouse */
-    border: 2px solid #0056b3; /* Cor da borda ao passar o mouse */
+    background-color: #0056b3;
+    /* Cor do botão ao passar o mouse */
+    border: 2px solid #0056b3;
+    /* Cor da borda ao passar o mouse */
 }
 
 .name-cpf-container,
 .address-container,
 .city-state-container {
     display: flex;
-    gap: 10px; /* Aumentei o espaço entre os elementos */
+    gap: 10px;
+    /* Aumentei o espaço entre os elementos */
     flex-wrap: wrap;
 }
 
@@ -301,19 +333,24 @@ button:hover {
 .password-container {
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Espaçamento entre o label e o campo de senha */
+    gap: 5px;
+    /* Espaçamento entre o label e o campo de senha */
 }
 
 .password-input-container {
     display: flex;
-    align-items: center; /* Alinha verticalmente os itens no centro */
-    gap: 10px; /* Espaçamento entre o input e o checkbox */
+    align-items: center;
+    /* Alinha verticalmente os itens no centro */
+    gap: 10px;
+    /* Espaçamento entre o input e o checkbox */
 }
 
 .password-checkbox {
     display: flex;
-    align-items: center; /* Alinha o texto e o checkbox */
-    font-size: 0.9em; /* Ajusta o tamanho da fonte se necessário */
+    align-items: center;
+    /* Alinha o texto e o checkbox */
+    font-size: 0.9em;
+    /* Ajusta o tamanho da fonte se necessário */
 }
 
 @media (max-width: 1000px) {
@@ -322,12 +359,14 @@ button:hover {
     }
 
     button {
-        padding: 10px; /* Ajuste no padding */
+        padding: 10px;
+        /* Ajuste no padding */
         font-size: 0.9em;
     }
 }
 
 @media (max-width: 600px) {
+
     .name-cpf-container,
     .address-container,
     .city-state-container {

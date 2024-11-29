@@ -24,7 +24,7 @@
                             <div class="col-md-6">
                                 <label class="labels">Nome completo</label>
                                 <input type="text" class="form-control" placeholder="Nome completo" v-model="full_name"
-                                    @input="convertToUpperCase" readonly/>
+                                    @input="convertToUpperCase" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Data de Nascimento</label>
@@ -34,22 +34,22 @@
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <label class="labels">Celular</label>
-                                <input type="text" @input="formatPhone" class="form-control" placeholder="Número de telefone"
-                                v-model="phone" readonly/>
+                                <input type="text" @input="formatPhone" class="form-control"
+                                    placeholder="Número de telefone" v-model="phone" readonly />
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">Email </label>
-                                <input type="text" class="form-control" placeholder="Email" v-model="email" readonly/>
+                                <input type="text" class="form-control" placeholder="Email" v-model="email" readonly />
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label class="labels">Cidade</label>
-                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" readonly/>
+                                <input type="text" class="form-control" placeholder="Cidade" v-model="city" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Estado</label>
-                                <input type="text" class="form-control" placeholder="Estado" v-model="state" readonly/>
+                                <input type="text" class="form-control" placeholder="Estado" v-model="state" readonly />
                             </div>
                         </div>
 
@@ -67,48 +67,56 @@
                                     <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels">Nome completo</label>
-                                            <input type="text" class="form-control" placeholder="Nome completo" v-model="full_name" @input="convertToUpperCase" />
+                                            <input type="text" class="form-control" placeholder="Nome completo"
+                                                v-model="full_name" @input="convertToUpperCase" />
                                         </div>
                                         <div class="col-md-6">
                                             <label class="labels">Data de Nascimento</label>
-                                            <input type="date" class="form-control" v-model="date_of_birth" @input="formatdate" />
+                                            <input type="date" class="form-control" v-model="date_of_birth"
+                                                @input="formatdate" />
                                         </div>
                                     </div>
 
                                     <div class="row mt-3">
                                         <div class="col-md-12">
                                             <label class="labels">Celular</label>
-                                            <input type="text" class="form-control" placeholder="Número de telefone" v-model="phone" @input="formatPhone" :maxlength="15" required />
+                                            <input type="text" class="form-control" placeholder="Número de telefone"
+                                                v-model="phone" @input="formatPhone" :maxlength="15" required />
                                         </div>
                                         <div class="col-md-12">
                                             <label class="labels">Email</label>
-                                            <input type="text" class="form-control" placeholder="Email" v-model="email" />
+                                            <input type="text" class="form-control" placeholder="Email"
+                                                v-model="email" />
                                         </div>
                                     </div>
 
                                     <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels">CEP</label>
-                                            <input type="text" class="form-control" placeholder="CEP" v-model="cep" @input="formatCEP" :maxlength="9" required />
+                                            <input type="text" class="form-control" placeholder="CEP" v-model="cep"
+                                                @input="formatCEP" :maxlength="9" required />
                                         </div>
                                     </div>
 
                                     <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels">Cidade</label>
-                                            <input type="text" class="form-control" placeholder="Cidade" v-model="city" />
+                                            <input type="text" class="form-control" placeholder="Cidade"
+                                                v-model="city" />
                                         </div>
                                     </div>
 
                                     <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels">Estado</label>
-                                            <input type="text" class="form-control" placeholder="Estado" v-model="state" />
+                                            <input type="text" class="form-control" placeholder="Estado"
+                                                v-model="state" />
                                         </div>
                                     </div>
 
                                     <div class="text-center mt-4">
-                                        <button class="btn btn-primary save-profile" type="button" @click="salvarPerfil">Salvar Perfil</button>
+                                        <button class="btn btn-primary save-profile" type="button"
+                                            @click="salvarPerfil">Salvar Perfil</button>
                                     </div>
                                 </form>
                             </Modal>
@@ -179,7 +187,7 @@ export default {
             full_name: "",
             email: "",
             phone: "",
-            cep:"",
+            cep: "",
             address: {
                 street: '',
                 neighborhood: '',
@@ -201,12 +209,12 @@ export default {
             if (date instanceof Date) {
                 return date.toISOString().split('T')[0]; // Retorna no formato "YYYY-MM-DD"
             }
-            
+
             // Caso a data seja uma string no formato "YYYY-MM-DD" ou "YYYY-MM-DDTHH:mm:ss.sssZ"
             if (typeof date === 'string' && date.includes('-')) {
                 return date.split('T')[0]; // Extrai apenas a parte da data "YYYY-MM-DD"
             }
-            
+
             return date; // Se não for uma data válida, retorna o valor original
         },
         fetchUserProfile() {
@@ -223,7 +231,7 @@ export default {
                     },
                 })
                 .then((response) => {
-                    const { full_name,cep, email, phone, city, state, date_of_birth, perfilPicture } =
+                    const { full_name, cep, email, phone, city, state, date_of_birth, perfilPicture } =
                         response.data;
                     this.full_name = full_name;
                     this.email = email;
@@ -247,9 +255,27 @@ export default {
         onImageChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.perfilPicture = URL.createObjectURL(file);
+                const formData = new FormData();
+                formData.append("perfilPicture", file);
+
+                const token = localStorage.getItem("token");
+                axios.post("http://localhost:8000/api/user/uploadImage", formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                    .then(() => {
+                        alert("Imagem atualizada com sucesso!");
+                        this.perfilPicture = URL.createObjectURL(file);
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao enviar imagem:", error);
+                        alert("Erro ao atualizar a imagem. Tente novamente.");
+                    });
             }
         },
+
         salvarPerfil() {
             const token = localStorage.getItem("token");
             if (!token) {
@@ -257,30 +283,31 @@ export default {
                 return;
             }
 
-            const userId = this.userId;
-
             const updatedProfile = {
                 full_name: this.full_name,
                 email: this.email,
-                phone: this.phone,
+                phone: this.phone.replace(/\D/g, ''), // Remove caracteres não numéricos
+                cep: this.cep.replace(/\D/g, ''),    // Remove caracteres não numéricos
                 city: this.city,
                 state: this.state,
                 date_of_birth: this.date_of_birth,
             };
+
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
 
-            saveProfile(updatedProfile, userId, headers)
+            saveProfile(updatedProfile, headers)
                 .then(() => {
                     alert("Perfil salvo com sucesso!");
+                    this.editProfile = false; // Fecha o modal após salvar
                 })
                 .catch((error) => {
                     console.error("Erro ao salvar o perfil: ", error);
                     alert("Não foi possível salvar o perfil. Tente novamente.");
                 });
-
         },
+
         convertToUpperCase() {
             this.full_name = this.full_name.toUpperCase();
         },
@@ -291,7 +318,7 @@ export default {
             } else {
                 this.phone = cleaned.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3').trim();
             }
-            
+
         },
         formatCEP() {
             this.cep = this.cep.replace(/\D/g, '');
@@ -368,7 +395,4 @@ export default {
 .form-control-file::file-selector-button:hover {
     background-color: #124366;
 }
-
-
-
 </style>

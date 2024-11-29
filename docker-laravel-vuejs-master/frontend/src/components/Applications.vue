@@ -3,7 +3,7 @@
     <h1>Minhas Candidaturas</h1>
     <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
 
-    <ul v-if="filteredVagas.length > 0">
+    <ul v-if="applications.length > 0">
       <li v-for="vaga in filteredVagas" :key="vaga.id">
         <div class="card-vagas">
           <img :src="vaga.company_logo" :alt="vaga.company" />
@@ -13,11 +13,7 @@
         </div>
       </li>
     </ul>
-
-
-
     <p v-else>Nenhuma vaga encontrada.</p>
-
 
     <!-- Modal para exibir mais detalhes -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
@@ -42,7 +38,6 @@
 <script>
 import { ShowApply } from '@/services/ShowApply';
 
-
 export default {
   name: 'Applications',
   data() {
@@ -55,16 +50,16 @@ export default {
   },
   computed: {
     filteredVagas() {
-  return this.applications.filter(vaga => {
+  const filtered = this.applications.filter(vaga => {
     const nomeVaga = vaga.vacancy_name ? vaga.vacancy_name.toLowerCase() : '';
     const nomeEmpresa = vaga.company ? vaga.company.toLowerCase() : '';
     const query = this.searchQuery.toLowerCase();
     return nomeVaga.includes(query) || nomeEmpresa.includes(query);
   });
+  console.log("Vagas filtradas:", filtered);
+  return filtered;
 }
-
   },
-
   methods: {
     openModal(vaga) {
       this.selectedVaga = vaga;
@@ -78,8 +73,8 @@ export default {
   ShowApply.getApplications()
     .then(response => {
       console.log("Resposta completa da API:", response);
-      if (Array.isArray(response.data.applications)) {
-        this.applications = response.data.applications; // Certifique-se de que este campo contém as vagas
+      if (response.data && Array.isArray(response.data.applications)) {
+        this.applications = response.data.applications; // Atribui as candidaturas ao array
         console.log("Applications carregadas no componente:", this.applications);
       } else {
         this.applications = [];
@@ -93,19 +88,17 @@ export default {
 },
 
 
-
     addApplication(vaga) {
       this.applications.push(vaga);  // Adiciona a vaga à lista de candidaturas
       this.$emit('vaga-candidatada', vaga);  // Emite o evento com a vaga candidatar
     }
-
   },
   mounted() {
-    this.loadApplications();
-    this.filteredVagas = this.applications;
+    this.loadApplications();  // Carrega as candidaturas ao montar o componente
   }
 };
 </script>
+
 
 
 
