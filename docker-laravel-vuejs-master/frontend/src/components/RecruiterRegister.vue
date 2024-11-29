@@ -14,11 +14,12 @@
                 <div class="name-cpf-container">
                     <div class="name-container">
                         <label>Nome da empresa</label>
-                        <input type="text" v-model="company_name" id="nome" required @input="convertToUpperCase"/>
+                        <input type="text" v-model="company_name" id="nome" required @input="convertToUpperCase" />
                     </div>
                     <div class="cnpj-container">
                         <label>CNPJ</label>
-                        <input type="text" v-model="cnpj" @input="formatCNPJ" placeholder="XX.XXX.XXX/XXXX-XX" maxlength="18" required />
+                        <input type="text" v-model="cnpj" @input="formatCNPJ" placeholder="XX.XXX.XXX/XXXX-XX"
+                            maxlength="18" required />
                     </div>
                     <div class="social-name-container">
                         <label>Razão Social</label>
@@ -27,7 +28,8 @@
                 </div>
                 <div class="tel-container">
                     <label>Telefone</label>
-                    <input type="text" name="phone" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX" maxlength="15" required />
+                    <input type="text" name="phone" v-model="phone" @input="formatPhone" placeholder="(XX) XXXXX-XXXX"
+                        maxlength="15" required />
                 </div>
                 <div class="email-password-container">
                     <div class="email-container">
@@ -37,7 +39,8 @@
                     <div class="password-container">
                         <label>Senha</label>
                         <div class="password-input-container">
-                            <input :type="showPassword ? 'text' : 'password'" v-model="password" id="senha" placeholder="Digite sua senha" required />
+                            <input :type="showPassword ? 'text' : 'password'" v-model="password" id="senha"
+                                placeholder="Digite sua senha" required />
                             <label class="password-checkbox">
                                 Mostrar Senha
                                 <input type="checkbox" v-model="showPassword" />
@@ -47,7 +50,8 @@
                 </div>
                 <div class="CEP-container">
                     <label>CEP</label>
-                    <input type="text" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX" maxlength="9" required /> 
+                    <input type="text" v-model="cep" @input="formatCEP" @blur="fetchAddress" placeholder="XXXXX-XXX"
+                        maxlength="9" required />
                 </div>
                 <div class="address-container">
                     <div class="street-container">
@@ -83,11 +87,11 @@ export default {
     name: 'RecruiterRegister',
     data() {
         return {
-            company_name:'',
+            company_name: '',
             cnpj: '',
             phone: '',
             cep: '',
-            social_name:'',
+            social_name: '',
             address: {
                 street: '',
                 neighborhood: '',
@@ -100,17 +104,15 @@ export default {
     },
     methods: {
         formatCNPJ() {
-            // Remove todos os caracteres que não são dígitos
+           
             const cleaned = this.cnpj.replace(/\D/g, '');
 
-            // Aplica a máscara gradualmente
             this.cnpj = cleaned
-                .replace(/^(\d{2})(\d)/, '$1.$2')       // Primeiro ponto
-                .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3') // Segundo ponto
-                .replace(/\.(\d{3})(\d)/, '.$1/$2')     // Barra
-                .replace(/(\d{4})(\d)/, '$1-$2');       // Traço
-            
-            // Atualiza o valor limpo sem máscara
+                .replace(/^(\d{2})(\d)/, '$1.$2')      
+                .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3') 
+                .replace(/\.(\d{3})(\d)/, '.$1/$2') 
+                .replace(/(\d{4})(\d)/, '$1-$2'); 
+
             this.rawCNPJ = cleaned;
         },
         formatPhone() {
@@ -139,7 +141,7 @@ export default {
                     alert('Ocorreu um erro ao buscar o endereço. Tente novamente mais tarde.');
                 }
             }
-            
+
         },
         formatCEP() {
             this.cep = this.cep.replace(/\D/g, '');
@@ -159,7 +161,7 @@ export default {
                 cep: cleanedCep,
                 social_name: this.social_name,
                 city: this.address.city,
-                state: this.address.state,  
+                state: this.address.state,
                 email: this.email,
                 password: this.password,
                 perfilPicture: this.perfilPicture,
@@ -167,22 +169,21 @@ export default {
                 is_recruiter: true,
             }
 
-            try{
+            try {
                 await registerRecruiter(dataToSend);
                 this.$router.push('/Login')
-            }catch(error){
+            } catch (error) {
                 console.error('Erro ao cadastrar o usuário:', error);
             }
         },
         convertToUpperCase() {
-        this.company_name = this.company_name.toUpperCase();
+            this.company_name = this.company_name.toUpperCase();
         },
     },
 }
 </script>
 
 <style scoped>
-
 * {
     font-family: 'Inter', sans-serif;
     padding: 0;
@@ -198,7 +199,7 @@ export default {
 #logo {
     position: absolute;
     text-align: center;
-    top: 15%; 
+    top: 15%;
     font-size: 6%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -215,42 +216,43 @@ export default {
 
 .candidato {
     position: relative;
-    background: rgba(255, 255, 255, 0.9); 
-    padding: 40px; 
-    border-radius: 15px; 
-    width: 90%; 
-    max-width: 600px; 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     margin: auto;
 }
+
 form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 20px;
     color: black;
 }
 
 input {
     width: 100%;
-    padding: 12px; 
-    border: 2px solid #ccc; 
+    padding: 12px;
+    border: 2px solid #ccc;
     border-radius: 25px;
     font-size: 1em;
-    transition: border-color 0.3s; 
+    transition: border-color 0.3s;
 }
 
 input:focus {
-    border-color: #007BFF; 
-    outline: none; 
+    border-color: #007BFF;
+    outline: none;
 }
 
 button {
-    padding: 12px; 
-    border: 2px solid #007BFF; 
-    border-radius: 25px; 
-    background-color: #007BFF; 
-    color: white; 
+    padding: 12px;
+    border: 2px solid #007BFF;
+    border-radius: 25px;
+    background-color: #007BFF;
+    color: white;
     transition: background-color 0.3s, border-color 0.3s;
     cursor: pointer;
 }
@@ -265,7 +267,7 @@ button:hover {
 .address-container,
 .city-state-container {
     display: flex;
-    gap: 10px; 
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -286,14 +288,15 @@ button:hover {
 .password-container {
     display: flex;
     flex-direction: column;
-    gap: 5px; 
+    gap: 5px;
 }
 
 .password-input-container {
     display: flex;
-    align-items: center; 
-    gap: 10px; 
+    align-items: center;
+    gap: 10px;
 }
+
 .password-checkbox {
     display: flex;
     align-items: center;
@@ -306,15 +309,16 @@ button:hover {
     }
 
     button {
-        padding: 10px; 
+        padding: 10px;
     }
 }
 
 @media (max-width: 600px) {
+
     .name-cpf-container,
     .address-container,
     .city-state-container {
-        flex-direction: column; 
+        flex-direction: column;
     }
 }
 </style>

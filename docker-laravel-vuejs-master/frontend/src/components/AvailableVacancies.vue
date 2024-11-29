@@ -18,17 +18,11 @@
 
     <!-- Paginação -->
     <div class="pagination">
-      <button 
-        class="pagination-button" 
-        @click="changePage(currentPage - 1)" 
-        :disabled="currentPage === 1">
+      <button class="pagination-button" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">
         Anterior
       </button>
       <span> Página {{ currentPage }} de {{ totalPages }} </span>
-      <button 
-        class="pagination-button" 
-        @click="changePage(currentPage + 1)" 
-        :disabled="currentPage === totalPages">
+      <button class="pagination-button" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">
         Próxima
       </button>
     </div>
@@ -66,8 +60,8 @@ export default {
       showModal: false,
       loading: false,
       error: false,
-      currentPage: 1,        // Página atual
-      itemsPerPage: 5,       // Número de vagas por página
+      currentPage: 1,
+      itemsPerPage: 5,
     };
   },
   computed: {
@@ -147,14 +141,16 @@ export default {
 </script>
 
 <style scoped>
-ul li{
+ul li {
   list-style: none
 }
+
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 50px;
 }
+
 .card-vagas {
   display: flex;
   flex-direction: column;
@@ -164,10 +160,12 @@ ul li{
   padding: 16px;
   margin-bottom: 16px;
 }
+
 .card-vagas img {
   max-width: 100px;
   border-radius: 50%;
 }
+
 .modal {
   position: fixed;
   top: 0;
@@ -179,6 +177,7 @@ ul li{
   justify-content: center;
   align-items: center;
 }
+
 .modal-content {
   background-color: white;
   padding: 20px;
@@ -186,6 +185,7 @@ ul li{
   width: 80%;
   max-width: 600px;
 }
+
 .modal-body {
   padding: 25px 20px;
   background-color: #f9f9f9;
@@ -194,7 +194,7 @@ ul li{
   font-size: 1rem;
   line-height: 1.6;
   overflow-y: auto;
-  max-height: 400px; /* Definindo uma altura máxima para a área */
+  max-height: 400px;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -250,12 +250,14 @@ ul li{
 .modal-body a:hover {
   color: #4ea1db;
 }
+
 .close {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 }
+
 .btn-candidatar {
   color: #fff;
   background-color: #4ea1db;
@@ -268,7 +270,7 @@ ul li{
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease-in-out; /* Melhorando a transição para suavizar o efeito */
+  transition: all 0.3s ease-in-out;
   text-transform: uppercase;
   text-align: center;
 }
@@ -277,12 +279,12 @@ ul li{
   color: #4ea1db;
   background-color: #fff;
   border: 2px solid #1f78b8;
-  transform: scale(1.05); /* Efeito de leve aumento no botão */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicionando sombra suave */
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-candidatar:active {
-  transform: scale(1); /* Efeito de pressionar, volta ao tamanho original */
+  transform: scale(1);
 }
 
 .btn-more {
@@ -294,18 +296,21 @@ ul li{
   justify-content: center;
   transition: .2s;
 }
+
 .btn-more:hover {
   transition: .2s;
-  color:#4ea1db;
+  color: #4ea1db;
   background-color: #fff;
-  border:2px solid #1f78b8;
+  border: 2px solid #1f78b8;
 }
+
 .search-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -334,5 +339,5 @@ ul li{
   align-self: center;
   font-size: 1.1rem;
   color: #333;
-  }
+}
 </style>

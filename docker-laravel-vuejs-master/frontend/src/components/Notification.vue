@@ -50,6 +50,7 @@ export default {
     min-width: 200px;
     z-index: 1000;
 }
+
 .notification button {
     background: transparent;
     border: none;

@@ -1,21 +1,21 @@
 <template>
   <div class="container">
     <h1>Minhas Candidaturas</h1>
-    
+
 
     <ul v-if="applications.length > 0">
-  <li v-for="vaga in applications" :key="vaga.id" @click="openModal(vaga)">
-    <div class="card-vagas">
-      <img :src="vaga.company_logo" :alt="vaga.company" />
-      <h3>{{ vaga.vacancy.company }}</h3>
+      <li v-for="vaga in applications" :key="vaga.id" @click="openModal(vaga)">
+        <div class="card-vagas">
+          <img :src="vaga.company_logo" :alt="vaga.company" />
+          <h3>{{ vaga.vacancy.company }}</h3>
 
-      <p>{{ vaga.vacancy.vacancy_name }}</p>
-      <button class="btn-more" @click.stop="openModal(vaga)">Ver mais</button>
-    </div>
-  </li>
-</ul>
+          <p>{{ vaga.vacancy.vacancy_name }}</p>
+          <button class="btn-more" @click.stop="openModal(vaga)">Ver mais</button>
+        </div>
+      </li>
+    </ul>
 
-<p v-else>Sem vagas para exibir</p>
+    <p v-else>Sem vagas para exibir</p>
 
 
 
@@ -50,41 +50,41 @@ export default {
     return {
 
       applications: [],
-      searchQuery: '',  // Query de pesquisa
-      selectedVaga: null, // Vaga selecionada para exibição no modal
-      showModal: false,  // Controle do modal
+      searchQuery: '',
+      selectedVaga: null,
+      showModal: false,
     };
   },
   computed: {
     computed: {
-  filteredVagas() {
-    if (!this.searchQuery) {
-      return this.vagas; // Retorna todas as vagas se não houver consulta
+      filteredVagas() {
+        if (!this.searchQuery) {
+          return this.vagas;
+        }
+        return this.vagas.filter(vaga =>
+          vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
     }
-    return this.vagas.filter(vaga => 
-      vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
-  }
-}
 
   },
   methods: {
     async fetchVagas() {
       try {
         const response = await VagasCandidate.getApplications();
-        console.log("Resposta da API:", response.data); // Exibe os dados retornados da API
+        console.log("Resposta da API:", response.data);
         this.vagas = response.data.vagas || [];
-console.log("Vagas armazenadas:", this.vagas); // Adicione esta linha
- // Armazena todas as vagas no array
-        this.applications = response.data.applications || []; // Armazena candidaturas
+        console.log("Vagas armazenadas:", this.vagas);
+        // Armazena todas as vagas no array
+        this.applications = response.data.applications || [];
       } catch (error) {
         console.error("Erro ao buscar vagas:", error);
       }
     },
 
     openModal(vaga) {
-      console.log(vaga); // Verifique todos os dados da vaga
-      this.selectedVaga = vaga; // Agora, `vaga` é o objeto completo
+      console.log(vaga);
+      this.selectedVaga = vaga;
       this.showModal = true;
     },
 
@@ -94,14 +94,14 @@ console.log("Vagas armazenadas:", this.vagas); // Adicione esta linha
     },
 
     addApplication(vaga) {
-      this.applications.push(vaga);  // Adiciona a vaga à lista de candidaturas
-      this.$emit('vaga-candidatada', vaga);  // Emite o evento com a vaga candidatar
+      this.applications.push(vaga);
+      this.$emit('vaga-candidatada', vaga);
     }
   },
   mounted() {
-  this.fetchVagas();
-  console.log("Vagas após fetch:", this.vagas);
-}
+    this.fetchVagas();
+    console.log("Vagas após fetch:", this.vagas);
+  }
 
 };
 </script>

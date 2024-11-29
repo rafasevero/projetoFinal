@@ -5,16 +5,16 @@
 <script>
 export default {
     name: logout,
-    
+
     methods: {
         logout() {
 
-        localStorage.removeItem('authToken'); //remove do local storeage
+            localStorage.removeItem('authToken');
 
-        this.$router.push('/home');
+            this.$router.push('/home');
 
-        alert('Você foi desconectado com sucesso!');
-    }
+            alert('Você foi desconectado com sucesso!');
+        }
     }
 }
 </script>

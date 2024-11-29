@@ -172,44 +172,42 @@ export default {
         handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
-                this.experience.resume = file; // Armazena o arquivo no objeto experience
+                this.experience.resume = file;
             }
         },
         saveExperience() {
-    const formData = new FormData();
-    formData.append("resume", this.experience.resume);
+            const formData = new FormData();
+            formData.append("resume", this.experience.resume);
 
-    const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
-    axios.post("/api/user/storeCurriculum", formData, {
-    headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data"
-    },
-})
-    .then(() => {
-        alert("Currículo enviado com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro ao enviar currículo:", error);
-        alert("Erro ao enviar currículo. Tente novamente.");
-    });
-},
+            axios.post("/api/user/storeCurriculum", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
+                },
+            })
+                .then(() => {
+                    alert("Currículo enviado com sucesso!");
+                })
+                .catch((error) => {
+                    console.error("Erro ao enviar currículo:", error);
+                    alert("Erro ao enviar currículo. Tente novamente.");
+                });
+        },
 
 
 
         formatdate(date) {
-            // Se a data for um objeto Date
             if (date instanceof Date) {
-                return date.toISOString().split('T')[0]; // Retorna no formato "YYYY-MM-DD"
+                return date.toISOString().split('T')[0];
             }
 
-            // Caso a data seja uma string no formato "YYYY-MM-DD" ou "YYYY-MM-DDTHH:mm:ss.sssZ"
             if (typeof date === 'string' && date.includes('-')) {
-                return date.split('T')[0]; // Extrai apenas a parte da data "YYYY-MM-DD"
+                return date.split('T')[0];
             }
 
-            return date; // Se não for uma data válida, retorna o valor original
+            return date;
         },
         fetchUserProfile() {
             const token = localStorage.getItem("token");
@@ -223,7 +221,7 @@ export default {
                 })
                 .then((response) => {
                     const { id, full_name, cep, email, phone, city, state, date_of_birth, perfilPicture } = response.data;
-                    this.userId = id; // Armazena o ID do usuário
+                    this.userId = id;
                     this.full_name = full_name;
                     this.email = email;
                     this.phone = phone;
@@ -286,11 +284,10 @@ export default {
 
             const headers = { Authorization: `Bearer ${token}` };
 
-            // Chama a função saveProfile passando o updatedProfile e o userId
             saveProfile(updatedProfile, this.userId)
                 .then(() => {
                     alert("Perfil salvo com sucesso!");
-                    this.editProfile = false; // Fecha o modal após salvar
+                    this.editProfile = false;
                 })
                 .catch((error) => {
                     console.error("Erro ao salvar o perfil: ", error);

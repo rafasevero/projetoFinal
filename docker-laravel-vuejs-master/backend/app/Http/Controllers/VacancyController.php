@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class VacancyController extends Controller
 {
-    public function registerVacancy(Request $request){
+    public function registerVacancy(Request $request)
+    {
 
         $recruiter = Auth::user();
 
@@ -39,20 +40,20 @@ class VacancyController extends Controller
             $array['company_logo'] = $path;
         }
 
-        $array['creation_date'] = now(); 
+        $array['creation_date'] = now();
 
 
         $vacancy = Vacancies::create($array);
 
         return response()->json([
             'message' => 'Vaga cadastrada com sucesso! ',
-            'vacancy'=>$vacancy,
-            'recruiter'=>$recruiter,
-            ]);
-
+            'vacancy' => $vacancy,
+            'recruiter' => $recruiter,
+        ]);
     }
 
-    public function index_vacancies(){
+    public function index_vacancies()
+    {
 
         $vacancies = Vacancies::all();
         return response()->json([
@@ -62,7 +63,8 @@ class VacancyController extends Controller
         ]);
     }
 
-    public function updateVacancy(Request $request, $id){
+    public function updateVacancy(Request $request, $id)
+    {
 
         $recruiter = Auth::user();
 
@@ -110,27 +112,29 @@ class VacancyController extends Controller
         ]);
     }
 
-    public function destroyVacancy($id){
+    public function destroyVacancy($id)
+    {
 
-        $vacancy = Vacancies::find($id);
 
-        if (!$vacancy) {
+        $recruiter = Auth::user();
+
+        if (!$recruiter) {
+            return response()->json(['message' => 'Usuário não autenticado. Faça login como recrutador.'], 401);
+        }
+
+        $vacancies = Vacancies::where('id', $id)->where('recruiter_id', $recruiter->id)->first();
+
+
+        if (!$vacancies) {
             return response()->json([
-                'message' => 'Vaga não encontrada!',
+                'message' => 'Esta vaga não pertence à sua empresa.',
             ], 404);
         }
 
-        if ($vacancy->recruiter_id !== auth('recruiter')->id()) {
-            return response()->json([
-                'message' => 'Você não tem permissão para excluir esta vaga!',
-            ], 403);
-        }
-
-        $vacancy->delete();
+        $vacancies->delete();
 
         return response()->json([
             'message' => 'Vaga excluída com sucesso!',
         ], 200);
     }
-
 }

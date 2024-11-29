@@ -36,7 +36,6 @@
       </div>
     </div>
 
-    <!-- Indicador de carregamento -->
     <div v-if="isApplying" class="loading">
       <p>Enviando candidatura...</p>
     </div>
@@ -56,8 +55,8 @@ export default {
       searchQuery: "",
       showModal: false,
       selectedVaga: null,
-      isApplying: false, // Estado para indicar que a candidatura está sendo enviada
-      user: null, // Armazena o usuário localmente
+      isApplying: false,
+      user: null,
     };
   },
   computed: {
@@ -78,7 +77,6 @@ export default {
       this.showModal = false;
     },
     async applyForm(vagaId) {
-      // Pega o token do localStorage
       const token = localStorage.getItem('token');
       if (!token) {
         console.error("Usuário não encontrado. Certifique-se de que o usuário está logado.");
@@ -86,7 +84,6 @@ export default {
       }
 
       try {
-        // Chama o endpoint de perfil para obter os dados do usuário
         const userResponse = await axios.get('/api/user/profile', {
           headers: {
             Authorization: `Bearer ${token}`
@@ -96,22 +93,18 @@ export default {
         const user = userResponse.data;
         console.log("Dados do usuário:", user);
 
-        // Se os dados do usuário estiverem corretos, prossiga com a candidatura
         const data = {
           vacancy_id: vagaId,
           user_id: user.id,
         };
 
-        // Chama o serviço de candidatura
         const response = await candidatar(data, token);
 
-        // Processa a resposta após candidatura
         const vagaIndex = this.vagas.findIndex(vaga => vaga.id === vagaId);
         if (vagaIndex !== -1) {
-          const vagaAplicada = this.vagas.splice(vagaIndex, 1)[0]; // Remove da lista de vagas disponíveis
-          this.vagasCandidatadas.push(vagaAplicada); // Adiciona à lista de vagas candidatas
+          const vagaAplicada = this.vagas.splice(vagaIndex, 1)[0];
+          this.vagasCandidatadas.push(vagaAplicada);
 
-          // Emitir evento para atualizar o componente Applications
           this.$emit('vaga-candidatada', vagaAplicada);
         }
 
@@ -144,7 +137,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchUser(); // Chama o método para buscar os dados do usuário ao montar o componente
+    this.fetchUser();
 
     ShowVagas()
       .then(response => {

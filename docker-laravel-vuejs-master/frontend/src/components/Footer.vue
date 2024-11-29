@@ -5,13 +5,13 @@
 </template>
 
 <script>
-    export default {
-        name: 'Footer'
-    }
+export default {
+    name: 'Footer'
+}
 </script>
 
 <style scoped>
-footer{
+footer {
     margin-top: 50px;
     font-family: var(--font-family);
     color: var(--text-color);
