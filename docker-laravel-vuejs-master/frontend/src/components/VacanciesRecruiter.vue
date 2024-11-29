@@ -18,14 +18,20 @@
 
 
     <!-- Modal para exibir mais detalhes -->
-    <div v-if="showModal && selectedVaga" class="modal" @click="closeModalOnClickOutside">
-      <div class="modal-content">
-        <h2>Título: {{ selectedVaga.vacancy_name }}</h2>
-        <p>Descrição: {{ selectedVaga.description }}</p>
-        <p>Requisitos: {{ selectedVaga.requirements }}</p>
-        <p>Local: {{ selectedVaga.location }}</p>
-        <p>Tipo: {{ selectedVaga.work_modality }}</p>
-        <p>Valor: {{ selectedVaga.salary }}</p>
+    <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <span class="close" @click="closeModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h2>Título: {{ selectedVaga.vacancy_name }}</h2>
+          <p>Descrição: {{ selectedVaga.description }}</p>
+          <p>Requisitos: {{ selectedVaga.requirements }}</p>
+          <p>Local: {{ selectedVaga.location }}</p>
+          <p>Tipo: {{ selectedVaga.work_modality }}</p>
+          <p>Valor: {{ selectedVaga.salary }}</p>
+          <button class="btn-more" @click="closeVaga(selectedVaga.id)">Fechar vaga</button>
+        </div>
       </div>
     </div>
 
@@ -81,6 +87,43 @@ export default {
       return localStorage.getItem("empresaLogadaId");
     },
 
+    async applyForm(vagaId) {
+      try {
+        await axios.post('http://localhost:8000/api/apply', { vacancy_id: vagaId });
+        alert('Candidatura realizada com sucesso!');
+      } catch (error) {
+        console.error('Erro ao se candidatar:', error);
+        alert('Erro ao realizar candidatura.');
+      }
+    },
+
+    async closeVaga(vagaId) {
+      const token = localStorage.getItem('token');
+      console.log('Token de autenticação:', token);
+      console.log('ID da vaga a ser excluída:', vagaId);
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/recruiter/vacancies/${vagaId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        if (response.ok) {
+          // Caso a vaga seja excluída com sucesso, remova ela do estado local
+          this.vacanciesData = this.vacanciesData.filter(vaga => vaga.id !== vagaId);
+          this.closeModal();
+        } else {
+          const errorResponse = await response.json(); //pega a resposta JSON de erro
+          console.error('Erro ao excluir vaga', errorResponse.message);
+        }
+      } catch (error) {
+        console.error("Erro ao excluir vaga: ", error);
+      }
+    },
+
+
     openModal(vagaId) {
     this.selectedVaga = this.vagas.find(vaga => vaga.id === vagaId);
     if (this.selectedVaga) {
@@ -89,6 +132,7 @@ export default {
       console.error("Vaga não encontrada com o ID:", vagaId);
     }
   },
+
 
   closeModal() {
     this.showModal = false;
@@ -105,6 +149,7 @@ export default {
       this.$router.push("/CreateVacancy");  
     }
   },
+  
   mounted() {
     this.fetchVagas();
     this.filteredVagas = this.vagas;
