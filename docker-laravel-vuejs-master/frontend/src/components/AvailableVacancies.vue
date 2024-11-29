@@ -65,8 +65,8 @@ export default {
       showModal: false,
       loading: false,
       error: false,
-      currentPage: 1,        // Página atual
-      itemsPerPage: 5,       // Número de vagas por página
+      currentPage: 1,       
+      itemsPerPage: 5,       
     };
   },
   computed: {
@@ -171,7 +171,7 @@ ul li{
   font-size: 1rem;
   line-height: 1.6;
   overflow-y: auto;
-  max-height: 400px; /* Definindo uma altura máxima para a área */
+  max-height: 400px; 
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -246,7 +246,7 @@ ul li{
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease-in-out; /* Melhorando a transição para suavizar o efeito */
+  transition: all 0.3s ease-in-out; 
   text-transform: uppercase;
   text-align: center;
 }
@@ -255,12 +255,12 @@ ul li{
   color: #4ea1db;
   background-color: #fff;
   border: 2px solid #1f78b8;
-  transform: scale(1.05); /* Efeito de leve aumento no botão */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicionando sombra suave */
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .btn-candidatar:active {
-  transform: scale(1); /* Efeito de pressionar, volta ao tamanho original */
+  transform: scale(1); 
 }
 
 .btn-more {
