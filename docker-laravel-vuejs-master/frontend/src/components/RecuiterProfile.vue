@@ -5,12 +5,10 @@
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <img class="rounded-circle mt-5" width="150px" :src="perfilPicture" alt="Imagem de Perfil">
-
                         <input type="file" @change="onImageChange" style="display: none;" ref="fileInput" />
                         <button class="btn btn-primary mt-3" @click="triggerFileInput">
                             Alterar Imagem
                         </button>
-
                         <span class="font-weight-bold">{{ company_name }}</span>
                         <span class="text-black-50">{{ email }}</span>
                     </div>
@@ -53,11 +51,9 @@
                                     readonly />
                             </div>
                         </div>
-
                         <div class="mt-5 text-center">
                             <button class="btn btn-primary profile-button" type="button"
                                 @click="editProfile = true">Editar Perfil</button>
-
                             <Modal :show="editProfile" @close="editProfile = false">
                                 <form>
                                     <h2>Editar Perfil</h2>
@@ -111,14 +107,11 @@
         </div>
     </div>
 </template>
-
-
 <script>
 import axios from "axios";
 import NavbarCandidato from "./NavbarCandidate.vue";
 import Modal from './Modal.vue';
 import { saveProfile } from '../services/SaveProfileService';
-
 export default {
     name: "UserProfileRecrutador",
     components: {
@@ -154,9 +147,8 @@ export default {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
-
             axios
-                .get("http://127.0.0.1:8000/api/user/pullAuth", {
+                .get("http://localhost:8000/api/user/pullAuth", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -195,12 +187,10 @@ export default {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
             }
-
             if (!this.company_name || !this.email || !this.phone || !this.city || !this.state || !this.cep) {
                 alert("Todos os campos obrigatórios devem ser preenchidos.");
                 return;
             }
-
             const updatedProfile = {
                 id: this.id,
                 company_name: this.company_name,
@@ -216,9 +206,8 @@ export default {
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
-
             axios
-                .put(`http://127.0.0.1:8000/api/recruiter/update/${this.id}`, updatedProfile, { headers })
+                .put(`http://localhost:8000/api/recruiter/update/${this.id}`, updatedProfile, { headers })
                 .then(() => {
                     alert("Perfil atualizado com sucesso!");
                     this.editProfile = false;
@@ -230,26 +219,20 @@ export default {
     },
 };
 </script>
-
-
 <style scoped>
 .form-control:focus {
     box-shadow: none;
     border-color: #4ea1db;
-
 }
-
 .profile-button {
     background: #4ea1db;
     box-shadow: none;
     border: none;
     margin: 10px;
 }
-
 .profile-button:hover {
     background: #124366;
 }
-
 .labels {
     font-size: 11px;
 }

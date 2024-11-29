@@ -8,6 +8,9 @@ export const login = async (email, password) => {
         });
         
         console.log(response);
+
+        localStorage.setItem("token", response.data.token);
+
         
         // Armazena o token no localStorage
         localStorage.setItem("token", response.data.token);

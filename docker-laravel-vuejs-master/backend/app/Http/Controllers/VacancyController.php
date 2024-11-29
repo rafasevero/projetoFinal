@@ -35,12 +35,11 @@ class VacancyController extends Controller
         $array['company'] = $recruiter->company_name;
 
         if ($request->hasFile('company_logo')) {
-            // Armazena o arquivo no disco "public" na pasta "company_logos"
             $path = $request->file('company_logo')->store('company_logos', 'public');
             $array['company_logo'] = $path;
         }
 
-        $array['creation_date'] = now(); // Usando o helper 'now' para obter a data atual
+        $array['creation_date'] = now(); 
 
 
         $vacancy = Vacancies::create($array);
@@ -93,7 +92,7 @@ class VacancyController extends Controller
         ]);
 
         if ($request->hasFile('company_logo')) {
-            // Excluir a imagem anterior, se existir
+            // deleta a foto anterior
             if ($vacancies->company_logo) {
                 Storage::delete('public/' . $vacancies->company_logo);
             }
@@ -131,7 +130,7 @@ class VacancyController extends Controller
 
         return response()->json([
             'message' => 'Vaga excluída com sucesso!',
-        ]);
+        ], 200);
     }
 
 }
