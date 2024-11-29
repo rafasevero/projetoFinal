@@ -13,7 +13,10 @@
         </div>
       </li>
     </ul>
-<p v-else>Nenhuma vaga encontrada.</p>
+
+
+
+    <p v-else>Nenhuma vaga encontrada.</p>
 
 
     <!-- Modal para exibir mais detalhes -->
@@ -37,7 +40,8 @@
 </template>
 
 <script>
-import { ShowApply } from '../services/ShowApply';
+import { ShowApply } from '@/services/ShowApply';
+
 
 export default {
   name: 'Applications',
@@ -45,81 +49,77 @@ export default {
     return {
       applications: [], // Lista de candidaturas
       searchQuery: '',  // Query de pesquisa
-      selectedVaga: {}, // Vaga selecionada para exibição no modal
+      selectedVaga: null, // Vaga selecionada para exibição no modal
       showModal: false,  // Controle do modal
     };
   },
   computed: {
-    // Computed property para filtrar as candidaturas com base na pesquisa
     filteredVagas() {
-      console.log('Search Query:', this.searchQuery);  // Verifica a consulta de pesquisa
+  return this.applications.filter(vaga => {
+    const nomeVaga = vaga.vacancy_name ? vaga.vacancy_name.toLowerCase() : '';
+    const nomeEmpresa = vaga.company ? vaga.company.toLowerCase() : '';
+    const query = this.searchQuery.toLowerCase();
+    return nomeVaga.includes(query) || nomeEmpresa.includes(query);
+  });
+}
 
-      return this.applications.filter(vaga => {
-        // Verifica se 'vacancy' existe e acessa 'vacancy_name' e 'company' de 'vacancy'
-        const nomeVaga = vaga.vacancy && vaga.vacancy.vacancy_name ? vaga.vacancy.vacancy_name.toLowerCase() : '';
-        const nomeEmpresa = vaga.vacancy && vaga.vacancy.company ? vaga.vacancy.company.toLowerCase() : '';
-        const query = this.searchQuery.toLowerCase();
+  },
 
-        // Log para depuração
-        console.log('Vaga:', vaga, 'Nome da Vaga:', nomeVaga, 'Nome da Empresa:', nomeEmpresa);
-
-        return nomeVaga.includes(query) || nomeEmpresa.includes(query);
-      });
-    }
-
-
-},
-methods: {
-  openModal(vagaId) {
-  this.selectedVaga = this.applications.find(vaga => vaga.id === vagaId);
-  console.log('Vaga selecionada:', this.selectedVaga);
-  if (this.selectedVaga) {
-    this.showModal = true;  // Abre o modal somente se a vaga for encontrada
-  }
-},
-
-
-    closeModalIfOutside(event) {
-      // Verifica se o clique foi na sobreposição (não no conteúdo)
-      if (event.target === event.currentTarget) {
-        this.closeModal(); // Fecha o modal
-      }
+  methods: {
+    openModal(vaga) {
+      this.selectedVaga = vaga;
+      this.showModal = true;
     },
     closeModal() {
+      this.selectedVaga = null;
       this.showModal = false;
     },
-    async loadApplications() {
-      try {
-        const response = await ShowApply();
-        console.log('Resposta da API:', response);  // Veja como os dados estão estruturados
-
-        this.applications = response.applications || []; 
-        console.log('Candidaturas carregadas:', this.applications);  
-      } catch (error) {
-        console.error("Erro ao carregar candidaturas:", error);
-        this.applications = [];  
+    loadApplications() {
+  ShowApply.getApplications()
+    .then(response => {
+      console.log("Resposta completa da API:", response);
+      if (Array.isArray(response.data.applications)) {
+        this.applications = response.data.applications; // Certifique-se de que este campo contém as vagas
+        console.log("Applications carregadas no componente:", this.applications);
+      } else {
+        this.applications = [];
+        console.error("A resposta da API não contém um array de candidaturas.");
       }
-    }
+    })
+    .catch(error => {
+      console.error("Erro ao carregar candidaturas:", error);
+      this.applications = [];
+    });
+},
 
+
+
+    addApplication(vaga) {
+      this.applications.push(vaga);  // Adiciona a vaga à lista de candidaturas
+      this.$emit('vaga-candidatada', vaga);  // Emite o evento com a vaga candidatar
+    }
 
   },
   mounted() {
-    this.loadApplications();  
-    console.log('Applications:', this.applications);
+    this.loadApplications();
+    this.filteredVagas = this.applications;
   }
 };
 </script>
 
 
+
 <style scoped>
-ul li{
+ul li {
   list-style: none
 }
+
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 50px;
 }
+
 .card-vagas {
   display: flex;
   flex-direction: column;
@@ -129,10 +129,12 @@ ul li{
   padding: 16px;
   margin-bottom: 16px;
 }
+
 .card-vagas img {
   max-width: 100px;
   border-radius: 50%;
 }
+
 .modal {
   position: fixed;
   top: 0;
@@ -144,6 +146,7 @@ ul li{
   justify-content: center;
   align-items: center;
 }
+
 .modal-content {
   background-color: white;
   padding: 20px;
@@ -151,6 +154,7 @@ ul li{
   width: 80%;
   max-width: 600px;
 }
+
 .modal-body {
   padding: 25px 20px;
   background-color: #f9f9f9;
@@ -159,7 +163,8 @@ ul li{
   font-size: 1rem;
   line-height: 1.6;
   overflow-y: auto;
-  max-height: 400px; /* Definindo uma altura máxima para a área */
+  max-height: 400px;
+  /* Definindo uma altura máxima para a área */
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -215,6 +220,7 @@ ul li{
 .modal-body a:hover {
   color: #4ea1db;
 }
+
 .close {
   position: absolute;
   top: 10px;
@@ -222,6 +228,7 @@ ul li{
   cursor: pointer;
 
 }
+
 .btn-more {
   color: #fff;
   background-color: #4ea1db;
@@ -231,12 +238,14 @@ ul li{
   justify-content: center;
   transition: .2s;
 }
+
 .btn-more:hover {
   transition: .2s;
-  color:#4ea1db;
+  color: #4ea1db;
   background-color: #fff;
-  border:2px solid #1f78b8;
+  border: 2px solid #1f78b8;
 }
+
 .search-bar {
   display: flex;
   justify-content: space-between;
