@@ -1,19 +1,25 @@
 <template>
   <div class="container">
     <h1>Minhas Candidaturas</h1>
-    <input type="text" v-model="searchQuery" placeholder="Pesquise uma vaga..." />
+    
 
     <ul v-if="applications.length > 0">
-      <li v-for="vaga in filteredVagas" :key="vaga.id">
-        <div class="card-vagas">
-          <img :src="vaga.company_logo" :alt="vaga.company" />
-          <h3>{{ vaga.company }}</h3>
-          <p>{{ vaga.vacancy_name }}</p>
-          <button class="btn-more" @click="openModal(vaga.id)">Ver mais</button>
-        </div>
-      </li>
-    </ul>
-    <p v-else>Nenhuma vaga encontrada.</p>
+  <li v-for="vaga in applications" :key="vaga.id" @click="openModal(vaga)">
+    <div class="card-vagas">
+      <img :src="vaga.company_logo" :alt="vaga.company" />
+      <h3>{{ vaga.vacancy.company }}</h3>
+
+      <p>{{ vaga.vacancy.vacancy_name }}</p>
+      <button class="btn-more" @click.stop="openModal(vaga)">Ver mais</button>
+    </div>
+  </li>
+</ul>
+
+<p v-else>Sem vagas para exibir</p>
+
+
+
+
 
     <!-- Modal para exibir mais detalhes -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
@@ -22,13 +28,13 @@
           <span class="close" @click="closeModal">&times;</span>
         </div>
         <div class="modal-body">
-          <h2>Título: {{ selectedVaga.vacancy_name }}</h2>
-          <p>Descrição: {{ selectedVaga.description }}</p>
-          <p>Requisitos: {{ selectedVaga.requirements }}</p>
-          <p>Local: {{ selectedVaga.location }}</p>
-          <p>Idade mínima: {{ selectedVaga.min_age }}</p>
-          <p>Tipo: {{ selectedVaga.work_modality }}</p>
-          <p>Valor: {{ selectedVaga.salary }}</p>
+          <h2>Título: {{ selectedVaga.vacancy.vacancy_name }}</h2>
+          <p>Descrição: {{ selectedVaga.vacancy.description }}</p>
+          <p>Requisitos: {{ selectedVaga.vacancy.requirements }}</p>
+          <p>Local: {{ selectedVaga.vacancy.location }}</p>
+          <p>Idade mínima: {{ selectedVaga.vacancy.min_age }}</p>
+          <p>Tipo: {{ selectedVaga.vacancy.work_modality }}</p>
+          <p>Valor: {{ selectedVaga.vacancy.salary }}</p>
         </div>
       </div>
     </div>
@@ -36,57 +42,56 @@
 </template>
 
 <script>
-import { ShowApply } from '@/services/ShowApply';
+import { VagasCandidate } from '@/services/ShowApply';
 
 export default {
   name: 'Applications',
   data() {
     return {
-      applications: [], // Lista de candidaturas
+
+      applications: [],
       searchQuery: '',  // Query de pesquisa
       selectedVaga: null, // Vaga selecionada para exibição no modal
       showModal: false,  // Controle do modal
     };
   },
   computed: {
-    filteredVagas() {
-  const filtered = this.applications.filter(vaga => {
-    const nomeVaga = vaga.vacancy_name ? vaga.vacancy_name.toLowerCase() : '';
-    const nomeEmpresa = vaga.company ? vaga.company.toLowerCase() : '';
-    const query = this.searchQuery.toLowerCase();
-    return nomeVaga.includes(query) || nomeEmpresa.includes(query);
-  });
-  console.log("Vagas filtradas:", filtered);
-  return filtered;
+    computed: {
+  filteredVagas() {
+    if (!this.searchQuery) {
+      return this.vagas; // Retorna todas as vagas se não houver consulta
+    }
+    return this.vagas.filter(vaga => 
+      vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
 }
+
   },
   methods: {
+    async fetchVagas() {
+      try {
+        const response = await VagasCandidate.getApplications();
+        console.log("Resposta da API:", response.data); // Exibe os dados retornados da API
+        this.vagas = response.data.vagas || [];
+console.log("Vagas armazenadas:", this.vagas); // Adicione esta linha
+ // Armazena todas as vagas no array
+        this.applications = response.data.applications || []; // Armazena candidaturas
+      } catch (error) {
+        console.error("Erro ao buscar vagas:", error);
+      }
+    },
+
     openModal(vaga) {
-      this.selectedVaga = vaga;
+      console.log(vaga); // Verifique todos os dados da vaga
+      this.selectedVaga = vaga; // Agora, `vaga` é o objeto completo
       this.showModal = true;
     },
+
     closeModal() {
       this.selectedVaga = null;
       this.showModal = false;
     },
-    loadApplications() {
-  ShowApply.getApplications()
-    .then(response => {
-      console.log("Resposta completa da API:", response);
-      if (response.data && Array.isArray(response.data.applications)) {
-        this.applications = response.data.applications; // Atribui as candidaturas ao array
-        console.log("Applications carregadas no componente:", this.applications);
-      } else {
-        this.applications = [];
-        console.error("A resposta da API não contém um array de candidaturas.");
-      }
-    })
-    .catch(error => {
-      console.error("Erro ao carregar candidaturas:", error);
-      this.applications = [];
-    });
-},
-
 
     addApplication(vaga) {
       this.applications.push(vaga);  // Adiciona a vaga à lista de candidaturas
@@ -94,8 +99,10 @@ export default {
     }
   },
   mounted() {
-    this.loadApplications();  // Carrega as candidaturas ao montar o componente
-  }
+  this.fetchVagas();
+  console.log("Vagas após fetch:", this.vagas);
+}
+
 };
 </script>
 

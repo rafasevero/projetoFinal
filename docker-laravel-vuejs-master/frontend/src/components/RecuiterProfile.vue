@@ -5,10 +5,14 @@
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <img class="rounded-circle mt-5" width="150px" :src="perfilPicture" alt="Imagem de Perfil">
+                        <!-- Input de arquivo escondido -->
                         <input type="file" @change="onImageChange" style="display: none;" ref="fileInput" />
+
+                        <!-- Botão para acionar o input de arquivo -->
                         <button class="btn btn-primary mt-3" @click="triggerFileInput">
-                            Alterar Imagem
+                            Selecionar Imagem
                         </button>
+
                         <span class="font-weight-bold">{{ company_name }}</span>
                         <span class="text-black-50">{{ email }}</span>
                     </div>
@@ -54,50 +58,62 @@
                         <div class="mt-5 text-center">
                             <button class="btn btn-primary profile-button" type="button"
                                 @click="editProfile = true">Editar Perfil</button>
-                            <Modal :show="editProfile" @close="editProfile = false">
-                                <form>
-                                    <h2>Editar Perfil</h2>
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                            <Modal :show="editProfile" @close="editProfile = false" class="custom-modal">
+                                <form class="modal-form">
+                                    <h2 class="modal-title">Editar Perfil</h2>
+                                    <div class="modal-header">
+                                        <h4 class="text-right">Configurações do Perfil</h4>
                                     </div>
-                                    <div class="row mt-2">
+
+                                    <div class="row mt-3">
                                         <div class="col-md-6">
-                                            <label class="labels">Nome da empresa</label>
-                                            <input type="text" class="form-control" placeholder="Nome da empresa"
+                                            <label class="labels">Nome completo</label>
+                                            <input type="text" class="form-control" placeholder="Nome completo"
                                                 v-model="company_name" @input="convertToUpperCase" />
                                         </div>
                                     </div>
+
                                     <div class="row mt-3">
                                         <div class="col-md-12">
                                             <label class="labels">Celular</label>
                                             <input type="text" class="form-control" placeholder="Número de telefone"
-                                                v-model="phone" />
+                                                v-model="phone" @input="formatPhone" :maxlength="15" required />
                                         </div>
                                         <div class="col-md-12">
-                                            <label class="labels">Email </label>
+                                            <label class="labels">Email</label>
                                             <input type="text" class="form-control" placeholder="Email"
                                                 v-model="email" />
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">CEP</label>
-                                        <input type="text" class="form-control" placeholder="CEP" v-model="cep" />
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label class="labels">CEP</label>
+                                            <input type="text" class="form-control" placeholder="CEP" v-model="cep"
+                                                @input="formatCEP" :maxlength="9" required />
+                                        </div>
                                     </div>
+
                                     <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels">Cidade</label>
                                             <input type="text" class="form-control" placeholder="Cidade"
                                                 v-model="city" />
                                         </div>
+                                    </div>
+
+                                    <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels">Estado</label>
                                             <input type="text" class="form-control" placeholder="Estado"
                                                 v-model="state" />
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary profile-button save-profile" type="button"
-                                        @click="salvarPerfil">
-                                        Salvar Perfil
-                                    </button>
+
+                                    <div class="text-center mt-4">
+                                        <button class="btn btn-primary save-profile" type="button"
+                                            @click="salvarPerfil">Salvar Perfil</button>
+                                    </div>
                                 </form>
                             </Modal>
                         </div>
@@ -107,6 +123,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 import NavbarCandidato from "./NavbarCandidate.vue";
@@ -120,21 +137,18 @@ export default {
     },
     data() {
         return {
+            selectedImage: null,
             editProfile: false,
             showModal: false,
             recruiterId: null,
             company_name: "",
             email: "",
             phone: "",
-            // address: {
-            //     street: '',
-            //     neighborhood: '',
-            //     city: '',
-            //     state: '',
-            // },
             perfilPicture:
                 "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
             cep: "",
+            city: "",
+            state: "",
         };
     },
     created() {
@@ -163,7 +177,6 @@ export default {
                     this.cep = cep;
                     this.city = city;
                     this.state = state;
-                    this.cep = cep;
                     if (perfilPicture) {
                         this.perfilPicture = perfilPicture;
                     }
@@ -172,15 +185,38 @@ export default {
                     console.error("Erro ao buscar usuário:", error);
                 });
         },
-        triggerFileInput() {
-            this.$refs.fileInput.click();
+        formatPhone() {
+            let cleaned = this.phone.replace(/\D/g, '');
+            if (cleaned.length <= 10) {
+                this.phone = cleaned.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3').trim();
+            } else {
+                this.phone = cleaned.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3').trim();
+            }
+
         },
-        onImageChange(event) {
-            const file = event.target.files[0];
-            if (file) {
-                this.perfilPicture = URL.createObjectURL(file);
+        formatCEP() {
+            this.cep = this.cep.replace(/\D/g, '');
+            if (this.cep.length > 5) {
+                this.cep = this.cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
             }
         },
+        triggerFileInput() {
+      this.$refs.fileInput.click(); // Dispara o click no input escondido
+    },
+    // Método para lidar com a seleção de imagem
+    onImageChange(event) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedImage = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Exibe a imagem selecionada como prévia
+      this.imagePreview = e.target.result; // Armazena a URL da imagem para exibição
+    };
+    reader.readAsDataURL(file);
+  }
+},
+
         salvarPerfil() {
             const token = localStorage.getItem("token");
             if (!token) {
@@ -195,13 +231,10 @@ export default {
                 id: this.id,
                 company_name: this.company_name,
                 email: this.email,
-                phone: this.phone,
-                // street: this.street,
-                // neighborhood: this.neighborhood,
+                phone: this.phone.replace(/\D/g, ''),
                 city: this.city,
                 state: this.state,
-                // address: this.address,
-                cep: this.cep,
+                cep: this.cep.replace(/\D/g, ''),
             };
             const headers = {
                 Authorization: `Bearer ${token}`,
@@ -217,6 +250,7 @@ export default {
             this.company_name = this.company_name.toUpperCase();
         }
     },
+
 };
 </script>
 <style scoped>
@@ -224,15 +258,18 @@ export default {
     box-shadow: none;
     border-color: #4ea1db;
 }
+
 .profile-button {
     background: #4ea1db;
     box-shadow: none;
     border: none;
     margin: 10px;
 }
+
 .profile-button:hover {
     background: #124366;
 }
+
 .labels {
     font-size: 11px;
 }

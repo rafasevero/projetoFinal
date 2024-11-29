@@ -10,6 +10,7 @@ use App\Models\Application; // Adicione isso para importar o modelo Application
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 
 class UserController extends Controller
@@ -94,25 +95,35 @@ class UserController extends Controller
 
     }
 
-    public function update(Request $request,$id){
 
+    public function update(Request $request, $id)
+    {
+        // Verificar se o usuário está autenticado
         $user = Auth::user();
 
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado. Faça login como candidato.'], 401);
         }
 
-        $user = User::where('id',$id)->where('id', $user->id)->first();
+        // Buscar o usuário a ser atualizado
+        $user = User::where('id', $id)->where('id', $user->id)->first();
 
         if (!$user) {
             return response()->json([
-                'message' => 'Você não é autenticado para atualizar este perfil.',
+                'message' => 'Você não está autorizado a atualizar este perfil.',
             ], 404);
         }
 
+        // Validação dos dados de entrada
         $array = $request->validate([
             'full_name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255|unique:users,email',// Garantindo e-mails únicos
+            'email' => [
+                'nullable',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id), // Ignora a validação de email para o próprio usuário
+            ],
             'date_of_birth' => 'nullable|date',
             'cpf' => 'nullable|string|max:11',
             'cep' => 'nullable|string|max:8',
@@ -123,28 +134,27 @@ class UserController extends Controller
             'perfilPicture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Se houver arquivo de imagem para o perfil
         if ($request->hasFile('perfilPicture')) {
-            // Exclui a imagem antiga, se existir
+            // Excluir a imagem antiga, se existir
             if ($user->perfilPicture) {
                 Storage::delete('public/' . $user->perfilPicture);
             }
 
-            // Faz o upload da nova imagem
+            // Fazer o upload da nova imagem
             $path = $request->file('perfilPicture')->store('perfil_pictures', 'public');
             $array['perfilPicture'] = $path;
         }
 
-        $user = User::find($id);
-
+        // Atualizar os dados do usuário
         $user->update($array);
 
         return response()->json([
             'message' => 'Perfil atualizado com sucesso!',
             'user' => $user,
         ]);
-
-        $user->save();
     }
+
 
     public function getVacanciesForUser()
     {
