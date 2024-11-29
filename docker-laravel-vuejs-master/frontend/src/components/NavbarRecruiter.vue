@@ -17,10 +17,10 @@
 <script>
 export default {
     name: 'NavbarRecruiter',
-    
+
     methods: {
         logout() {
-            
+
             localStorage.removeItem('authToken');
             this.$router.push('/');
             alert('Você foi desconectado com sucesso!');
@@ -31,16 +31,13 @@ export default {
 
 <style scoped>
 :root {
-    /*colors*/
     --background-color: #faf0f0;
     --primary-color: #4ea1db;
     --secondary-color: #31312f;
     --text-color: #ffffff;
 
-    /*font*/
     --font-family: 'Roboto', sans-serif;
 
-    /*margins*/
     --borders: 25px
 }
 
@@ -74,27 +71,27 @@ export default {
 }
 
 input {
-  padding: 8px;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 20px;
-  border: 1px solid #faf0f0;
-  border-radius: 10px;
-  background-color: transparent; 
-  color: #faf0f0;   
+    padding: 8px;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    border: 1px solid #faf0f0;
+    border-radius: 10px;
+    background-color: transparent;
+    color: #faf0f0;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 li:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 </style>

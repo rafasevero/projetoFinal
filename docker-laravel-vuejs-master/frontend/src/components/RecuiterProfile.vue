@@ -5,10 +5,8 @@
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <img class="rounded-circle mt-5" width="150px" :src="perfilPicture" alt="Imagem de Perfil">
-                        <!-- Input de arquivo escondido -->
                         <input type="file" @change="onImageChange" style="display: none;" ref="fileInput" />
 
-                        <!-- Botão para acionar o input de arquivo -->
                         <button class="btn btn-primary mt-3" @click="triggerFileInput">
                             Selecionar Imagem
                         </button>
@@ -201,21 +199,21 @@ export default {
             }
         },
         triggerFileInput() {
-      this.$refs.fileInput.click(); // Dispara o click no input escondido
-    },
-    // Método para lidar com a seleção de imagem
-    onImageChange(event) {
-  const file = event.target.files[0];
-  if (file) {
-    this.selectedImage = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      // Exibe a imagem selecionada como prévia
-      this.imagePreview = e.target.result; // Armazena a URL da imagem para exibição
-    };
-    reader.readAsDataURL(file);
-  }
-},
+            this.$refs.fileInput.click();
+        },
+
+        onImageChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.selectedImage = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+
+                    this.imagePreview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
 
         salvarPerfil() {
             const token = localStorage.getItem("token");

@@ -15,10 +15,6 @@
         </div>
       </li>
     </ul>
-
-
-
-    <!-- Modal para exibir mais detalhes -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
@@ -32,10 +28,8 @@
           <p>Tipo: {{ selectedVaga.work_modality }}</p>
           <p>Valor: {{ selectedVaga.salary }}</p>
 
-          <!-- Botão para ver candidatos -->
           <button class="btn-more" @click="fetchCandidatos">Ver Candidatos</button>
 
-          <!-- Lista de Candidatos -->
           <div v-if="candidatos.length > 0">
             <h3>Candidatos:</h3>
             <ul>
@@ -65,7 +59,7 @@ export default {
       selectedVaga: null,
       showModal: false,
       empresaLogadaId: null,
-      candidatos: []  // Lista de candidatos para a vaga
+      candidatos: []
     };
   },
   methods: {
@@ -74,14 +68,12 @@ export default {
         const response = await VagasCriadas.getJobsCreated();
         this.vagas = response.data.vacancies;
 
-        // Obtém o ID da empresa logada do localStorage
         const empresaLogadaId = this.getEmpresaLogadaId();
 
         if (!empresaLogadaId) {
           console.error("Não foi possível obter o ID da empresa logada.");
         }
 
-        // Filtra as vagas da empresa logada
         this.filteredVagas = this.vagas.filter(vaga => vaga.company_id === empresaLogadaId || !empresaLogadaId);
 
         if (this.filteredVagas.length === 0) {
@@ -103,14 +95,14 @@ export default {
     async fetchCandidatos() {
       const ApplyId = this.selectedVaga.id;
 
-      const token = localStorage.getItem('token');  // Pegando o token do localStorage
+      const token = localStorage.getItem('token');
       try {
         const response = await axios.get(`http://localhost:8000/api/recruiter/getUsersForVacancies/${ApplyId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`  // Adicionando o token no cabeçalho da requisição
+            'Authorization': `Bearer ${token}`
           }
         });
-        this.candidatos = response.data.candidates;  // Atualiza a lista de candidatos
+        this.candidatos = response.data.candidates;
       } catch (error) {
         console.error("Erro ao buscar candidatos:", error);
         alert("Erro ao buscar candidatos.");
@@ -121,28 +113,31 @@ export default {
     async closeVaga(vagaId) {
       const token = localStorage.getItem('token');
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/recruiter/vacancies/${vagaId}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/recruiter/destroyVacancy/${vagaId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`  // Usando o token armazenado
+            'Authorization': `Bearer ${token}`
           }
         });
 
         if (response.ok) {
           this.vagas = this.vagas.filter(vaga => vaga.id !== vagaId);
+          this.filteredVagas = this.filteredVagas.filter(vaga => vaga.id !== vagaId);
+
           this.closeModal();
           this.showSuccessMessage("Vaga excluída com sucesso!");
         } else {
           const errorResponse = await response.json();
-          console.error('Erro ao excluir vaga', errorResponse.message);
-          this.showErrorMessage(errorResponse.message);
+          console.error('Erro ao excluir vaga:', errorResponse.message);
+          this.showErrorMessage(errorResponse.message || "Erro ao excluir a vaga.");
         }
       } catch (error) {
         console.error("Erro ao excluir vaga:", error);
         this.showErrorMessage("Erro ao excluir a vaga. Tente novamente.");
       }
     },
+
 
     showSuccessMessage(message) {
       alert(message);
@@ -359,6 +354,7 @@ button:hover {
   border: 2px solid #1f78b8;
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .btn-candidatar:active {

@@ -1,9 +1,6 @@
 <template>
     <div class="container">
         <form @submit.prevent="createVacancy" class="row g-3 form-container">
-            <!-- <div id="form-group" class="col-md-4 text-center">
-                <img :src="perfilPicture" alt="logo da empresa" id="company_logo" class="img-fluid" />
-            </div> -->
 
             <div class="col-md-4">
                 <label for="company_name" class="form-label" id="company">Nome da empresa</label>
@@ -50,7 +47,8 @@
             <div class="col-md-4">
                 <label for="salary" class="form-label" id="salary">Valor do salário</label>
 
-                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00" @input="formatSalary" required />
+                <input type="text" class="form-control" id="salary" v-model="salary" placeholder="0.000,00"
+                    @input="formatSalary" required />
 
             </div>
 
@@ -59,11 +57,12 @@
                 <input type="number" class="form-control" id="min_age" v-model="min_age" placeholder="18" required
                     @blur="checkAge" :class="{ 'is-invalid': min_age < 16 && min_age !== '' }" />
 
-                <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou mais.</div>
+                <div v-if="min_age < 16 && min_age !== ''" class="invalid-feedback">A idade mínima deve ser 16 anos ou
+                    mais.</div>
             </div>
-                <div class="col-md-12 text-center">
-                    <button type="submit">Criar Vaga</button>
-                </div>
+            <div class="col-md-12 text-center">
+                <button type="submit">Criar Vaga</button>
+            </div>
 
         </form>
     </div>
@@ -118,10 +117,9 @@ export default {
 
         async createVacancy() {
             const token = localStorage.getItem("token");
-            
-            // Garante que o salário seja numérico antes de enviar
+
             const salaryString = this.salary;
-            
+
             if (!token) {
                 alert("Token não encontrado. Por favor, faça login novamente.");
                 return;
@@ -134,7 +132,7 @@ export default {
                 requirements: this.requirements,
                 location: this.city,
                 work_modality: this.work_modality,
-                salary: salaryString, // Salário numérico formatado
+                salary: salaryString,
                 min_age: this.min_age,
             };
 
@@ -160,18 +158,14 @@ export default {
         },
 
         formatSalary() {
-            // Remove tudo que não for número
             let valor = this.salary.replace(/[^\d]/g, "");
 
-            // Adiciona vírgula como separador decimal (2 últimas casas)
             if (valor.length > 2) {
                 valor = valor.slice(0, -2) + "," + valor.slice(-2);
             }
 
-            // Adiciona pontos como separadores de milhar
             valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-            // Atualiza o campo formatado como string
             this.salary = valor;
         },
 

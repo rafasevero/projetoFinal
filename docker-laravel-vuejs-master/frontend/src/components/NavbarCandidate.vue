@@ -20,7 +20,7 @@ export default {
 
     methods: {
         logout() {
-            
+
             localStorage.removeItem('authToken');
             this.$router.push('/');
             alert('Você foi desconectado com sucesso!');
@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style >
+<style>
 :root {
     --background-color: #faf0f0;
     --primary-color: #4ea1db;

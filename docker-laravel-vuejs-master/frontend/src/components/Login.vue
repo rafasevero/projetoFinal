@@ -9,23 +9,23 @@
             <img id="logo" src="../assets/logo-sem-fundo-2.png" alt="">
         </div>
         <div>
-            <Notification v-if="showNotification" :message="notificationMessage" />    
+            <Notification v-if="showNotification" :message="notificationMessage" />
         </div>
         <div class="conteiner">
             <div class="caixa">
                 <form @submit.prevent="formLogin">
                     <h1>Login</h1>
-                    
+
                     <label for="email">Seu E-mail</label>
                     <input type="email" name="email" id="email" v-model="email" required>
                     <span v-if="errors.email">{{ errors.email }}</span>
-                    
+
                     <label for="password">Sua Senha</label>
                     <input type="password" name="password" id="password" v-model="password" required>
                     <span v-if="errors.password">{{ errors.password }}</span>
-                    
+
                     <button type="submit">LOGAR</button>
-                    
+
                     <p>Não tem conta?<br>Cadastre-se Aqui!!</p>
 
                     <router-link to="/register">
@@ -59,47 +59,47 @@ export default {
         };
     },
     methods: {
-    validateForm() {
-        this.errors.email = "";
-        this.errors.password = "";
+        validateForm() {
+            this.errors.email = "";
+            this.errors.password = "";
 
-        if (!this.email) {
-            this.errors.email = "Por favor, insira um e-mail válido";
-        } else if (!this.validEmail(this.email)) {
-            this.errors.email = "E-mail no formato inválido";
-        }
-        if (!this.password) {
-            this.errors.password = "Por favor, insira uma senha válida";
-        }
+            if (!this.email) {
+                this.errors.email = "Por favor, insira um e-mail válido";
+            } else if (!this.validEmail(this.email)) {
+                this.errors.email = "E-mail no formato inválido";
+            }
+            if (!this.password) {
+                this.errors.password = "Por favor, insira uma senha válida";
+            }
 
-        return !this.errors.email && !this.errors.password;
-    },
-    validEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    },
-    async formLogin() {
-        try {
-            const user = await login(this.email, this.password);
+            return !this.errors.email && !this.errors.password;
+        },
+        validEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        },
+        async formLogin() {
+            try {
+                const user = await login(this.email, this.password);
 
-            localStorage.setItem('authToken', user.token); // Guarda o token
+                localStorage.setItem('authToken', user.token); 
 
-            this.notificationMessage = 'Login efetuado com sucesso!';
-            this.showNotification = true;
+                this.notificationMessage = 'Login efetuado com sucesso!';
+                this.showNotification = true;
 
-            setTimeout(() => {
-                if (user.role === "user") {
-                    this.$router.push('/vacanciesUser');
-                } else if (user.role === "recruiter") {
-                    this.$router.push('/vacanciesRecruiter');
-                }
-            }, 2000); 
+                setTimeout(() => {
+                    if (user.role === "user") {
+                        this.$router.push('/vacanciesUser');
+                    } else if (user.role === "recruiter") {
+                        this.$router.push('/vacanciesRecruiter');
+                    }
+                }, 2000);
 
-        } catch (error) {
-            alert('Email e/ou Senha inválidos!');
+            } catch (error) {
+                alert('Email e/ou Senha inválidos!');
+            }
         }
     }
-}
 
 }
 </script>

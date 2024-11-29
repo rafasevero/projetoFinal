@@ -9,17 +9,16 @@ export const VagasCriadas = {
                 }
             });
 
-            // Verifica se a empresa está presente na resposta e salva o ID
-            if (response.data.empresa && response.data.empresa.id) {
-                localStorage.setItem("empresaLogadaId", response.data.empresa.id);
+            if (response.data.recruiter && response.data.recruiter.id) {
+                localStorage.setItem("recruiterLogadoId", response.data.recruiter.id);
             } else {
-                console.error("ID da empresa não encontrado.");
+                console.error("ID do recruiter não encontrado.");
             }
 
-            return response; // Retorna a resposta para o componente
+            return response;
         } catch (error) {
             console.error("Erro ao obter vagas:", error);
-            throw error; // Lança o erro para o componente lidar com ele
+            throw error;
         }
     }
-}
+};

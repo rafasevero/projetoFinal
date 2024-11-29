@@ -1,10 +1,7 @@
 <template>
     <main>
         <div class="carousel-container">
-            <div 
-                class="carousel-slide" 
-                :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
-            >
+            <div class="carousel-slide" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
                 <img src="../assets/img/RECRUITAMENT1.jpg" alt="Imagem 1">
                 <img src="../assets/img/RECRUITAMENT2.jpg" alt="Imagem 2">
                 <img src="../assets/img/RECRUITAMENT3.jpg" alt="Imagem 3">
@@ -27,7 +24,7 @@ export default {
     methods: {
         moveSlide(direction) {
             this.currentSlide += direction;
-            
+
             if (this.currentSlide < 0) {
                 this.currentSlide = this.totalSlides - 1;
             } else if (this.currentSlide >= this.totalSlides) {
@@ -55,12 +52,13 @@ export default {
 }
 
 .carousel-slide img {
-    width: 100vw; /* Alinha as imagens para o carrossel horizontal */
+    width: 100vw;
     border-radius: 10px;
     flex-shrink: 0;
 }
 
-.prev, .next {
+.prev,
+.next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -80,7 +78,8 @@ export default {
     right: 10px;
 }
 
-.prev:hover, .next:hover {
+.prev:hover,
+.next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
 </style>
