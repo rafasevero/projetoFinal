@@ -124,7 +124,6 @@ class VacancyController extends Controller
 
         $vacancies = Vacancies::where('id', $id)->where('recruiter_id', $recruiter->id)->first();
 
-
         if (!$vacancies) {
             return response()->json([
                 'message' => 'Esta vaga não pertence à sua empresa.',
