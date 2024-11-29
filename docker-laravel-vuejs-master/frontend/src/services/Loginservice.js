@@ -8,8 +8,13 @@ export const login = async (email, password) => {
         });
         
         console.log(response);
-        localStorage.getItem("token", response.data.token);
         
+        // Armazena o token no localStorage
+        localStorage.setItem("token", response.data.token);
+
+        // Verifique se o ID da empresa está disponível e armazene corretamente
+        
+
         // Retorna o usuário
         return response.data;
     } catch (error) {
