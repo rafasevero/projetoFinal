@@ -239,6 +239,7 @@ ul li{
   border: 2px solid #1f78b8;
   padding: 10px 20px;
   border-radius: 5px;
+  border-radius: 10px;
   font-size: 1rem;
   font-weight: bold;
   display: flex;
@@ -266,6 +267,8 @@ ul li{
   color: #fff;
   background-color: #4ea1db;
   border: 2px solid #1f78b8;
+  border-radius: 10px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,11 +298,13 @@ ul li{
   background-color: #4ea1db;
   color: white;
   border: 2px solid #1f78b8;
+  border-radius: 10px;
   cursor: pointer;
 }
 
 .pagination-button:disabled {
   background-color: #ddd;
+  border: none;
   cursor: not-allowed;
 }
 
