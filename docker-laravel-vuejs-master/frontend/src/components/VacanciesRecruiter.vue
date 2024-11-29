@@ -112,7 +112,7 @@ export default {
 
         if (response.ok) {
           // Caso a vaga seja excluída com sucesso, remova ela do estado local
-          this.vacanciesData = this.vacanciesData.filter(vaga => vaga.id !== vagaId);
+          this.vagas = this.vagas.filter(vaga => vaga.id !== vagaId);
           this.closeModal();
         } else {
           const errorResponse = await response.json(); //pega a resposta JSON de erro
@@ -188,6 +188,7 @@ border-radius: 5px;
 border: 1px solid #4ea1db;
 cursor: pointer;
 margin: 0 auto;
+margin-bottom: 50px;
 }
 
 button:hover {
