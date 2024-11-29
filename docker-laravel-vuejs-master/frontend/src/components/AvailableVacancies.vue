@@ -6,7 +6,7 @@
     </div>
 
     <ul>
-      <li v-for="vaga in filteredVagas" :key="vaga.id">
+      <li v-for="vaga in paginatedVagas" :key="vaga.id">
         <div class="card-vagas">
           <img :src="vaga.company_logo" :alt="vaga.company_name" />
           <h3>{{ vaga.company }}</h3>
@@ -15,6 +15,23 @@
         </div>
       </li>
     </ul>
+
+    <!-- Paginação -->
+    <div class="pagination">
+      <button 
+        class="pagination-button" 
+        @click="changePage(currentPage - 1)" 
+        :disabled="currentPage === 1">
+        Anterior
+      </button>
+      <span> Página {{ currentPage }} de {{ totalPages }} </span>
+      <button 
+        class="pagination-button" 
+        @click="changePage(currentPage + 1)" 
+        :disabled="currentPage === totalPages">
+        Próxima
+      </button>
+    </div>
 
     <!-- Modal -->
     <div v-if="showModal" class="modal" :class="{ show: showModal }" @click="closeModal">
@@ -49,6 +66,8 @@ export default {
       showModal: false,
       loading: false,
       error: false,
+      currentPage: 1,        // Página atual
+      itemsPerPage: 5,       // Número de vagas por página
     };
   },
   computed: {
@@ -57,6 +76,14 @@ export default {
         vaga.vacancy_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         vaga.company.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
+    },
+    totalPages() {
+      return Math.ceil(this.filteredVagas.length / this.itemsPerPage);
+    },
+    paginatedVagas() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = this.currentPage * this.itemsPerPage;
+      return this.filteredVagas.slice(start, end);
     }
   },
   methods: {
@@ -70,16 +97,14 @@ export default {
       }
     },
     openModal(vagaId) {
-      // Localize a vaga pelo id e armazene-a em selectedVaga
       this.selectedVaga = this.vacanciesData.find(vaga => vaga.id === vagaId);
       if (this.selectedVaga) {
-        this.showModal = true;  // Abre o modal somente se a vaga for encontrada
+        this.showModal = true;
       }
     },
     closeModalIfOutside(event) {
-      // Verifica se o clique foi na sobreposição (não no conteúdo)
       if (event.target === event.currentTarget) {
-      this.closeModal(); // Fecha o modal
+        this.closeModal();
       }
     },
     closeModal() {
@@ -88,34 +113,33 @@ export default {
     async applyForm() {
       console.log("Candidatando-se à vaga:", this.selectedVaga.id);
     },
-
     async closeVaga(vagaId) {
       const token = localStorage.getItem('token');
-      console.log('Token de autenticação:', token);
-      console.log('ID da vaga a ser excluída:', vagaId);
       try {
         const response = await fetch(`http://127.0.0.1:8000/api/recruiter/vacancies/${vagaId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${token}`
           }
         });
 
         if (response.ok) {
-          // Caso a vaga seja excluída com sucesso, remova ela do estado local
           this.vacanciesData = this.vacanciesData.filter(vaga => vaga.id !== vagaId);
           this.closeModal();
         } else {
-          const errorResponse = await response.json(); //pega a resposta JSON de erro
+          const errorResponse = await response.json();
           console.error('Erro ao excluir vaga', errorResponse.message);
         }
       } catch (error) {
         console.error("Erro ao excluir vaga: ", error);
       }
     },
+    changePage(pageNumber) {
+      if (pageNumber < 1 || pageNumber > this.totalPages) return;
+      this.currentPage = pageNumber;
+    }
   },
-
   mounted() {
     this.fetchVagas();
   }
@@ -282,5 +306,33 @@ ul li{
   align-items: center;
   margin-bottom: 20px;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
+.pagination-button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  background-color: #4ea1db;
+  color: white;
+  border: 2px solid #1f78b8;
+  cursor: pointer;
+}
+
+.pagination-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination-button:hover {
+  background-color: #1f78b8;
+}
+
+.pagination span {
+  align-self: center;
+  font-size: 1.1rem;
+  color: #333;
+  }
 </style>

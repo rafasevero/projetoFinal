@@ -118,7 +118,7 @@ export default {
         alert('Candidatura realizada com sucesso!');
       } catch (error) {
         console.error("Erro ao candidatar-se:", error);
-        alert('Erro ao candidatar-se. Tente novamente.');
+        alert('Você já se candidatou nesta vaga.');
       }
     },
 
