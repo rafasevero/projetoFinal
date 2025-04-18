@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('requirements');
             $table->string('location');
             $table->string('work_modality');
-            $table->date('creation_date')->default(DB::raw('CURRENT_DATE')); // Define o valor padrão como o dia atual
+            $table->date('creation_date'); // Removido default por incompatibilidade com MySQL
             $table->string('company');
             $table->string('salary');
             $table->string('company_logo')->nullable();
