@@ -109,10 +109,9 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - ./backend:/var/www/html:delegated
+      - ./backend:/var/www/html
     depends_on:
-      - mysql
-    entrypoint: [ 'php', '/var/www/html/artisan' ]
+      - php
     networks:
       - laravel-vue
 
